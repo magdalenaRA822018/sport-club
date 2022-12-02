@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -26,7 +27,7 @@ public class Player {
     @Column
     double salary;
     @ManyToMany
-    Set<Skill> skills;
+    List<Skill> skills;
     @ManyToOne
     @JoinColumn(name="sport_club_id", nullable=false)
     private SportClub sportClub;

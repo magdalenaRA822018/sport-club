@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,8 +23,8 @@ public class SportClub {
     private Long id;
 
     @Column
-    private Long name;
+    private String name;
     @OneToMany(mappedBy= "sportClub")
-    private Set<Player> players;
+    private List<Player> players;
 
 }

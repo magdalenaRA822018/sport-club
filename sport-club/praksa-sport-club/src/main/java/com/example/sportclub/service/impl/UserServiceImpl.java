@@ -7,7 +7,6 @@ import com.example.sportclub.model.User;
 import com.example.sportclub.repository.UserRepository;
 import com.example.sportclub.service.RoleService;
 import com.example.sportclub.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,14 +15,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private RoleService roleService;
+	private final RoleService roleService;
+
+	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.roleService = roleService;
+	}
 
 	@Override
 	public User findByUsername(String username) throws UsernameNotFoundException {
@@ -47,10 +49,8 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(userRequest.getLastName());
 		user.setEnabled(true);
 
-		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
 		List<Role> roles = roleService.findByName("ROLE_USER");
 		user.setRoles(roles);
-
 		return this.userRepository.save(user);
 	}
 

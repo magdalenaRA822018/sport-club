@@ -1,7 +1,6 @@
 package com.example.sportclub.service.impl;
 import com.example.sportclub.model.User;
 import com.example.sportclub.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,8 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	private UserRepository userRepository;
+
+	private final UserRepository userRepository;
+
+	public CustomUserDetailsService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	// Funkcija koja na osnovu username-a iz baze vraca objekat User-a
 	@Override
