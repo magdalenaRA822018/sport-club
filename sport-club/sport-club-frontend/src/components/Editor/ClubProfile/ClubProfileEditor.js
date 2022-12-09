@@ -1,5 +1,5 @@
 import React from 'react';
-import EditorNavbar from '../Navbar/EditorNavbar';
+import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import SportClubProfile from '../../Clubs/SportClubProfile/SportClubProfile'
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';

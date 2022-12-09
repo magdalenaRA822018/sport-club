@@ -2,7 +2,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import { useCallback } from 'react';
 import useHttp from '../../../hooks/useHttp';
-import EditorNavbar from '../Navbar/EditorNavbar';
+import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import   './NewClubForm.css'
 import swal from 'sweetalert';
 import Multiselect from 'multiselect-react-dropdown';

@@ -1,5 +1,5 @@
 import React from 'react';
-import EditorNavbar from '../Navbar/EditorNavbar';
+import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import PlayerProfile from '../../Players/PlayerProfile/PlayerProfile';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';

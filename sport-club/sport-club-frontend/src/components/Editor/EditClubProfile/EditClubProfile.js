@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState, useCallback} from 'react';
-import EditorNavbar from '../Navbar/EditorNavbar';
+import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import { json, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth-context';
 import useHttp from '../../../hooks/useHttp';

@@ -1,6 +1,6 @@
 import React from 'react';
 import AllPlayers from '../../Players/AllPlayers/AllPlayers';
-import EditorNavbar from '../Navbar/EditorNavbar';
+import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import { useNavigate } from 'react-router-dom';
 import './EditorPlayers.css'
 const EditorPlayers = props => {

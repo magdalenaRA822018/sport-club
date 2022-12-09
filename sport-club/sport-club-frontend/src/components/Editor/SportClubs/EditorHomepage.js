@@ -1,6 +1,6 @@
 import React from 'react';
 import SportClubs from '../../Clubs/SportClubs/SportClubs';
-import EditorNavbar from '../Navbar/EditorNavbar';
+import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import { useNavigate } from 'react-router-dom';
 import './EditorHomepage.css'
 const EditorHomepage = props => {
