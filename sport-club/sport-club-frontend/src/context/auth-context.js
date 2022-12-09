@@ -10,9 +10,10 @@ export const AuthContext = React.createContext({
   username: '',
   login: () => {},
   logout: () => {},
+  checkToken: () => {},
 });
-
 let logoutTimer;
+
 
 const AuthContextProvider = props => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,9 +22,11 @@ const AuthContextProvider = props => {
   const [role, setRole] = useState();
   const [username, setUsername] = useState();
   const navigate=useNavigate();
+  
   const {
     data,
     sendRequest,
+    methodName
   } = useHttp();
 
   
@@ -41,21 +44,11 @@ const AuthContextProvider = props => {
         }, [sendRequest]
   );
 
-  const refresh = useCallback(loginDto => {
-        
-    sendRequest(
-      'auth/refresh',
-      'POST',
-      null,
-      token,
-      'LOGIN'
-    );
 
-    }, [sendRequest]
-
-);
+  
   
   const logoutHandler = useCallback(() => {
+
     setIsAuthenticated(false)
     setToken('');
     setExpiresIn(0)
@@ -66,35 +59,10 @@ const AuthContextProvider = props => {
       clearTimeout(logoutTimer);
     }
   }, []);
-
- /* const checkIfTokenHasToBeRefreshed = () => {
-    
-      const remainingTime = calculateRemainingTime(expiresIn);
-    
-      if (remainingTime <= 3600) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("expirationTime");
-        localStorage.removeItem("userData");
-        return null;
-      }
-    
-      return {
-        token: storedToken,
-        duration: remainingTime,
-      };
-    };
-
-
-  const calculateRemainingTime = (expiresIn) => {
-    const currentTime = new Date().getTime();
-    const adjExpirationTime = new Date(expiresIn).getTime();
-    const remainingDuration = adjExpirationTime - currentTime;
-    return remainingDuration;
-  };
-*/
  
   useEffect(()=>{
     if(data!=null){
+      if(methodName==="LOGIN"){
       if(data.username!==''){
         setIsAuthenticated(true)
         setToken(data.accessToken)
@@ -102,16 +70,28 @@ const AuthContextProvider = props => {
         setRole(data.roles)
         setUsername(data.username)
 
+        logoutTimer = setTimeout(logoutHandler, data.expiresIn);
+        
+
         if(data.roles==="ROLE_EDITOR")
          navigate("/editor/sportclubs", { replace: true });
         else if(data.roles==="ROLE_VIEWER")
-         navigate("/viewer/sportclubs", { replace: true });
+         navigate("/viewer/sportclubs", { replace: true })
       }else{
         swal({ icon: 'error', title: "Bad credentials",});
       }
+    }else if(methodName==='REFRESH'){
+      setIsAuthenticated(true)
+        setToken(data.accessToken)
+        setExpiresIn(data.expiresIn)
+        setRole(data.roles)
+        setUsername(data.username)
+
+    }
       
     }
   }, [data])
+ 
 
   console.log("AUTHCONTEXT.JS")
   return (
@@ -119,6 +99,7 @@ const AuthContextProvider = props => {
       value={{ 
         login: loginHandler,  
         logout: logoutHandler, 
+        checkToken: null,
         isAuth: isAuthenticated , 
         token: token, 
         expiresIn: expiresIn, 

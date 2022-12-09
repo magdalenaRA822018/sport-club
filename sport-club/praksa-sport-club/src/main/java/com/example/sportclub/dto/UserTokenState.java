@@ -1,8 +1,6 @@
 package com.example.sportclub.dto;
 
-import java.util.List;
 
-// DTO koji enkapsulira generisani JWT i njegovo trajanje koji se vracaju klijentu
 public class UserTokenState {
 	
     private String accessToken;

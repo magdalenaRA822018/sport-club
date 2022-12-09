@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Routes, Route} from "react-router-dom"
 import Layout from './components/Layout';
@@ -21,7 +21,7 @@ import EditPlayerProfile from './components/Editor/EditPlayerProfile/EditPlayerP
 import ViewerHomepage from './components/Viewer/Homepage/ViewerHomepage';
 import SportClubProfileViewer from './components/Viewer/SportClubProfile/SportClubProfile';
 import PlayerProfileViewer from './components/Viewer/PlayerProfile/PlayerProfile';
-
+import { AuthContext } from './context/auth-context';
 const ROLES = {
   'EDITOR': 'ROLE_EDITOR',
   'VIEWER': 'ROLE_VIEWER',
