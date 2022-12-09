@@ -8,6 +8,7 @@ public interface UserService {
     User findById(Long id);
     User findByUsername(String username);
     List<User> findAll ();
+    void update(User user) throws Exception;
 
-    User save(User userDtoToUser);
+    void changePassword(User user, String newPassword) throws Exception;
 }

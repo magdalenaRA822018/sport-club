@@ -19,4 +19,7 @@ public class UserMapper {
                 userDto.getLastname());
     }
 
+    public UserDto userToUserDto(User user) {
+        return new UserDto(user.getId(),user.getRoles().get(0).getName(),user.getUsername(),"",user.getFirstName(),user.getLastName());
+    }
 }

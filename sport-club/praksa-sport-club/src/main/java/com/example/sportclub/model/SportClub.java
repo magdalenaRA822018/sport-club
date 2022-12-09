@@ -18,13 +18,23 @@ import java.util.Set;
 @Table
 public class SportClub {
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @SequenceGenerator(name = "club_generator", sequenceName = "club_sequence", initialValue = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "club_generator")
+    @Column(name = "id", unique = true)
+    protected Long id;
 
     @Column
     private String name;
-    @OneToMany(mappedBy= "sportClub")
+
+    @OneToMany(mappedBy= "sportClub",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Player> players;
 
+    @Override
+    public String toString() {
+        return "SportClub{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", players=" + players +
+                '}';
+    }
 }

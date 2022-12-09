@@ -19,4 +19,6 @@ public class PlayerDto {
     String image;
     double salary;
     List<SkillDto> skills;
+    String clubName;
+    String clubId;
 }

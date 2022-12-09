@@ -1,0 +1,28 @@
+.editProfile {
+    width: 30%;
+    margin: 4% auto;
+  }
+  .submitButton {
+    width: 100%;
+  }
+  .changePasswordButton {
+    width: 100%;
+    background-color: rgb(200, 99, 99);
+    color: beige;
+  }
+  .changePasswordButton:hover {
+    width: 100%;
+    background-color: rgb(200, 99, 99);
+    color: beige;
+  }
+  .p{
+    margin: 1%;
+    display: inline-block;
+  }
+  .success{
+    color: green;
+    
+  }
+  #err{
+    color: red;
+  }

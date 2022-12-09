@@ -16,4 +16,16 @@ public class SkillMapper {
             skillDtos.add(skillToSkillDto(skill));
         return  skillDtos;
     }
+    public List<Skill> skillDtosToSkills (List<SkillDto> skillDtos){
+        List<Skill> skills= new ArrayList<>();
+        for(SkillDto skillDto: skillDtos) {
+            skills.add(skillDtoToSkill(skillDto));
+            System.out.println("molim te "+skillDto);
+        }
+        return  skills;
+    }
+
+    public Skill skillDtoToSkill(SkillDto skillDto) {
+        return new Skill(skillDto.getId(),skillDto.getName(),skillDto.getDescription());
+    }
 }

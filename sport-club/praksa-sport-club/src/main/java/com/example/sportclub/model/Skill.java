@@ -16,9 +16,10 @@ import javax.persistence.*;
 @Table
 public class Skill {
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @SequenceGenerator(name = "skill_generator", sequenceName = "skill_sequence", initialValue = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skill_generator")
+    @Column(name = "id", unique = true)
+    protected Long id;
     @Column
     private String name;
     @Column

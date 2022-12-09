@@ -13,4 +13,13 @@ public class SkillDto {
     private Long id;
     private String name;
     private String description;
+
+    @Override
+    public String toString() {
+        return "SkillDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

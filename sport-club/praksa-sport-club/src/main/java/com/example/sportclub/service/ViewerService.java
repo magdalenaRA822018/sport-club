@@ -6,5 +6,6 @@ import com.example.sportclub.model.Viewer;
 import java.util.List;
 
 public interface ViewerService {
-    void save(Viewer viewer, List<Role> auth);
+    void signup(Viewer viewer, List<Role> auth);
+
 }

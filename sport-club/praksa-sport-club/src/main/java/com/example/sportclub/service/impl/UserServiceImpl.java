@@ -40,18 +40,25 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAll();
 	}
 	@Override
-	public User save(User userRequest) {
-		User user = new User();
-		user.setUsername(userRequest.getUsername());
-		user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+	public void update(User newUser) throws Exception {
+		try {
+			User user = this.userRepository.findByUsername(newUser.getUsername());
+			user.setFirstName(newUser.getFirstName());
+			user.setLastName(newUser.getLastName());
+			this.userRepository.save(user);
+		}catch (Exception e){
+			throw new Exception(e);
+		}
+	}
 
-		user.setFirstName(userRequest.getFirstName());
-		user.setLastName(userRequest.getLastName());
-		user.setEnabled(true);
-
-		List<Role> roles = roleService.findByName("ROLE_USER");
-		user.setRoles(roles);
-		return this.userRepository.save(user);
+	@Override
+	public void changePassword(User user, String newPassword) throws Exception {
+		try {
+			user.setPassword(passwordEncoder.encode(newPassword));
+			this.userRepository.save(user);
+		}catch (Exception e){
+			throw new Exception(e);
+		}
 	}
 
 

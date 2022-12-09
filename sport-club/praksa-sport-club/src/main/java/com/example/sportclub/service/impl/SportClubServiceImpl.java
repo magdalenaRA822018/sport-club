@@ -1,5 +1,6 @@
 package com.example.sportclub.service.impl;
 
+import com.example.sportclub.model.Player;
 import com.example.sportclub.model.SportClub;
 import com.example.sportclub.repository.SportClubRepository;
 import com.example.sportclub.service.SportClubService;
@@ -22,11 +23,23 @@ public class SportClubServiceImpl implements SportClubService {
 
     @Override
     public SportClub findById(Long id) {
-        return this.sportClubRepository.findById(id).get();
+        return this.sportClubRepository.findClubById(id);
     }
 
     @Override
-    public void create(SportClub sportClub) {
+    public void save(SportClub sportClub) throws Exception {
+        try{
+            this.sportClubRepository.save(sportClub);
+        }catch (Exception e){
+            throw new Exception(e);
+        }
 
+    }
+
+    @Override
+    public void updateName(SportClub newSportClub) {
+        SportClub sportClub= this.sportClubRepository.findById(newSportClub.getId()).get();
+        sportClub.setName(sportClub.getName());
+        this.sportClubRepository.save(sportClub);
     }
 }
