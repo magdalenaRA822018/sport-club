@@ -2,9 +2,9 @@ package com.example.sportclub.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-
 @Entity
 @Table(name="role")
 public class Role implements GrantedAuthority {

@@ -1,26 +1,29 @@
 package com.example.sportclub.dto;
 
+import java.util.List;
+
 // DTO koji enkapsulira generisani JWT i njegovo trajanje koji se vracaju klijentu
 public class UserTokenState {
 	
     private String accessToken;
     private Long expiresIn;
     private String username;
-    private String role;
+    private String roles;
+
 
 
     public UserTokenState() {
         this.accessToken = null;
         this.expiresIn = null;
         this.username = "";
-        this.role = "";
+        this.roles = null;
     }
 
-    public UserTokenState(String accessToken, long expiresIn, String username, String role) {
+    public UserTokenState(String accessToken, long expiresIn, String username, String  roles) {
         this.accessToken = accessToken;
         this.expiresIn = expiresIn;
         this.username = username;
-        this.role = role;
+        this.roles = roles;
     }
 
     public String getAccessToken() {
@@ -47,11 +50,11 @@ public class UserTokenState {
         this.username = username;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }

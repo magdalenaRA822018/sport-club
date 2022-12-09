@@ -1,44 +1,65 @@
-import React, { useContext } from 'react';
-import Auth from './components/Auth';
-import { AuthContext } from './context/auth-context';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Routes, Route} from "react-router-dom"
-import Signup from './components/Signup'
-import EditorHomepage from './components/Editor/EditorHomepage';
-import ViewerHomepage from './components/Viewer/ViewerHompegae';
 import Layout from './components/Layout';
 import RequireAuth from './components/RequireAuth';
-import Unauthorized from './components/Unauthorized';
+
+
+import Auth from './components/Auth/Login/Auth';
+import Signup from './components/Auth/Signup/Signup'
+import EditProfile from './components/Auth/EditProfile/EditProfile';
+import ChangePassword from './components/Auth/ChangePassword/ChangePassword';
+
+import EditorHomepage from './components/Editor/SportClubs/EditorHomepage';
+import EditorPlayers from './components/Editor/Players/EditorPlayers'
+import NewClubForm from './components/Editor/NewSportClub/NewClubForm';
+import NewPlayer from './components/Editor/NewPlayer/NewPlayer';
+import ClubProfileEditor from './components/Editor/ClubProfile/ClubProfileEditor';
+import PlayerProfileEditor from './components/Editor/PlayerProfile/PlayerProfileEditor';
+import EditClubProfile from './components/Editor/EditClubProfile/EditClubProfile';
+import EditPlayerProfile from './components/Editor/EditPlayerProfile/EditPlayerProfile';
+import ViewerHomepage from './components/Viewer/Homepage/ViewerHomepage';
+import SportClubProfileViewer from './components/Viewer/SportClubProfile/SportClubProfile';
+import PlayerProfileViewer from './components/Viewer/PlayerProfile/PlayerProfile';
+
 const ROLES = {
   'EDITOR': 'ROLE_EDITOR',
   'VIEWER': 'ROLE_VIEWER',
 }
 const App = props => {
- // const authContext = useContext(AuthContext);
 
-  /*let content = <Auth />;
-  if (authContext.isAuth && authContext.role==="ROLE_EDITOR") {
-    content = <EditorHomepage />;
-  }
-  if (authContext.isAuth && authContext.role==="ROLE_VIEWER") {
-    content = <ViewerHomepage />;
-  }*/
-
+  console.log("APP.JS")
   
   return (
     <Routes>
         <Route path='/' element={<Layout/>} >
+
             <Route path='/' element={<Auth/>}    />
             <Route path='/signup' element={<Signup/>}    />
-            <Route path='unauthorized' element={<Unauthorized />} />
+
+            <Route element={<RequireAuth allowedRoles={[ROLES.EDITOR,ROLES.VIEWER]}/>} >
+               <Route path='/editProfile' element={<EditProfile/>}    />
+               <Route path='/changePassword' element={<ChangePassword/>}    />
+            </Route>
 
             <Route element={<RequireAuth allowedRoles={[ROLES.EDITOR]}/>} >
-               <Route path='/editor/home' element={<EditorHomepage/>}    />
+               <Route path='/editor/sportclubs' element={<EditorHomepage/>}    />
+               <Route path='/editor/players' element={<EditorPlayers/>}    />
+               <Route path='/newPlayer' element={<NewPlayer/>}    />
+               <Route path='/newSportClub' element={<NewClubForm/>}    />
+               <Route path='/editor/clubProfile/:id' element={<ClubProfileEditor/>}    />
+               <Route path='/editor/editClubProfile/:id' element={<EditClubProfile/>}    />
+               <Route path='/editor/playerProfile/:id' element={<PlayerProfileEditor/>}    />
+               <Route path='/editor/editPlayerProfile/:id' element={<EditPlayerProfile/>}    />
             </Route>
 
             <Route element={<RequireAuth allowedRoles={[ROLES.VIEWER]}/>} >
-               <Route path='/viewer/home' element={<ViewerHomepage/>}    />
+               <Route path='/viewer/sportclubs' element={<ViewerHomepage/>}    />
+               <Route path='/clubProfile/:id' element={<SportClubProfileViewer/>}    />
+               <Route path='/playerProfile/:id' element={<PlayerProfileViewer/>}    />
             </Route>
+
+
         </Route>
     </Routes>
     

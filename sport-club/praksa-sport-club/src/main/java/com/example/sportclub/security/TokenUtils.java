@@ -13,38 +13,26 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-
-
-// Utility klasa za rad sa JSON Web Tokenima
 @Component
 public class TokenUtils {
 
-	// Izdavac tokena
 	@Value("spring-security-example")
 	private String APP_NAME;
 
-	// Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
 	@Value("somesecret")
 	public String SECRET;
 
-	// Period vazenja tokena - 30 minuta
 	@Value("1800000")
 	private int EXPIRES_IN;
-	
-	// Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
+
 	@Value("Authorization")
 	private String AUTH_HEADER;
-	
-	// Moguce je generisati JWT za razlicite klijente (npr. web i mobilni klijenti nece imati isto trajanje JWT, 
-	// JWT za mobilne klijente ce trajati duze jer se mozda aplikacija redje koristi na taj nacin)
-	// Radi jednostavnosti primera, necemo voditi racuna o uređaju sa kojeg zahtev stiže.
-	//	private static final String AUDIENCE_UNKNOWN = "unknown";
-	//	private static final String AUDIENCE_MOBILE = "mobile";
-	//	private static final String AUDIENCE_TABLET = "tablet";
+
 	
 	private static final String AUDIENCE_WEB = "web";
+	private static final String AUDIENCE_MOBILE = "mobile";
+	private static final String AUDIENCE_TABLET = "tablet";
 
-	// Algoritam za potpisivanje JWT
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 	
 
@@ -112,11 +100,8 @@ public class TokenUtils {
 	public String getToken(HttpServletRequest request) {
 		String authHeader = getAuthHeaderFromHeader(request);
 
-		// JWT se prosledjuje kroz header 'Authorization' u formatu:
-		// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-		
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
-			return authHeader.substring(7); // preuzimamo samo token (vrednost tokena je nakon "Bearer " prefiksa)
+			return authHeader.substring(7);
 		}
 
 		return null;
@@ -238,11 +223,10 @@ public class TokenUtils {
 		User user = (User) userDetails;
 		final String username = getUsernameFromToken(token);
 		final Date created = getIssuedAtDateFromToken(token);
-		
-		// Token je validan kada:
-		return (username != null // korisnicko ime nije null
-			&& username.equals(userDetails.getUsername()) // korisnicko ime iz tokena se podudara sa korisnickom imenom koje pise u bazi
-			&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())); // nakon kreiranja tokena korisnik nije menjao svoju lozinku 
+
+		return (username != null
+			&& username.equals(userDetails.getUsername())
+			&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
 	}
 	
 	/**
@@ -277,5 +261,33 @@ public class TokenUtils {
 	public String getAuthHeaderFromHeader(HttpServletRequest request) {
 		return request.getHeader(AUTH_HEADER);
 	}
-	
+
+	public String refreshToken(String token) {
+		String refreshedToken;
+		try {
+			final Claims claims = this.getAllClaimsFromToken(token);
+			claims.setIssuedAt(new Date());//NOSONAR
+			refreshedToken = Jwts.builder()
+					.setClaims(claims)
+					.setExpiration(generateExpirationDate())
+					.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
+		} catch (Exception e) {
+			refreshedToken = null;
+		}
+		return refreshedToken;
+	}
+	public boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
+		final Date created = this.getIssuedAtDateFromToken(token);
+		return (!(this.isCreatedBeforeLastPasswordReset(created, lastPasswordReset))
+				&& (!(this.isTokenExpired(token)) || this.ignoreTokenExpiration(token)));
+	}
+	private Boolean isTokenExpired(String token) {
+		final Date expiration = this.getExpirationDateFromToken(token);
+		return expiration.before(new Date());
+	}
+
+	private Boolean ignoreTokenExpiration(String token) {
+		String audience = this.getAudienceFromToken(token);
+		return (audience.equals(AUDIENCE_TABLET) || audience.equals(AUDIENCE_MOBILE));
+	}
 }
