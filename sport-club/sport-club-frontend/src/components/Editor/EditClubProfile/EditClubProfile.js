@@ -11,8 +11,8 @@ import './EditClubProfile.css'
 const EditClubProfile = props => {
     const [enteredName, setEnteredName] = useState('');
 
-    const [playersWithoutClub, setPlayersWithoutClub] = useState([]); //igraci koji nemaju klubove za bind u select
-    const [clubPlayers, setClubPlayers] = useState([]); //igraci koji su vec u klubu bind u selectED
+    const [playersWithoutClub, setPlayersWithoutClub] = useState([]); 
+    const [clubPlayers, setClubPlayers] = useState([]); 
     const [selectedPlayers, setSelectedPlayers]=useState([]);
 
     const [showPlayers, setShowPlayers] = useState(false);
@@ -48,16 +48,7 @@ const EditClubProfile = props => {
 
     }, [sendRequest]
 );
-    const update= useCallback( (clubDto) => {
-      sendRequest(
-        'sportclubs/update',
-        'POST',
-        JSON.stringify(clubDto),
-        authContext.token,
-        'UPDATE_CLUB',
-      );
-      
-  }, [sendRequest]);
+   
 
   const addPlayersToClub= useCallback( (clubPlayersDto) => {
     sendRequest(

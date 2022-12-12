@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Routes, Route} from "react-router-dom"
 import Layout from './components/Layout';
@@ -30,7 +30,6 @@ const ROLES = {
 }
 const App = props => {
 
-  console.log("APP.JS")
   
   return (
     <Routes>

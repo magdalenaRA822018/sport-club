@@ -42,14 +42,14 @@ const useHttp = () => {
   const clear = useCallback(() => dispatchHttp({ type: 'CLEAR' }), []);
 
   const sendRequest = useCallback(
-    (url, method, body, reqExtra, methodName, reqIdentifer) => {
-      dispatchHttp({ type: 'SEND', identifier: reqIdentifer });
+    (url, method, body, userToken, methodName) => {
+      dispatchHttp({ type: 'SEND', identifier: methodName });
       fetch(BACKEND_URL+url, {
         method: method,
         body: body,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+reqExtra
+          'Authorization': `Bearer ${userToken}`
         }
       })
         .then(response => {
@@ -59,7 +59,7 @@ const useHttp = () => {
           dispatchHttp({
             type: 'RESPONSE',
             responseData: responseData,
-            extra: reqExtra,
+            extra: userToken,
             methodName: methodName
           });
         })
@@ -78,8 +78,7 @@ const useHttp = () => {
     data: httpState.data,
     error: httpState.error,
     sendRequest: sendRequest,
-    reqExtra: httpState.extra,
-    reqIdentifer: httpState.identifier,
+    userToken: httpState.extra,
     clear: clear,
     methodName: httpState.methodName
   };

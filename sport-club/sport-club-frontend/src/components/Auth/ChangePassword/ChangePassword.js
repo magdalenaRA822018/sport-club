@@ -1,28 +1,23 @@
 import React, { useState,  useCallback, useEffect, useContext }  from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import useHttp from '../../../hooks/useHttp';
-import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
 import './ChangePassword.css';
 
 const ChangePassword = props => {
-
   const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-
   const [enteredPassword, setEnteredPassword]= useState('');
   const [confirmedPassword, setConfirmedPassword]= useState('');
-  const [username, setUsername] = useState('');
   const authContext=useContext(AuthContext)
-  const navigate=useNavigate();
+
   const {
     data,
     sendRequest,
-    methodName
   } = useHttp();
 
   const validInput = () =>{
-    if(enteredPassword!=confirmedPassword){
+    if(enteredPassword!==confirmedPassword){
       swal({ icon: 'warning', title: 'Passwords don\'t match',});
       return false;
     }else if(!PASSWORD_REGEX.test(enteredPassword)){
