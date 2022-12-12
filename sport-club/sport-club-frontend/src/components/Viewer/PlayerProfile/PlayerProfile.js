@@ -5,13 +5,12 @@ import PlayerProfile from '../../Players/PlayerProfile/PlayerProfile';
 const PlayerProfileViewer = props => {
   
   return (
-    <div>
+    <React.Fragment>
         <ViewerNavbar></ViewerNavbar>
         <PlayerProfile></PlayerProfile>
-    </div>
+    </React.Fragment>
   );
     
-  
 };
 
 export default PlayerProfileViewer;

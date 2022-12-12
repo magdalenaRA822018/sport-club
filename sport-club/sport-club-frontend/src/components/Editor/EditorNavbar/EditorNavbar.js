@@ -13,7 +13,7 @@ const EditorNavbar = props => {
   const navigate = useNavigate();
   const authContext=useContext(AuthContext);
   return (
-    <div>
+    <React.Fragment>
       <Navbar color='dark'   dark >
         <NavbarBrand href="/">SportAPP</NavbarBrand>
             <Nav>
@@ -31,7 +31,7 @@ const EditorNavbar = props => {
                 </NavItem>
             </Nav>
         </Navbar>
-    </div>
+    </React.Fragment>
   );
     
   

@@ -44,7 +44,7 @@ const SportClubs = props => {
  
 
   return (
-    <div className='sportClubs'>
+    <div className='SportClubs'>
     <h1><b>Sport clubs</b></h1>
 <Table >
   <thead>
@@ -65,7 +65,7 @@ const SportClubs = props => {
             navigate("/editor/clubProfile/"+sportClub.id)
           else
           navigate("/clubProfile/"+sportClub.id)
-        }}>SEE PROFILE</Button></td>
+        }}>PROFILE</Button></td>
     </tr>
     )}
   </tbody>

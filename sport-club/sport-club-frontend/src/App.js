@@ -7,21 +7,23 @@ import RequireAuth from './components/RequireAuth';
 
 import Auth from './components/Auth/Login/Auth';
 import Signup from './components/Auth/Signup/Signup'
+
 import EditProfile from './components/Auth/EditProfile/EditProfile';
 import ChangePassword from './components/Auth/ChangePassword/ChangePassword';
 
 import EditorHomepage from './components/Editor/SportClubs/EditorHomepage';
-import EditorPlayers from './components/Editor/Players/EditorPlayers'
-import NewClubForm from './components/Editor/NewSportClub/NewClubForm';
+import EditorPlayers from './components/Editor/Players/EditorPlayers';
+import NewSportClub from './components/Editor/NewSportClub/NewSportClub';
 import NewPlayer from './components/Editor/NewPlayer/NewPlayer';
 import ClubProfileEditor from './components/Editor/ClubProfile/ClubProfileEditor';
 import PlayerProfileEditor from './components/Editor/PlayerProfile/PlayerProfileEditor';
 import EditClubProfile from './components/Editor/EditClubProfile/EditClubProfile';
 import EditPlayerProfile from './components/Editor/EditPlayerProfile/EditPlayerProfile';
+
 import ViewerHomepage from './components/Viewer/Homepage/ViewerHomepage';
 import SportClubProfileViewer from './components/Viewer/SportClubProfile/SportClubProfile';
 import PlayerProfileViewer from './components/Viewer/PlayerProfile/PlayerProfile';
-import { AuthContext } from './context/auth-context';
+
 const ROLES = {
   'EDITOR': 'ROLE_EDITOR',
   'VIEWER': 'ROLE_VIEWER',
@@ -46,7 +48,7 @@ const App = props => {
                <Route path='/editor/sportclubs' element={<EditorHomepage/>}    />
                <Route path='/editor/players' element={<EditorPlayers/>}    />
                <Route path='/newPlayer' element={<NewPlayer/>}    />
-               <Route path='/newSportClub' element={<NewClubForm/>}    />
+               <Route path='/newSportClub' element={<NewSportClub/>}    />
                <Route path='/editor/clubProfile/:id' element={<ClubProfileEditor/>}    />
                <Route path='/editor/editClubProfile/:id' element={<EditClubProfile/>}    />
                <Route path='/editor/playerProfile/:id' element={<PlayerProfileEditor/>}    />

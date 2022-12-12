@@ -7,13 +7,13 @@ const PlayerProfileEditor = props => {
   const navigate=useNavigate()
   const {id}=useParams()
   return (
-    <div>
+    <React.Fragment>
         <EditorNavbar></EditorNavbar>
         <div className='content'>
         <button   onClick={() => navigate("/editor/editPlayerProfile/"+id)}>Edit player profile</button>
         </div>
         <PlayerProfile></PlayerProfile>
-    </div>
+    </React.Fragment>
   );
     
   

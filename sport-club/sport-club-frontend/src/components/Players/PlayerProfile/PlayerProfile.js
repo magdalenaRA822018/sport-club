@@ -2,7 +2,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import { useCallback } from 'react';
 import useHttp from '../../../hooks/useHttp';
-import   './PlayerProfile.css'
+import   './PlayerProfile.css';
 import { Card, CardBody,CardTitle,CardSubtitle,CardText, ListGroup,ListGroupItem} from 'reactstrap';
 import { useParams } from 'react-router-dom';
 
@@ -48,25 +48,17 @@ const PlayerProfile = props => {
     }, []);
 
   return (
-    <div >
+    <React.Fragment>
         {
-           showPlayer ? 
-        <div className='playerProfile'>
+        showPlayer ? 
+        <div className='PlayerProfile'>
         <Card body  outline style={{ width: '28rem' }}>
-            
-             <img alt="Sample"  src={playersImage}/>
-        
+            <img alt="Sample"  src={playersImage}/>
             <CardBody>
-                 
-
                  <CardTitle tag="h4"><b>{playersName}</b></CardTitle>
                  <CardSubtitle className="mb-2 text-muted" tag="h6" >{playersClub}</CardSubtitle>
-                 <CardText>
-                   {playersSalary}$
-                    
-               </CardText>
-               <ListGroup>
-
+                 <CardText>{playersSalary}$</CardText>
+                 <ListGroup>
                     {playersSkills.map((skill)=>  
                        <ListGroupItem key={skill.id} >{skill.name}</ListGroupItem>
                     )}
@@ -75,9 +67,8 @@ const PlayerProfile = props => {
         </Card>
         </div>
         : null
-
-}
-    </div>
+        }
+    </React.Fragment>
   );
 };
 

@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState, useCallback} from 'react';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
-import { json, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth-context';
 import useHttp from '../../../hooks/useHttp';
 import swal from 'sweetalert';
 import { Card,CardBody,Form,FormGroup,Label,Input,Button,Table } from 'reactstrap';
 import Multiselect from 'multiselect-react-dropdown';
 import './EditClubProfile.css'
+
 const EditClubProfile = props => {
     const [enteredName, setEnteredName] = useState('');
 
@@ -198,12 +199,12 @@ const onRemove = (players) => {
 
 
 return (
-  <div >
+  <React.Fragment>
    <EditorNavbar></EditorNavbar>
-   <div className='updateClub'>
+   <div className='EditClubProfile'>
    <Card >
      <CardBody>
-     <h1 className='h1' >Update club</h1>
+     <h1><b>Update club</b></h1>
      <br/>
       <Form >
       <FormGroup  >
@@ -272,7 +273,7 @@ return (
       </CardBody>
    </Card>
    </div>
-   </div>
+   </React.Fragment>
   );
     
   

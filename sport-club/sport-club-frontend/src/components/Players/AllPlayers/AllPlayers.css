@@ -1,11 +1,8 @@
-.playerContent {
+.AllPlayers{
     width: 90%;
     margin: 4% ;
 }
-.playerImage{
+.AllPlayers .PlayerImage{
     max-width: 10%;
-}
-.players{
-    padding-left: 15%;
 }
   

@@ -2,6 +2,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import { useCallback } from 'react';
 import useHttp from '../../../hooks/useHttp';
+import { useNavigate } from 'react-router-dom';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import   './NewPlayer.css'
 import Multiselect from 'multiselect-react-dropdown';
@@ -17,6 +18,7 @@ const NewPlayer = props => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [showSkills, setShowSkills] = useState(false);
   const authContext = useContext(AuthContext);
+  const navigate=useNavigate();
   const {
     data,
     sendRequest,
@@ -57,10 +59,7 @@ useEffect(()=>{
          if(data.content==="Success"){
           
           swal({ icon: 'success', title: data.content,});
-          setEnteredName('')
-          setEnteredSalary(0)
-          setImage(null)
-          setSelectedSkills([])
+          navigate(-1)
 
          }
          else 
@@ -111,13 +110,13 @@ useEffect(()=>{
   }
  
     return (
-      <div>
+      <React.Fragment>
        <EditorNavbar></EditorNavbar>
       
-        <div className="newPlayer">
+        <div className="NewPlayer">
         <Card>
           <CardBody>
-          <h1 className='h1' >Add new player</h1>
+          <h1 ><b>Add new player</b></h1>
           <br/>
            <Form onSubmit={newPlayerHandler}>
            <FormGroup >
@@ -142,7 +141,7 @@ useEffect(()=>{
            </FormGroup>
 
            <FormGroup >
-              <Label for="image">Skills</Label>
+              <Label for="skills">Skills</Label>
              
                    {showSkills ? 
                      <Multiselect
@@ -161,7 +160,7 @@ useEffect(()=>{
            </CardBody>
         </Card>
         </div>
-        </div>
+        </React.Fragment>
       );
   
 };

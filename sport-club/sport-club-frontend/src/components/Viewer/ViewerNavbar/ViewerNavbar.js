@@ -13,8 +13,8 @@ const ViewerNavbar = props => {
   const navigate = useNavigate();
   const authContext=useContext(AuthContext);
   return (
-    <div>
-      <Navbar color='dark'   dark >
+    <React.Fragment>
+      <Navbar color='dark' dark>
         <NavbarBrand href="/">SportAPP</NavbarBrand>
             <Nav>
                 <NavItem>
@@ -28,10 +28,8 @@ const ViewerNavbar = props => {
                 </NavItem>
             </Nav>
         </Navbar>
-    </div>
+    </React.Fragment>
   );
-    
-  
 };
 
 export default ViewerNavbar;

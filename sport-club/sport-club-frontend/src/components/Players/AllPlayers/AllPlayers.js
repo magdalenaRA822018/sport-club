@@ -70,9 +70,8 @@ const AllPlayers = props => {
   }
 
   return (
-    <div className='playerContent'>
+    <div className='AllPlayers'>
       <h1><b>Players</b></h1>
-  
         <Table >
             <thead>
               <tr>
@@ -89,13 +88,13 @@ const AllPlayers = props => {
                 {players.map((player,index)=>  
                 <tr key={player.id}>
                   <th scope="row"  >{index+1}</th>
-                  <td><img alt="Sample" className='playerImage'  src={player.image}/></td>
+                  <td><img alt="Sample" className='PlayerImage'  src={player.image}/></td>
                   <td >{player.playerName}</td>
                   <td >{player.clubName}</td>
                   <td ><Button  onClick={() => 
                     { 
                         navigate("/editor/playerProfile/"+player.id)
-                    }}>SEE PROFILE</Button>
+                    }}>PROFILE</Button>
                   </td>
                   <td ><Button  color='danger' onClick={() => 
                     removePlayerHandler(player.id.toString())}>REMOVE</Button>

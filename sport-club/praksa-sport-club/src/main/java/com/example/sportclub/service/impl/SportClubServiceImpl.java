@@ -39,7 +39,7 @@ public class SportClubServiceImpl implements SportClubService {
     @Override
     public void updateName(SportClub newSportClub) {
         SportClub sportClub= this.sportClubRepository.findById(newSportClub.getId()).get();
-        sportClub.setName(sportClub.getName());
+        sportClub.setName(newSportClub.getName());
         this.sportClubRepository.save(sportClub);
     }
 }

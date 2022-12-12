@@ -84,7 +84,6 @@ public class AuthenticationController {
 
 	@PostMapping(value = "/refresh")
 	public ResponseEntity<UserTokenState> refreshAuthenticationToken(HttpServletRequest request) {
-		System.out.println("refrsuje");
 		UserTokenState userTokenState=this.authenticationService.refreshAuthenticationToken(request);
 		if(userTokenState!=null) return new ResponseEntity(userTokenState, HttpStatus.OK);
 		return new ResponseEntity(new UserTokenState(), HttpStatus.BAD_REQUEST);

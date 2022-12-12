@@ -43,7 +43,7 @@ const SportClubProfile = props => {
       }, []);
 
   return (
-    <div className='sportClubs'>
+    <div className='SportClubProfile'>
     <h1><b>Sport club:  {sportClubName}</b></h1>
     <Table >
       <thead>
@@ -59,14 +59,14 @@ const SportClubProfile = props => {
         {sportClubPlayers.map((player,index)=>  
         <tr key={player.id}>
           <th scope="row"  >{index+1}</th>
-          <td><img alt="Sample" className='playerImage'  src={player.image}/></td>
+          <td><img alt="Sample" className='PlayerImage'  src={player.image}/></td>
           <td >{player.playerName}</td>
           <td ><Button onClick={() => 
             { if(authContext.role==="ROLE_EDITOR")
                 navigate("/editor/playerProfile/"+player.id)
               else
               navigate("/playerProfile/"+player.id)
-            }} >SEE PROFILE</Button></td>
+            }} >PROFILE</Button></td>
         </tr>
         )}
       </tbody>

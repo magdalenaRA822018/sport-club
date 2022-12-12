@@ -1,19 +1,20 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect,useContext,useCallback } from 'react';
 import { AuthContext } from '../../../context/auth-context';
-import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useHttp from '../../../hooks/useHttp';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
-import   './NewClubForm.css'
+import   './NewSportClub.css'
 import swal from 'sweetalert';
 import Multiselect from 'multiselect-react-dropdown';
 import { Card, CardBody,Label, Input, FormGroup, Form, Button} from 'reactstrap';
-const NewClubForm = props => {
+
+const NewSportClub = props => {
   const [enteredName, setEnteredName] = useState('');
   const [players, setPlayers] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [showPlayers, setShowPlayers] = useState(false);
   const authContext = useContext(AuthContext);
-
+  const navigate=useNavigate()
   const {
     data,
     sendRequest,
@@ -63,8 +64,7 @@ useEffect(()=>{
      }else if(methodName==='ADD_NEW_CLUB'){
        if(data.content==="Success"){
         swal({ icon: 'success', title: data.content,});
-        setEnteredName('')
-        setSelectedPlayers([])
+        navigate(-1)
        }
        else 
        swal({ icon: 'error', title: data.content,});
@@ -83,12 +83,12 @@ useEffect(()=>{
   }
  
     return (
-      <div>
+      <React.Fragment>
          <EditorNavbar></EditorNavbar>
-        <div className="newClub">
+        <div className="NewSportClub">
         <Card>
           <CardBody>
-          <h1 className='h1' >Add new club</h1>
+          <h1 ><b>Add new club</b></h1>
           <br/>
            <Form onSubmit={newClubHandler}>
            <FormGroup >
@@ -120,9 +120,9 @@ useEffect(()=>{
            </CardBody>
         </Card>
         </div>
-        </div>
+        </React.Fragment>
       );
   
 };
 
-export default NewClubForm;
+export default NewSportClub;

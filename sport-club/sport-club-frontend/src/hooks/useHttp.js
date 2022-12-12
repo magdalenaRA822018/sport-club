@@ -1,5 +1,4 @@
-import { useReducer, useCallback,useContext } from 'react';
-import { AuthContext } from '../context/auth-context';
+import { useReducer, useCallback } from 'react';
 const initialState = {
   loading: false,
   error: null,
@@ -11,9 +10,6 @@ const initialState = {
 const BACKEND_URL='http://localhost:8081/'
 const httpReducer = (curHttpState, action) => {
   console.log("REDUCER")
- 
-  
-
   switch (action.type) {
     case 'SEND':
       return {

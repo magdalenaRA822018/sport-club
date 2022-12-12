@@ -19,6 +19,6 @@ public class SportClubMapper {
     }
 
     public SportClub sportClubDtoToSportClub(SportClubDto sportClubDto) {
-        return new SportClub(sportClubDto.getId(),sportClubDto.getName(),playerMapper.playerDtosToPlayers(sportClubDto.getPlayers()));
+        return new SportClub(sportClubDto.getId(),sportClubDto.getName(),null);
     }
 }

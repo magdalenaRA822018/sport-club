@@ -122,10 +122,10 @@ const loadSkills = useCallback(() => {
   const onRemove = (skills) => { setSelectedSkills(skills)}
  
     return (
-      <div>
+      <React.Fragment>
        <EditorNavbar></EditorNavbar>
       
-        <div className="editPlayer">
+        <div className="EditPlayerProfile">
         <Card>
           <CardBody>
           <h1 className='h1' >Edit player</h1>
@@ -176,7 +176,7 @@ const loadSkills = useCallback(() => {
            </CardBody>
         </Card>
         </div>
-        </div>
+        </React.Fragment>
       );
   
 };

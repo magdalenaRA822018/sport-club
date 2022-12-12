@@ -4,17 +4,19 @@ import SportClubProfile from '../../Clubs/SportClubProfile/SportClubProfile'
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './ClubProfileEditor.css'
+
 const ClubProfileEditor = props => {
   const navigate=useNavigate()
   const {id}=useParams()
+
   return (
-    <div>
+    <React.Fragment>
         <EditorNavbar></EditorNavbar>
         <div className='content' >
-        <button   onClick={() => navigate("/editor/editClubProfile/"+id)}>Edit club profile</button>
+        <button onClick={() => navigate("/editor/editClubProfile/"+id)}>Edit club profile</button>
         </div>
         <SportClubProfile></SportClubProfile>
-    </div>
+    </React.Fragment>
   );
     
   

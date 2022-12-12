@@ -6,13 +6,13 @@ import './EditorHomepage.css'
 const EditorHomepage = props => {
   const navigate = useNavigate();
   return (
-    <div >   
+    <React.Fragment>   
         <EditorNavbar></EditorNavbar>
         <div className='content'>   
         <button   onClick={() => navigate("/newSportClub")}>Add new club</button>
         </div>
         <SportClubs></SportClubs>
-    </div>
+    </React.Fragment>
   );
 };
 
