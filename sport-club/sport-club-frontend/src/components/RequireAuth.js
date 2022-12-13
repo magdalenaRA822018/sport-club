@@ -4,8 +4,6 @@ import { AuthContext } from '../context/auth-context';
 const RequireAuth = ({allowedRoles}) => {
     const authContext = useContext(AuthContext);
     console.log("REQUIREAUTH.JS")
-   
-
     return (
         allowedRoles.includes(authContext.role) ? <Outlet /> : <Navigate to="/" replace />
    );

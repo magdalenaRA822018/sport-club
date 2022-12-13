@@ -88,7 +88,6 @@ public class PlayerController {
     @PostMapping(value = "/remove")
     @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<ResponseDto> deletePost(@RequestBody Map<String,String> data) {
-
         try{
             this.playerService.delete(Long.parseLong(data.get("id")));
             return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.OK);

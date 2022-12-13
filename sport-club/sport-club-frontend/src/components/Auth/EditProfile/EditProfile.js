@@ -126,7 +126,7 @@ const EditProfile = props => {
        
         <FormGroup >
           <Label for="accountType">Account type</Label>
-          <Input id="text" value={accountType} type="text" disabled/>
+          <Input id="text" value={accountType.substring(5,accountType.length)} type="text" disabled/>
        </FormGroup>
        
   

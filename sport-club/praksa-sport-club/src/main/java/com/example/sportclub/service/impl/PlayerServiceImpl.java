@@ -101,8 +101,12 @@ public class PlayerServiceImpl implements PlayerService {
             Player player=this.playerRepository.findPlayerById(id);
             if(player.getSportClub()!=null){
                 player.setSportClub(null);
-                this.playerRepository.save(player);
+
             }
+            if(player.getSkills().size()>0){
+                player.setSkills(null);
+            }
+            this.playerRepository.save(player);
             this.playerRepository.delete(player);
         }catch (Exception e){
             throw new Exception(e);

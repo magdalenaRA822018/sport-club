@@ -10,7 +10,6 @@ export const AuthContext = React.createContext({
   username: '',
   login: () => {},
   logout: () => {},
-  checkToken: () => {},
 });
 let logoutTimer;
 
@@ -80,13 +79,6 @@ const AuthContextProvider = props => {
       }else{
         swal({ icon: 'error', title: "Bad credentials",});
       }
-    }else if(methodName==='REFRESH'){
-      setIsAuthenticated(true)
-        setToken(data.accessToken)
-        setExpiresIn(data.expiresIn)
-        setRole(data.roles)
-        setUsername(data.username)
-
     }
       
     }
@@ -99,7 +91,6 @@ const AuthContextProvider = props => {
       value={{ 
         login: loginHandler,  
         logout: logoutHandler, 
-        checkToken: null,
         isAuth: isAuthenticated , 
         token: token, 
         expiresIn: expiresIn, 
