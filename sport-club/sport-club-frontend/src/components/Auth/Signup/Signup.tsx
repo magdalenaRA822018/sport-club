@@ -1,9 +1,7 @@
 import React, { useState,  useCallback, useEffect, useRef }  from 'react';
 import { Link } from 'react-router-dom';
 import './Signup.css';
-import swal from 'sweetalert';
 import useHttp from '../../../hooks/useHttp';
-import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
 const Signup = props => {
 
   const ACC_TYPE = [
@@ -71,9 +69,11 @@ const Signup = props => {
   useEffect(()=>{
       if(data!=null){
         if(data.content==="Success")
-           swal({ icon: 'success', title: "Success",});
+         console.log("Succes")
+         //  swal({ icon: 'success', title: "Success",});
         else 
-           swal({ icon: 'error', title: "Error",});
+        console.log("Err")
+          // swal({ icon: 'error', title: "Error",});
       }
   }, [data])
 
@@ -95,64 +95,7 @@ const Signup = props => {
 
   return (
     <div className="signup">
-    <Card>
-      <CardBody>
-      <h1 className='h1' >Sign up</h1>
-      <br/>
-       <Form onSubmit={signUpHandler}>
-       <FormGroup >
-          <Label for="firstname">First name</Label>
-          <Input id="firstname"  
-                value={enteredFirstName}  onChange={event => {
-                  setErrMsg('')
-                  setEnteredFirstName(event.target.value); 
-                }}
-             type="text" required/>
-       </FormGroup>
-
-        <FormGroup>
-          <Label for="lastname">Last name</Label>
-          <Input id="lastname"  value={enteredLastName}  onChange={event => {
-                setErrMsg('')
-                setEnteredLastName(event.target.value);
-              }} type="text"  required/>
-        </FormGroup>
-
-        <FormGroup >
-          <Label for="email" >Email</Label>
-          <Input id="email" value={enteredUsername}  onChange={event => {
-                setErrMsg('')
-                setEnteredUsername(event.target.value);
-              }} type="email" required/>
-       </FormGroup>
-
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input id="password"  value={enteredPassword}  onChange={event => {
-                setErrMsg('')
-                setEnteredPassword(event.target.value);
-              }} type="password" required/>
-        </FormGroup>
-       
-        <FormGroup >
-          <Label for="accountType">Account type</Label>
-          <Input id="accountType" onChange={optionchanged}  type="select" required>
-                    <option value={0}>{ACC_TYPE[0].name}</option>
-                    <option value={1}>{ACC_TYPE[1].name}</option>
-          </Input>
-       </FormGroup>
-       
     
-       <p ref={errRef} id="err" className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-
-       
-        <Button className="submitButton"  >Sign up</Button>
-        
-        <p className='p'>Already have an account? </p>
-        <Link to="/">Log in</Link>
-        </Form>
-       </CardBody>
-    </Card>
     </div>
    
   );
