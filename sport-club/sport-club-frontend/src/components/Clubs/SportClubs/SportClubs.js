@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useContext,useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth-context';
 import useHttp from '../../../hooks/useHttp';
 import   './SportClubs.css'
@@ -9,7 +9,7 @@ const SportClubs = props => {
   const [sportClubs, setSportClubs] = useState([]);
   const [show, setShow] = useState(false);
   const authContext = useContext(AuthContext);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const {
     data,
@@ -61,10 +61,10 @@ const SportClubs = props => {
       <th scope="row"  >{index+1}</th>
       <td >{sportClub.name}</td>
       <td ><Button  onClick={() => 
-        {if(authContext.role==="ROLE_EDITOR")
+        {/*if(authContext.role==="ROLE_EDITOR")
             navigate("/editor/clubProfile/"+sportClub.id)
           else
-          navigate("/clubProfile/"+sportClub.id)
+          navigate("/clubProfile/"+sportClub.id)*/
         }}>PROFILE</Button></td>
     </tr>
     )}

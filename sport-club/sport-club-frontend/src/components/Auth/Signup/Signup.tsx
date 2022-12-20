@@ -2,7 +2,7 @@ import React, { useState,  useCallback, useEffect, useRef }  from 'react';
 import { Link } from 'react-router-dom';
 import './Signup.css';
 import useHttp from '../../../hooks/useHttp';
-const Signup = props => {
+const Signup = () => {
 
   const ACC_TYPE = [
    {
@@ -34,9 +34,11 @@ const Signup = props => {
     sendRequest,
   } = useHttp();
 
-  const optionchanged = (e) => {
-    console.log(e.target.value)
+  const optionchanged = (e : Event) => {
+    /*
+      console.log(e.target.value)
     setSelected(e.target.value);
+    */
   };
   
   const validInput = () =>{
@@ -55,7 +57,7 @@ const Signup = props => {
     }
       return true;
   }
-  const signUp= useCallback( (signupDto,url) => {
+ /* const signUp= useCallback( (signupDto,url) => {
       sendRequest(
         url,
         'POST',
@@ -64,7 +66,7 @@ const Signup = props => {
         'SIGNUP'
       );
       
-  }, [sendRequest]);
+  }, [sendRequest]);*/
 
   useEffect(()=>{
       if(data!=null){
@@ -79,7 +81,7 @@ const Signup = props => {
 
  
 
-  const signUpHandler = (e) => {
+  const signUpHandler = (e: Event) => {
       e.preventDefault();
      if(!validInput()) return; 
 
@@ -90,7 +92,7 @@ const Signup = props => {
       lastname: enteredLastName,
       role: ACC_TYPE[selected].value
      }
-     signUp(signupDto,ACC_TYPE[selected].url)
+     //signUp(signupDto,ACC_TYPE[selected].url)
     }
 
   return (

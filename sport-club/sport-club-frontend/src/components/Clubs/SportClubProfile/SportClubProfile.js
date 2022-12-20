@@ -5,14 +5,14 @@ import useHttp from '../../../hooks/useHttp';
 import   './SportClubProfile.css'
 import { Table, Button} from 'reactstrap';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 const SportClubProfile = props => {
   const [sportClubName, setSportClubName] = useState('');
   const [sportClubPlayers, setSportClubPlayers] = useState([]);
   const [showPlayers, setShowPlayers]=useState(false)
   const authContext = useContext(AuthContext);
   let { id } = useParams();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const {
     data,
     sendRequest,
@@ -62,10 +62,10 @@ const SportClubProfile = props => {
           <td><img alt="Sample" className='PlayerImage'  src={player.image}/></td>
           <td >{player.playerName}</td>
           <td ><Button onClick={() => 
-            { if(authContext.role==="ROLE_EDITOR")
+            { /*if(authContext.role==="ROLE_EDITOR")
                 navigate("/editor/playerProfile/"+player.id)
               else
-              navigate("/playerProfile/"+player.id)
+              navigate("/playerProfile/"+player.id)*/
             }} >PROFILE</Button></td>
         </tr>
         )}

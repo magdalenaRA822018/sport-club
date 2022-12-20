@@ -1,7 +1,7 @@
 import React, { useState,  useCallback, useEffect, useContext }  from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import useHttp from '../../../hooks/useHttp';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
 import './EditProfile.css';
@@ -15,7 +15,7 @@ const EditProfile = props => {
   const [username, setUsername] = useState('');
   const [accountType, setAccountType] = useState('');
   const authContext=useContext(AuthContext)
-  const navigate=useNavigate();
+ // const navigate=useNavigate();
   const {
     data,
     sendRequest,
@@ -132,7 +132,7 @@ const EditProfile = props => {
   
         <Button className="submitButton"  >Update</Button>
         </Form>
-        <Button onClick={() => navigate("/changePassword")}  className="changePasswordButton"  >Change password</Button>
+        <Button /*onClick={() => navigate("/changePassword")}*/  className="changePasswordButton"  >Change password</Button>
        </CardBody>
     </Card>
     </div>

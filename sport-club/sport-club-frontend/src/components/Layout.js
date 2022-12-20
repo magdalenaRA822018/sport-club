@@ -3,7 +3,7 @@ import React  from 'react';
 const Layout = () => {
     return (
         <main className="App">
-            <Outlet/>
+           <Outlet></Outlet>
         </main>
     )
 }

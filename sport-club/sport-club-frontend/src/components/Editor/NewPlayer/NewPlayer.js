@@ -2,7 +2,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import { useCallback } from 'react';
 import useHttp from '../../../hooks/useHttp';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import   './NewPlayer.css'
 import Multiselect from 'multiselect-react-dropdown';
@@ -18,7 +18,7 @@ const NewPlayer = props => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [showSkills, setShowSkills] = useState(false);
   const authContext = useContext(AuthContext);
-  const navigate=useNavigate();
+ // const navigate=useNavigate();
   const {
     data,
     sendRequest,
@@ -59,7 +59,7 @@ useEffect(()=>{
          if(data.content==="Success"){
           
           swal({ icon: 'success', title: data.content,});
-          navigate(-1)
+          //navigate(-1)
 
          }
          else 

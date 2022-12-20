@@ -3,19 +3,38 @@ import { useState } from 'react';
 import { AuthContext } from '../../../context/auth-context'
 import { Link } from 'react-router-dom';
 import './Auth.css';
-
+import axios from "axios";
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
 
+import { UserTokenState } from '../../../interfaces';
 
-const Auth = props => {
+const Auth = () => {
   const authContext = useContext(AuthContext);
- 
+
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
+  const [user,setUser]=useState< UserTokenState | null>(null);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
-    authContext.login({username: enteredEmail, password: enteredPassword});
+   // authContext.login({username: enteredEmail, password: enteredPassword});
+
+    axios.post('http://localhost:8081/auth/login',  {username: enteredEmail, password: enteredPassword})
+    .then(function (response) {
+      
+      setUser({
+        accessToken: response.data.accessToken,
+        expiresIn: response.data.expiresIn,
+        username: response.data.username,
+        roles: response.data.roles
+      })
+      console.log(user?.username)
+      if(authContext!=null && user!=null)
+         authContext.login(user)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   };
   
 
