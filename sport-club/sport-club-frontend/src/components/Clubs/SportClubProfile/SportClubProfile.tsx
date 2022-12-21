@@ -1,68 +1,35 @@
-import React, { useState, useEffect,useContext } from 'react';
-import { AuthContext } from '../../../context/auth-context';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { SportClub } from '../../../interfaces';
 import axios from '../../../http-common';
 import   './SportClubProfile.css'
 import { Table, Button} from 'reactstrap';
-
-//import { useNavigate } from 'react-router-dom';
+import SportClubs from '../SportClubs/SportClubs';
+import { AuthContext } from '../../../context/auth-context';
+import { useNavigate } from 'react-router-dom';
 const SportClubProfile = () => {
   const [sportClub, setSportClub] = useState<SportClub>({} as SportClub);
-  let { id } = useParams();
-
-  const [sportClubName, setSportClubName] = useState('');
-  const [sportClubPlayers, setSportClubPlayers] = useState([]);
-  const [showPlayers, setShowPlayers]=useState(false)
-  const authContext = useContext(AuthContext);
-  
-  
-  /*const loadSportClub = useCallback(() => {
-    sendRequest(
-      'sportclubs/club',
-      'POST',
-      JSON.stringify({id: id}),
-      authContext.token,
-      'SPORTCLUBINFO'
-    );
-
-    }, [sendRequest]);
-
- */
-   /*useEffect(() => {
-       if(data!=null){
-        setSportClubName(data.name)
-        setSportClubPlayers(data.players)
-        setShowPlayers(true)
-       }
-    }, [data]);
- */
+  const { id } = useParams();
+  const authContext= useContext(AuthContext);
+  const navigate=useNavigate()
 
 
-    useEffect(() => {
+  useEffect(() => {
       axios.post('sportclubs/club',{id: id})
       .then(function (response) {
          setSportClub(response.data)
+         console.log(sportClub.players)
       })
       .catch(function (error) {
         alert("error")
       });
-    
-    }, []);
+  }, []);
 
   return (
     <div className='SportClubProfile'>
     <h1><b>Sport club:  {sportClub.name}</b></h1>
     <hr></hr>
-          
-    </div>
-  );
-};
-
-export default SportClubProfile;
-/*
-
-<Table >
+    <Table >
       <thead>
         <tr>
           <th>#</th>
@@ -71,15 +38,15 @@ export default SportClubProfile;
           <th>&nbsp;</th>
         </tr>
       </thead>
-      {showPlayers ? 
+      
       <tbody>
-        {sportClubPlayers.map((player,index)=>  
+        {sportClub.players?.map((player,index)=>  
         <tr key={player.id}>
           <th scope="row"  >{index+1}</th>
           <td><img alt="Sample" className='PlayerImage'  src={player.image}/></td>
           <td >{player.playerName}</td>
           <td ><Button onClick={() => 
-            { if(authContext.role==="ROLE_EDITOR")
+            { if(authContext?.role==="ROLE_EDITOR")
                 navigate("/editor/playerProfile/"+player.id)
               else
               navigate("/playerProfile/"+player.id)
@@ -87,6 +54,10 @@ export default SportClubProfile;
             </tr>
             )}
           </tbody>
-          :  <tbody></tbody>}
+          
         </Table>
-        */
+    </div>
+  );
+};
+
+export default SportClubProfile;

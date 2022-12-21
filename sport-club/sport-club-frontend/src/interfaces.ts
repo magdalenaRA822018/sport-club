@@ -18,12 +18,19 @@ export interface UserTokenState {
     username: string;
     roles: string
 }
-
+export interface Skill{
+    id: number;
+    name: string;
+    description: string;
+}
 export interface Player {
     id: number;
     playerName: string;
     image: string;
     salary: number;
+    skills: Array<Skill>;
+    clubName: string;
+    clubId: number;
 }
 
 export interface SportClub {
