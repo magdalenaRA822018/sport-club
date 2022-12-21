@@ -2,7 +2,7 @@ import React, { useState, useEffect,useContext } from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import { useCallback } from 'react';
 import useHttp from '../../../hooks/useHttp';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import   './AllPlayers.css'
 import { Table, Button} from 'reactstrap';
 import swal from 'sweetalert';
@@ -10,7 +10,7 @@ const AllPlayers = props => {
   const [players, setPlayers] = useState([]);
   const [show, setShow] = useState(false);
   const authContext = useContext(AuthContext);
-  const navigate = useNavigate();
+ // const navigate = useNavigate();
   
   const {
     data,
@@ -93,7 +93,7 @@ const AllPlayers = props => {
                   <td >{player.clubName}</td>
                   <td ><Button  onClick={() => 
                     { 
-                        navigate("/editor/playerProfile/"+player.id)
+                        /*navigate("/editor/playerProfile/"+player.id)*/
                     }}>PROFILE</Button>
                   </td>
                   <td ><Button  color='danger' onClick={() => 

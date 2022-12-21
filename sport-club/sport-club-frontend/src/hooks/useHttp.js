@@ -1,4 +1,7 @@
 import { useReducer, useCallback } from 'react';
+import axios from "axios";
+
+
 const initialState = {
   loading: false,
   error: null,
@@ -7,9 +10,12 @@ const initialState = {
   methodName: null,
   identifier: null
 };
+
+
 const BACKEND_URL='http://localhost:8081/'
 const httpReducer = (curHttpState, action) => {
   console.log("REDUCER")
+
   switch (action.type) {
     case 'SEND':
       return {
@@ -38,13 +44,15 @@ const httpReducer = (curHttpState, action) => {
 
 const useHttp = () => {
   const [httpState, dispatchHttp] = useReducer(httpReducer, initialState);
-  console.log("USE HTTP")
+
   const clear = useCallback(() => dispatchHttp({ type: 'CLEAR' }), []);
 
   const sendRequest = useCallback(
     (url, method, body, userToken, methodName) => {
       dispatchHttp({ type: 'SEND', identifier: methodName });
-      fetch(BACKEND_URL+url, {
+
+
+     /*fetch(BACKEND_URL+url, {
         method: method,
         body: body,
         headers: {
@@ -68,7 +76,10 @@ const useHttp = () => {
             type: 'ERROR',
             errorMessage: error
           });
-        });
+        });*/
+       
+
+
     },
     []
   );

@@ -1,27 +1,44 @@
-import React, { useContext } from 'react';
-import { useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { AuthContext } from '../../../context/auth-context'
 import { Link } from 'react-router-dom';
+import axios from '../../../http-common';
+import { Credentials, UserTokenState } from '../../../interfaces';
 import './Auth.css';
-
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
-
-
-const Auth = props => {
+import MyCard from '../../styled/Card';
+const Auth: FC = () => {
   const authContext = useContext(AuthContext);
- 
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
+  const [enteredEmail, setEnteredEmail] = useState<string>('');
+  const [enteredPassword, setEnteredPassword] = useState<string>('');
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    authContext.login({username: enteredEmail, password: enteredPassword});
+
+    const user: Credentials = {
+      username: enteredEmail,
+      password: enteredPassword,
+     }
+
+    axios.post('auth/login', user)
+    .then(function (response) {
+      const tokenState: UserTokenState = {
+        accessToken: response.data.accessToken,
+        expiresIn: response.data.expiresIn,
+        username: response.data.username,
+        roles: response.data.roles
+      }
+      authContext?.login(tokenState)
+    })
+    .catch(function (error) {
+      alert("error")
+    });
   };
   
 
  
   return (
     <div className="auth">
+      <MyCard></MyCard>
     <Card>
       <CardBody>
       <h1 className='h1' >Log in</h1>
