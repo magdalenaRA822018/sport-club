@@ -5,7 +5,7 @@ import axios from '../../../http-common';
 import { Credentials, UserTokenState } from '../../../interfaces';
 import './Auth.css';
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
-
+import MyCard from '../../styled/Card';
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState<string>('');
@@ -38,6 +38,7 @@ const Auth: FC = () => {
  
   return (
     <div className="auth">
+      <MyCard></MyCard>
     <Card>
       <CardBody>
       <h1 className='h1' >Log in</h1>
