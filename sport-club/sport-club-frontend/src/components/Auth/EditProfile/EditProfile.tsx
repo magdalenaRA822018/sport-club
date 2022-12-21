@@ -1,26 +1,23 @@
-import React, { useState,  useCallback, useEffect, useContext }  from 'react';
+import React, { useState, useEffect, useContext }  from 'react';
 import { AuthContext } from '../../../context/auth-context';
-import useHttp from '../../../hooks/useHttp';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
 import './EditProfile.css';
+import axios from '../../../http-common';
+import { User } from '../../../interfaces';
 
-const EditProfile = props => {
+const EditProfile = () => {
 
   const NAMES_REGEX=/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 
-  const [enteredFirstName, setEnteredFirstName]= useState('');
-  const [enteredLastName, setEnteredLastName]= useState('');
-  const [username, setUsername] = useState('');
-  const [accountType, setAccountType] = useState('');
-  const authContext=useContext(AuthContext)
- // const navigate=useNavigate();
-  const {
-    data,
-    sendRequest,
-    methodName
-  } = useHttp();
+  const [enteredFirstName, setEnteredFirstName]= useState<string>('');
+  const [enteredLastName, setEnteredLastName]= useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [accountType, setAccountType] = useState<string>('');
+  const authContext: any=useContext(AuthContext)
+  const navigate=useNavigate();
+
 
   const validInput = () =>{
     if(!NAMES_REGEX.test(enteredFirstName)){
@@ -33,67 +30,49 @@ const EditProfile = props => {
       return true;
   }
   
-  const save = useCallback((userDto) => {
-    sendRequest(
-      'users/update',
-      'POST',
-      JSON.stringify(userDto),
-      authContext.token,
-      'SAVE'
-    );
 
-    }, [sendRequest]
-
-  );
  
-  const loadUser = useCallback(() => {
-    sendRequest(
-      'users/username',
-      'POST',
-      JSON.stringify({username: authContext.username}),
-      authContext.token,
-      'LOADUSERS'
-    );
+  const loadUser = (username:string) => {
+    axios.post('users/username', {username: username})
+    .then(function (response) {
+        setEnteredFirstName(response.data.firstname)
+        setEnteredLastName(response.data.lastname)
+        setUsername(response.data.username)
+        setAccountType(response.data.role)
+    })
+    .catch(function (error) {
+      alert("error")
+    });
+  
+  }
 
-    }, [sendRequest]
-
-  );
 
   useEffect(()=>{
-    loadUser()
+    loadUser(authContext.username)
   }, [])
   
-  useEffect(()=>{
-    if(data!=null){
-       if(methodName==='LOADUSERS'){
-        setEnteredFirstName(data.firstname)
-        setEnteredLastName(data.lastname)
-        setUsername(data.username)
-        setAccountType(data.role)
-       }else if(methodName==='SAVE'){
-         if(data.content==="Success"){
-          swal({ icon: 'success', title: data.content,});
-         }
-         else 
-         swal({ icon: 'error', title: data.content,});
-       }
-        
-    }
-  }, [data])
 
-  const editHandler = (e) => {
-      e.preventDefault();
+  const editHandler = (e: React.FormEvent) => {
+     e.preventDefault();
      if(!validInput()) return; 
 
-     const userDto = {
+     const user: User ={
+      id: 0,
+      role: '',
       username: username,
       password: '',
       firstname: enteredFirstName,
       lastname: enteredLastName,
-      role: ''
-     }
-     save(userDto)
     }
+    axios.post('users/update', user )
+    .then(function (response) {
+      alert(response.data.content)
+    })
+    .catch(function (error) {
+      alert("error")
+    });
+
+  }
 
   return (
     <div className="editProfile">
@@ -132,7 +111,7 @@ const EditProfile = props => {
   
         <Button className="submitButton"  >Update</Button>
         </Form>
-        <Button /*onClick={() => navigate("/changePassword")}*/  className="changePasswordButton"  >Change password</Button>
+        <Button onClick={() => navigate("/changePassword")}  className="changePasswordButton"  >Change password</Button>
        </CardBody>
     </Card>
     </div>

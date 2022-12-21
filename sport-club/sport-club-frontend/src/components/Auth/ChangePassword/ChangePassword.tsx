@@ -1,20 +1,17 @@
 import React, { useState,  useCallback, useEffect, useContext }  from 'react';
 import { AuthContext } from '../../../context/auth-context';
-import useHttp from '../../../hooks/useHttp';
+import { Credentials } from '../../../interfaces';
+import axios from '../../../http-common';
 import swal from 'sweetalert';
+
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
 import './ChangePassword.css';
-
-const ChangePassword = props => {
+const ChangePassword = () => {
   const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-  const [enteredPassword, setEnteredPassword]= useState('');
-  const [confirmedPassword, setConfirmedPassword]= useState('');
-  const authContext=useContext(AuthContext)
 
-  const {
-    data,
-    sendRequest,
-  } = useHttp();
+  const [enteredPassword, setEnteredPassword]= useState<string>('');
+  const [confirmedPassword, setConfirmedPassword]= useState<string>('');
+  const authContext: any=useContext(AuthContext);
 
   const validInput = () =>{
     if(enteredPassword!==confirmedPassword){
@@ -26,42 +23,25 @@ const ChangePassword = props => {
     }
       return true;
   }
-  
-  const changePassword = useCallback((changePasswordDto) => {
-    sendRequest(
-      'users/password',
-      'POST',
-      JSON.stringify(changePasswordDto),
-      authContext.token,
-      'CHANGE_PASSWORD'
-    );
 
-    }, [sendRequest]
-
-  );
-  
-  useEffect(()=>{
-    if(data!=null){
-         if(data.content==="Success"){
-            swal({ icon: 'success', title: data.content,});
-            authContext.logout()
-         }
-         else 
-          swal({ icon: 'error', title: data.content,});
-    }
-  }, [data])
-
-  const changePasswordHandler = (e) => {
+  const changePasswordHandler = (e: React.FormEvent) => {
      e.preventDefault();
      if(!validInput()) return; 
 
-     const changePasswordDto = {
+     const credentials: Credentials = {
       username: authContext.username,
       password: enteredPassword,
      }
-     console.log(JSON.stringify(changePasswordDto))
-     changePassword(changePasswordDto)
-    }
+
+     axios.post('users/password', credentials)
+     .then(function (response) {
+        alert("success")
+        authContext.logout()
+     })
+     .catch(function (error) {
+       alert("error")
+     });
+  }
 
   return (
     <div className="changePassword">
@@ -85,9 +65,6 @@ const ChangePassword = props => {
                 setConfirmedPassword(event.target.value);
               }} type="password"  required/>
         </FormGroup>
-
-       
-  
         <Button className="submitNewPasswordButton"  >Save new password</Button>
         </Form>
        </CardBody>

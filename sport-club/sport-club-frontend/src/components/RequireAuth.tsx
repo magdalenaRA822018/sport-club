@@ -9,7 +9,7 @@ const RequireAuth = ({allowedRoles}: Props) => {
     const authContext: any = useContext(AuthContext);
    
     return (
-      allowedRoles.includes(authContext.role) ? <Outlet /> : <Navigate to="/" replace />
+      (allowedRoles.includes(authContext.role) && authContext.isAuth ) ? <Outlet /> : <Navigate to="/" replace />
    );
 }
 export default RequireAuth;

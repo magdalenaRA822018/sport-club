@@ -1,39 +1,36 @@
-import React, { useContext } from 'react';
-import { useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { AuthContext } from '../../../context/auth-context'
 import { Link } from 'react-router-dom';
+import axios from '../../../http-common';
+import { Credentials, UserTokenState } from '../../../interfaces';
 import './Auth.css';
-import axios from "axios";
 import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
 
-import { UserTokenState } from '../../../interfaces';
-
-const Auth = () => {
+const Auth: FC = () => {
   const authContext = useContext(AuthContext);
+  const [enteredEmail, setEnteredEmail] = useState<string>('');
+  const [enteredPassword, setEnteredPassword] = useState<string>('');
 
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [user,setUser]=useState< UserTokenState | null>(null);
-
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-   // authContext.login({username: enteredEmail, password: enteredPassword});
 
-    axios.post('http://localhost:8081/auth/login',  {username: enteredEmail, password: enteredPassword})
+    const user: Credentials = {
+      username: enteredEmail,
+      password: enteredPassword,
+     }
+
+    axios.post('auth/login', user)
     .then(function (response) {
-      
-      setUser({
+      const tokenState: UserTokenState = {
         accessToken: response.data.accessToken,
         expiresIn: response.data.expiresIn,
         username: response.data.username,
         roles: response.data.roles
-      })
-      console.log(user?.username)
-      if(authContext!=null && user!=null)
-         authContext.login(user)
+      }
+      authContext?.login(tokenState)
     })
     .catch(function (error) {
-      console.log(error);
+      alert("error")
     });
   };
   

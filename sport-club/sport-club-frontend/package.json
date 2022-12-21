@@ -9,6 +9,7 @@
     "@types/sweetalert": "^2.0.4",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
+    "formik": "^2.2.9",
     "install": "^0.13.0",
     "multiselect-react-dropdown": "^2.0.25",
     "react-dom": "^18.0.9",

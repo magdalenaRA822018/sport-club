@@ -9,8 +9,8 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
-const EditorNavbar = props => {
- const navigate = useNavigate();
+const EditorNavbar = () => {
+  const navigate = useNavigate();
   const authContext=useContext(AuthContext);
   return (
     <React.Fragment>
@@ -27,7 +27,7 @@ const EditorNavbar = props => {
                       <NavLink onClick={() => navigate("/editProfile")}  className='navLink' href="#">My profile</NavLink>
                 </NavItem>
                 <NavItem>
-                      <NavLink  onClick={() => authContext.logout()} className='navLink' href="#">Logout</NavLink>
+                      <NavLink  onClick={() => authContext?.logout()} className='navLink' href="#">Logout</NavLink>
                 </NavItem>
             </Nav>
         </Navbar>

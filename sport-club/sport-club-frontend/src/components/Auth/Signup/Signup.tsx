@@ -1,7 +1,11 @@
-import React, { useState,  useCallback, useEffect, useRef }  from 'react';
+import React, { useState, useEffect,useRef }  from 'react';
 import { Link } from 'react-router-dom';
+
+import { Button, FormGroup, Form, Label, Input , Card, CardBody} from 'reactstrap';
 import './Signup.css';
-import useHttp from '../../../hooks/useHttp';
+import axios from '../../../http-common';;
+import { User } from '../../../interfaces';
+
 const Signup = () => {
 
   const ACC_TYPE = [
@@ -22,23 +26,16 @@ const Signup = () => {
   const EMAIL_REGEX= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const errRef = useRef();
 
-  const [enteredFirstName, setEnteredFirstName]= useState('');
-  const [enteredLastName, setEnteredLastName]= useState('');
-  const [enteredUsername, setEnteredUsername] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [selected, setSelected] = useState(0);
-  const [errMsg, setErrMsg] = useState('');
-  
-  const {
-    data,
-    sendRequest,
-  } = useHttp();
+  const [enteredFirstName, setEnteredFirstName]= useState<string>('');
+  const [enteredLastName, setEnteredLastName]= useState<string>('');
+  const [enteredUsername, setEnteredUsername] = useState<string>('');
+  const [enteredPassword, setEnteredPassword] = useState<string>('');
+  const [errMsg, setErrMsg] = useState<string>('');
+  const [selectedRole, setSelectedRole] = useState<number>(0);
 
-  const optionchanged = (e : Event) => {
-    /*
-      console.log(e.target.value)
-    setSelected(e.target.value);
-    */
+  const optionchanged = (e : React.FormEvent) => {
+    var target = e.target as HTMLSelectElement;
+    setSelectedRole(+target.value)
   };
   
   const validInput = () =>{
@@ -57,47 +54,86 @@ const Signup = () => {
     }
       return true;
   }
- /* const signUp= useCallback( (signupDto,url) => {
-      sendRequest(
-        url,
-        'POST',
-        JSON.stringify(signupDto),
-        null,
-        'SIGNUP'
-      );
-      
-  }, [sendRequest]);*/
 
-  useEffect(()=>{
-      if(data!=null){
-        if(data.content==="Success")
-         console.log("Succes")
-         //  swal({ icon: 'success', title: "Success",});
-        else 
-        console.log("Err")
-          // swal({ icon: 'error', title: "Error",});
-      }
-  }, [data])
 
- 
-
-  const signUpHandler = (e: Event) => {
+  const signUpHandler = async (e : React.FormEvent) => {
       e.preventDefault();
-     if(!validInput()) return; 
+      if(!validInput()) return; 
 
-     const signupDto = {
+     const user: User = {
+      id: 0,
+      role: ACC_TYPE[selectedRole].value,
       username: enteredUsername,
       password: enteredPassword,
       firstname: enteredFirstName,
       lastname: enteredLastName,
-      role: ACC_TYPE[selected].value
      }
-     //signUp(signupDto,ACC_TYPE[selected].url)
+      axios.post(ACC_TYPE[selectedRole].url, user)
+      .then(function (response) {
+         alert("Success")
+      })
+      .catch(function (error) {
+          alert(error.response.data.content)
+      });
+   
     }
-
   return (
     <div className="signup">
+    <Card>
+      <CardBody>
+      <h1 className='h1' >Sign up</h1>
+      <br/>
+       <Form onSubmit={signUpHandler}>
+       <FormGroup >
+          <Label for="firstname">First name</Label>
+          <Input id="firstname"  
+                value={enteredFirstName}  onChange={event => {
+                 setEnteredFirstName(event.target.value)
+                }}
+             type="text" required/>
+       </FormGroup>
+
+        <FormGroup>
+          <Label for="lastname">Last name</Label>
+          <Input id="lastname"  value={enteredLastName} 
+           onChange={event => {setEnteredLastName(event.target.value);} } type="text"  required/>
+        </FormGroup>
+
+        <FormGroup >
+          <Label for="email" >Email</Label>
+          <Input id="email" value={enteredUsername}  onChange={event => {
+            
+                setEnteredUsername(event.target.value);
+              
+              }} type="email" required/>
+       </FormGroup>
+
+        <FormGroup>
+          <Label for="password">Password</Label>
+          <Input id="password"  value={enteredPassword}  onChange={event => {
+         
+                setEnteredPassword(event.target.value);
+              
+              }} type="password" required/>
+        </FormGroup>
+       
+        <FormGroup >
+          <Label for="accountType">Account type</Label>
+          <Input id="accountType" onChange={optionchanged} 
+                     type="select" required>
+                    <option value={0}>{ACC_TYPE[0].name}</option>
+                    <option value={1}>{ACC_TYPE[1].name}</option>
+          </Input>
+       </FormGroup>
+       <p id="err" className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
     
+        <Button className="submitButton"  >Sign up</Button>
+        
+        <p className='p'>Already have an account? </p>
+        <Link to="/">Log in</Link>
+        </Form>
+       </CardBody>
+    </Card>
     </div>
    
   );

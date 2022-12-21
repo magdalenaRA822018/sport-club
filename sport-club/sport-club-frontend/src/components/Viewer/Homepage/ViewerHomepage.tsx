@@ -1,7 +1,7 @@
 import React from 'react';
 import ViewerNavBar from '../ViewerNavbar/ViewerNavbar';
 import SportClubs from '../../Clubs/SportClubs/SportClubs';
-const ViewerHomepage = props => {
+const ViewerHomepage = () => {
  
   return (
     <React.Fragment>
