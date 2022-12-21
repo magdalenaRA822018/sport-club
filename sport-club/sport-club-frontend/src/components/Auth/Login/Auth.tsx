@@ -3,15 +3,18 @@ import { AuthContext } from '../../../context/auth-context'
 import { Link } from 'react-router-dom';
 import axios from '../../../http-common';
 import { Credentials, UserTokenState } from '../../../interfaces';
-import './Auth.css';
-import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
-import MyCard from '../../styled/Card';
+import Input from '../../styled/Input';
+import Card from '../../styled/Card';
+import Button from '../../styled/FormSubmitButton';
+import Wrapper from '../../styled/Wrapper';
+import InlineParagraph from '../../styled/InlineParagraph';
+
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState<string>('');
   const [enteredPassword, setEnteredPassword] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
     const user: Credentials = {
@@ -38,35 +41,32 @@ const Auth: FC = () => {
  
   return (
     <div className="auth">
-      <MyCard></MyCard>
+    <Wrapper>
     <Card>
-      <CardBody>
+      
       <h1 className='h1' >Log in</h1>
       <br/>
-       <Form onSubmit={handleSubmit}>
-        <FormGroup >
-          <Label for="email">Email</Label>
-          <Input id="email"
-              value={enteredEmail}  onChange={event => {
-                setEnteredEmail(event.target.value);
-              }} type="email" required/>
-       </FormGroup>
-
-        <FormGroup>
-          <Label  for="password" >Password</Label>
-          <Input id="password"
-              value={enteredPassword}  onChange={event => {
-                setEnteredPassword(event.target.value);
-              }} type="password" required/>
-        </FormGroup>
-        <Button className="submitButton">Login</Button>
+          <form onSubmit={loginHandler}>
+          <label htmlFor='email'>Email</label>
+          <Input id="email" type="email" value={enteredEmail}
+           onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+            { setEnteredEmail(event.target.value)}}
+          required/>
+      
+          
+          <label  htmlFor='password' >Password</label>
+          <Input id="password" type="password" value={enteredPassword}
+           onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+            { setEnteredPassword(event.target.value)}}
+          required/>
         
-        <p  className='p'>Don't have an account? </p>
+        <Button type="submit">Login</Button>
+        </form>
+        <InlineParagraph>Don't have an account? </InlineParagraph>
         <Link to="/signup">Sign Up</Link>
-        </Form>
-       </CardBody>
+      
     </Card>
-    
+    </Wrapper>
    </div>
   );
 };
