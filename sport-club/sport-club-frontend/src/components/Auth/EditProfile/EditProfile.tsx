@@ -2,11 +2,14 @@ import React, { useState, useEffect, useContext }  from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
-import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
-import './EditProfile.css';
+
 import axios from '../../../http-common';
 import { User } from '../../../interfaces';
-
+import Input from '../../styled/Input';
+import Card from '../../styled/Card';
+import GreenButton from '../../styled/GreenButton';
+import RedButton from '../../styled/RedButton';
+import Wrapper from '../../styled/Wrapper';
 const EditProfile = () => {
 
   const NAMES_REGEX=/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
@@ -75,46 +78,40 @@ const EditProfile = () => {
   }
 
   return (
-    <div className="editProfile">
+    <Wrapper>
     <Card>
-      <CardBody>
-      <h1 className='h1' >Edit profile info</h1>
+      <h1>Edit profile info</h1>
       <br/>
-       <Form onSubmit={editHandler}>
-       <FormGroup >
-          <Label for="firstname">First name</Label>
-          <Input id="firstname"  
-                value={enteredFirstName}  onChange={event => {
-                  setEnteredFirstName(event.target.value); 
-                }}
-             type="text" required/>
-       </FormGroup>
+       <form onSubmit={editHandler}>
 
-        <FormGroup>
-          <Label for="lastname">Last name</Label>
-          <Input id="lastname"  value={enteredLastName}  onChange={event => {
-                setEnteredLastName(event.target.value);
-              }} type="text"  required/>
-        </FormGroup>
+          <label htmlFor='firstname'>First name</label>
+          <Input id="firstname"  type="text" value={enteredFirstName} 
+                onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+                  { setEnteredFirstName(event.target.value)}}
+              required/>
+   
+    
+          <label htmlFor='lastname' >Last name</label>
+          <Input id="lastname"  value={enteredLastName} type="text"
+            onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+              { setEnteredLastName(event.target.value)}}
+              required/>
+ 
 
-        <FormGroup >
-          <Label for="email" >Email</Label>
+          <label htmlFor='email' >Email</label>
           <Input id="email" value={username}  type="email" disabled/>
-       </FormGroup>
+     
 
        
-        <FormGroup >
-          <Label for="accountType">Account type</Label>
-          <Input id="text" value={accountType.substring(5,accountType.length)} type="text" disabled/>
-       </FormGroup>
-       
+      
+          <label htmlFor='accountType' >Account type</label>
+          <Input id="accountType" value={accountType.substring(5,accountType.length)} type="text" disabled/>
   
-        <Button className="submitButton"  >Update</Button>
-        </Form>
-        <Button onClick={() => navigate("/changePassword")}  className="changePasswordButton"  >Change password</Button>
-       </CardBody>
+          <GreenButton type='submit' >Update</GreenButton>
+        </form>
+         <RedButton onClick={() => navigate("/changePassword")}  >Change password</RedButton>
     </Card>
-    </div>
+    </Wrapper>
    
   );
 };

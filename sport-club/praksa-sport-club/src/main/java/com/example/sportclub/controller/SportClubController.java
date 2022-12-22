@@ -56,9 +56,8 @@ public class SportClubController {
     @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<ResponseDto> newClub(@RequestBody SportClubDto sportClubDto) {
         try{
-            SportClub sportClub=sportClubMapper.sportClubDtoToSportClub(sportClubDto);
-            this.sportClubService.save(sportClub);
-            this.playerService.addPlayersToClub(sportClubDto.getPlayers(),sportClub.getId());
+            Long id=this.sportClubService.save(sportClubMapper.sportClubDtoToSportClub(sportClubDto)).getId();
+            this.playerService.addPlayersToClub(sportClubDto.getPlayers(),id);
             return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(new ResponseDto("Error"), HttpStatus.BAD_REQUEST);

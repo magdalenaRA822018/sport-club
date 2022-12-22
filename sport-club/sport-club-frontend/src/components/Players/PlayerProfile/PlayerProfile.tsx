@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import   './PlayerProfile.css';
-import { Card, CardBody,CardTitle,CardSubtitle,CardText, ListGroup,ListGroupItem} from 'reactstrap';
 import { useParams } from 'react-router-dom';
 import { Player } from '../../../interfaces';
 import axios from '../../../http-common'
-
+import DashboardWrapper from '../../styled/DashboardWrapper';
+import CenteredCard from '../../styled/CenteredCard';
+import SkillCard from '../../styled/SkillCard';
+import InlineWrapper from '../../styled/InlineWrapper';
+import ProfileImage from '../../styled/ProfileImage';
 const PlayerProfile = () => {
 
   const [player, setPlayer] = useState<Player>({} as Player);
   const { id } = useParams();
-  const [showPlayer, setShowPlayer] = useState<boolean>(false);
 
     useEffect(() => {
       axios.post('players/find',{id: id})
       .then(function (response) {
          setPlayer(response.data)
-         setShowPlayer(true)
       })
       .catch(function (error) {
         alert("error")
@@ -24,25 +24,21 @@ const PlayerProfile = () => {
 
   return (
     <React.Fragment>
-        {
-        showPlayer ? 
-        <div className='PlayerProfile'>
-        <Card body  outline style={{ width: '28rem' }}>
-            <img alt="Sample"  src={player.image}/>
-            <CardBody>
-                 <CardTitle tag="h4"><b>{player.playerName}</b></CardTitle>
-                 <CardSubtitle className="mb-2 text-muted" tag="h6" >club</CardSubtitle>
-                 <CardText>{player.salary}$</CardText>
-                 <ListGroup>
-                    {player.skills.map((skill)=>  
-                       <ListGroupItem key={skill.id} >{skill.name}</ListGroupItem>
-                    )}
-                 </ListGroup>
-             </CardBody>
-        </Card>
-        </div>
-        : null
-        }
+        <DashboardWrapper>
+        <CenteredCard >
+            <ProfileImage alt="Sample"  src={player.image}/>
+                 <h1 ><b>{player.playerName}</b></h1>
+            <InlineWrapper>
+                 <p>{player.clubName} • {player.salary}$</p>
+            </InlineWrapper>
+            
+            { player.skills?.map((skill)=>  
+                       <SkillCard key={skill.id} >{skill.name}</SkillCard>
+            )}
+           
+        </CenteredCard>
+        </DashboardWrapper>
+       
     </React.Fragment>
   );
 };

@@ -5,9 +5,9 @@ import axios from '../../../http-common';
 import { Credentials, UserTokenState } from '../../../interfaces';
 import Input from '../../styled/Input';
 import Card from '../../styled/Card';
-import Button from '../../styled/FormSubmitButton';
+import Button from '../../styled/Button';
 import Wrapper from '../../styled/Wrapper';
-import InlineParagraph from '../../styled/InlineParagraph';
+import InlineParagraph from '../../styled/InlineWrapper';
 
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
