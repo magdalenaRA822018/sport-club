@@ -14,9 +14,9 @@ const EditPlayerProfile = props => {
   const [image, setImage] = useState(null);
 
 
-  const [playerSkills, setPlayerSkills] = useState(null); //selektovane na pocetku
-  const [skills, setSkills] = useState([]);  //ostale
-  const [selectedSkills, setSelectedSkills] = useState([]); //stvarne koje saljem na bek
+  const [playerSkills, setPlayerSkills] = useState(null); 
+  const [skills, setSkills] = useState([]);  
+  const [selectedSkills, setSelectedSkills] = useState([]); 
   const [showSkills, setShowSkills] = useState(false);
 
   const {id} = useParams()

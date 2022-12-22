@@ -7,25 +7,27 @@ import swal from 'sweetalert';
 import { Card,CardBody,Form,FormGroup,Label,Input,Button,Table } from 'reactstrap';
 import Multiselect from 'multiselect-react-dropdown';
 import './EditClubProfile.css'
+import { Player } from '../../../interfaces';
+import { SportClub } from '../../../interfaces';
+import axios from '../../../http-common'
+const EditClubProfile = () => {
+    const [enteredName, setEnteredName] = useState<string>('');
 
-const EditClubProfile = props => {
-    const [enteredName, setEnteredName] = useState('');
+    const [playersWithoutClub, setPlayersWithoutClub] = useState<Array<Player>>([]);
+    const [clubPlayers, setClubPlayers] = useState<Array<Player>>([]);
+    const [selectedPlayers, setSelectedPlayers]= useState<Array<Player>>([]);
 
-    const [playersWithoutClub, setPlayersWithoutClub] = useState([]); 
-    const [clubPlayers, setClubPlayers] = useState([]); 
-    const [selectedPlayers, setSelectedPlayers]=useState([]);
-
-    const [showPlayers, setShowPlayers] = useState(false);
+   /* const [showPlayers, setShowPlayers] = useState(false);
     const [showClubPlayers, setShowClubPlayers] = useState(false);
-    const authContext = useContext(AuthContext);
-    const {id}=useParams()
+    const authContext = useContext(AuthContext);*/
+    const {id} =useParams()
     const {
       data,
       sendRequest,
       methodName
     } = useHttp();
 
-    const loadSportClub = useCallback(() => {
+    /*const loadSportClub = useCallback(() => {
       sendRequest(
         'sportclubs/club',
         'POST',
@@ -144,49 +146,65 @@ const updateClubName= useCallback( (sportClubDto) => {
     }
   }, [data])
   
-  
+  */
   
 
 
 
  
- const updateClubNameHandler = (event)=>{
-   if(enteredName==="") return;
-   const clubDto ={
-    id: id,
+ const updateClubNameHandler = (event: any)=>{
+   if(enteredName==="" || !id) return;
+   const sportClub: SportClub ={
+    id: +id,
     name: enteredName,
-    players: null
+    players: []
    }
-   updateClubName(clubDto)
+   axios.post('sportclubs/update', sportClub)
+   .then(function (response) {
+     alert("success")
+   })
+   .catch(function (error) {
+     alert("error")
+   });
  }
 
 const addPlayersToClubHandler = ()=>{
-  if(selectedPlayers.length>0){
-    const clubPlayersDto = {clubId: id, players: selectedPlayers}
-    addPlayersToClub(clubPlayersDto)
+  if(selectedPlayers.length>0 && id){
+    const clubPlayers: SportClub = {id: +id, name: '', players: selectedPlayers}
+        axios.post('players/addToClub', clubPlayers)
+        .then(function (response) {
+          alert("success")
+        })
+        .catch(function (error) {
+          alert("error")
+        });
   }
 }
-const removeFromClubHandler = (playerId) => {
-  removeFromClub(playerId)
+const removeFromClubHandler = (playerId:number) => {
+  axios.post('players/removeFromClub', {playerId: playerId})
+  .then(function (response) {
+    alert("success")
+  })
+  .catch(function (error) {
+    alert("error")
+  });
 }
- 
- 
- useEffect(()=>{
-  loadSportClub()
-  loadPlayers()
+
+
+useEffect(()=>{
+  axios.get('players/withoutClub')
+  .then(function (response) {
+    setPlayersWithoutClub(response.data)
+  })
+  .catch(function (error) {
+    alert("error")
+  });
 }, [])
     
 
 
-const onSelect = (players) => {
-  console.log("selectedPlayers to delete "+JSON.stringify(players))
-  setSelectedPlayers(players)
-   
-} 
-const onRemove = (players) => {
-  console.log("selectedPlayers to add "+JSON.stringify(players))
-  setSelectedPlayers(players)
-}
+const onSelect = (selectedPlayers:Array<Player>) => { setSelectedPlayers(selectedPlayers)} 
+const onRemove = (selectedPlayers:Array<Player>) => {setSelectedPlayers(selectedPlayers)}
 
 
 return (
@@ -216,7 +234,7 @@ return (
       <FormGroup >
               <Label for="players">Add new players</Label>
              
-                   {(showPlayers) ? 
+               
                      <div className='row'>
                            <div className='col'>
                                <Multiselect
@@ -231,8 +249,8 @@ return (
                           <Button onClick={ addPlayersToClubHandler} >SAVE PLAYERS</Button>
                           </div>
                      </div>
-                    :  
-                    null }
+                  
+               
            
         </FormGroup>
         <Label for="players">Players</Label>
@@ -245,7 +263,7 @@ return (
               </tr>
             </thead>
           
-           { showClubPlayers ? 
+          
             <tbody>
               {clubPlayers.map((player,index)=>  
               <tr key={player.id}>
@@ -257,8 +275,7 @@ return (
               </tr>
               )}
             </tbody>
-            :  <tbody></tbody>
-            }
+            
           </Table>
        </Form>
       </CardBody>
