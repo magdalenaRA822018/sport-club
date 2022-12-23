@@ -14,10 +14,10 @@ const EditProfile = () => {
 
   const NAMES_REGEX=/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 
-  const [enteredFirstName, setEnteredFirstName]= useState<string>('');
-  const [enteredLastName, setEnteredLastName]= useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [accountType, setAccountType] = useState<string>('');
+  const [enteredFirstName, setEnteredFirstName]= useState('');
+  const [enteredLastName, setEnteredLastName]= useState('');
+  const [username, setUsername] = useState('');
+  const [accountType, setAccountType] = useState('');
   const authContext: any=useContext(AuthContext)
   const navigate=useNavigate();
 

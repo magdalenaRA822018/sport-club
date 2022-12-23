@@ -3,7 +3,6 @@ import { AuthContext } from '../../../context/auth-context';
 import { Credentials } from '../../../interfaces';
 import axios from '../../../http-common';
 import swal from 'sweetalert';
-
 import Input from '../../styled/Input';
 import Card from '../../styled/Cards/Card';
 import GreenButton from '../../styled/Buttons/GreenButton';
@@ -11,8 +10,8 @@ import Wrapper from '../../styled/Wrappers/Wrapper';
 const ChangePassword = () => {
   const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-  const [enteredPassword, setEnteredPassword]= useState<string>('');
-  const [confirmedPassword, setConfirmedPassword]= useState<string>('');
+  const [enteredPassword, setEnteredPassword]= useState('');
+  const [confirmedPassword, setConfirmedPassword]= useState('');
   const authContext: any=useContext(AuthContext);
 
   const validInput = () =>{

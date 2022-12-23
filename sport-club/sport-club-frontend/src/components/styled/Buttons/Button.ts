@@ -9,7 +9,7 @@ const Button = styled.button`
   border: 1px solid #27273b;
   border-radius: 5px;
   cursor: pointer;
-
+  
   &:hover {
      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
   }

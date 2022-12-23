@@ -8,7 +8,7 @@ import { Table, TD ,TR,TH} from '../../styled/Table';
 import Button from '../../styled/Buttons/Button';
 import RedButton from '../../styled/Buttons/RedButton';
 const AllPlayers = () => {
-  const [players, setPlayers] = useState<Array<Player>>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
   const navigate = useNavigate();
   
  

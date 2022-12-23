@@ -15,11 +15,11 @@ import GreenButton from '../../styled/Buttons/GreenButton';
 import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import ImageWithBorder from '../../styled/Images/ImageWithBorder';
 const EditPlayerProfile = () => {
-  const [enteredName, setEnteredName] = useState<string>('');
+  const [enteredName, setEnteredName] = useState('');
   const [enteredSalary, setEnteredSalary] = useState<number>(0);
- /// const [oldImage, setOldImage] = useState<string>('');
+
   const [image, setImage] = useState<string>('');
-  const [playerSkills, setPlayerSkills] = useState<Array<Skill>>([]); 
+  const [playerSkills, setPlayerSkills] = useState<Skill[]>([]); 
 
   const [skills, setSkills] = useState([]);  
   const [selectedSkills, setSelectedSkills] = useState<Array<Skill>>([]);

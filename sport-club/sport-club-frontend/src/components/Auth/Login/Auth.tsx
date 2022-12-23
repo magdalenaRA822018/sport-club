@@ -8,11 +8,11 @@ import Card from '../../styled/Cards/Card';
 import Button from '../../styled/Buttons/Button';
 import Wrapper from '../../styled/Wrappers/Wrapper';
 import InlineParagraph from '../../styled/Wrappers/InlineWrapper';
-
+import { SubmitFormButton } from '../../styled/Buttons/SubmitFormButton';
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
-  const [enteredEmail, setEnteredEmail] = useState<string>('');
-  const [enteredPassword, setEnteredPassword] = useState<string>('');
+  const [enteredEmail, setEnteredEmail] = useState('');
+  const [enteredPassword, setEnteredPassword] = useState('');
 
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();

@@ -29,11 +29,11 @@ const Signup = () => {
   const EMAIL_REGEX= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
  
 
-  const [enteredFirstName, setEnteredFirstName]= useState<string>('');
-  const [enteredLastName, setEnteredLastName]= useState<string>('');
-  const [enteredUsername, setEnteredUsername] = useState<string>('');
-  const [enteredPassword, setEnteredPassword] = useState<string>('');
-  const [selectedRole, setSelectedRole] = useState<number>(0);
+  const [enteredFirstName, setEnteredFirstName]= useState('');
+  const [enteredLastName, setEnteredLastName]= useState('');
+  const [enteredUsername, setEnteredUsername] = useState('');
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const [selectedRole, setSelectedRole] = useState(0);
 
   const optionchanged = (e : React.FormEvent) => {
     var target = e.target as HTMLSelectElement;

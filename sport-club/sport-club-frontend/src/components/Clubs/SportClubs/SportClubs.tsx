@@ -8,7 +8,7 @@ import { Table, TD ,TR,TH} from '../../styled/Table';
 import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import Button from '../../styled/Buttons/Button';
 const SportClubs = () => {
-  const [sportClubs, setSportClubs] = useState<Array<SportClub>>([]);
+  const [sportClubs, setSportClubs] = useState<SportClub[]>([]);
   const authContext= useContext(AuthContext);
   const navigate=useNavigate();
  
