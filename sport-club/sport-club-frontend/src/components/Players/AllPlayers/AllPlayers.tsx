@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Player } from '../../../interfaces';
 import axios from '../../../http-common';
-import DashboardWrapper from '../../styled/DashboardWrapper';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import TableImage from '../../styled/Images/TableImage';
 import { Table, TD ,TR,TH} from '../../styled/Table';
-import Button from '../../styled/Button';
-import RedButton from '../../styled/RedButton';
+import Button from '../../styled/Buttons/Button';
+import RedButton from '../../styled/Buttons/RedButton';
 const AllPlayers = () => {
   const [players, setPlayers] = useState<Array<Player>>([]);
   const navigate = useNavigate();

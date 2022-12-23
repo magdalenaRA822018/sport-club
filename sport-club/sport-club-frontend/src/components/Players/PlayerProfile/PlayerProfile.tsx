@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Player } from '../../../interfaces';
 import axios from '../../../http-common'
-import DashboardWrapper from '../../styled/DashboardWrapper';
-import CenteredCard from '../../styled/CenteredCard';
-import SkillCard from '../../styled/SkillCard';
-import InlineWrapper from '../../styled/InlineWrapper';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
+import CenteredCard from '../../styled/Cards/CenteredCard';
+import SkillCard from '../../styled/Cards/SkillCard';
+import InlineWrapper from '../../styled/Wrappers/InlineWrapper';
 import ProfileImage from '../../styled/Images/ProfileImage';
 const PlayerProfile = () => {
 

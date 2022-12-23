@@ -3,8 +3,8 @@ import AllPlayers from '../../Players/AllPlayers/AllPlayers';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import { useNavigate } from 'react-router-dom';
 
-import CenterWrapper from '../../styled/CenterWrapper';
-import Button from '../../styled/Button';
+import CenterWrapper from '../../styled/Wrappers/CenterWrapper';
+import Button from '../../styled/Buttons/Button';
 const EditorPlayers = () => {
   const navigate = useNavigate();
   return (

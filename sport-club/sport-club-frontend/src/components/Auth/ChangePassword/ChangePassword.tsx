@@ -5,9 +5,9 @@ import axios from '../../../http-common';
 import swal from 'sweetalert';
 
 import Input from '../../styled/Input';
-import Card from '../../styled/Card';
-import GreenButton from '../../styled/GreenButton';
-import Wrapper from '../../styled/Wrapper';
+import Card from '../../styled/Cards/Card';
+import GreenButton from '../../styled/Buttons/GreenButton';
+import Wrapper from '../../styled/Wrappers/Wrapper';
 const ChangePassword = () => {
   const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 

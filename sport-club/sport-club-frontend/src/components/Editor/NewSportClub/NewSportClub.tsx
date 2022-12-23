@@ -6,9 +6,9 @@ import { Player } from '../../../interfaces';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import Multiselect from 'multiselect-react-dropdown';
 import swal from 'sweetalert';
-import Card from '../../styled/Card';
-import GreenButton from '../../styled/GreenButton';
-import DashboardWrapper from '../../styled/DashboardWrapper';
+import Card from '../../styled/Cards/Card';
+import GreenButton from '../../styled/Buttons/GreenButton';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import Input from '../../styled/Input';
 
 const NewSportClub = () => {

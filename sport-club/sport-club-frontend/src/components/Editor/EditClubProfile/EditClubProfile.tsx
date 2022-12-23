@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 import { Player } from '../../../interfaces';
 import { SportClub } from '../../../interfaces';
 import axios from '../../../http-common'
-import Card from '../../styled/Card';
-import DashboardWrapper from '../../styled/DashboardWrapper';
+import Card from '../../styled/Cards/Card';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import { Table, TH,TD,TR } from '../../styled/Table';
 import Input from '../../styled/Input';
-import GreenButton from '../../styled/GreenButton';
-import RedButton from '../../styled/RedButton';
+import GreenButton from '../../styled/Buttons/GreenButton';
+import RedButton from '../../styled/Buttons/RedButton';
 import swal from 'sweetalert';
 const EditClubProfile = () => {
     const [enteredName, setEnteredName] = useState<string>('');

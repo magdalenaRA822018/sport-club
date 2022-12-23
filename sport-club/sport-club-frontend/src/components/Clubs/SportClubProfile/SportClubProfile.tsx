@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 import { Table, TD ,TR,TH } from '../../styled/Table';
-import DashboardWrapper from '../../styled/DashboardWrapper';
-import Button from '../../styled/Button';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
+import Button from '../../styled/Buttons/Button';
 import TableImage from '../../styled/Images/TableImage';
 
 const SportClubProfile = () => {

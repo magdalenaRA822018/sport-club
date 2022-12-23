@@ -7,9 +7,9 @@ import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import Multiselect from 'multiselect-react-dropdown';
 import Input from '../../styled/Input';
 import swal from 'sweetalert';
-import Card from '../../styled/Card';
-import DashboardWrapper from '../../styled/DashboardWrapper';
-import GreenButton from '../../styled/GreenButton';
+import Card from '../../styled/Cards/Card';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
+import GreenButton from '../../styled/Buttons/GreenButton';
 const NewPlayer = () => {
   const [enteredName, setEnteredName] = useState<string>('');
   const [enteredSalary, setEnteredSalary] = useState<string>('');

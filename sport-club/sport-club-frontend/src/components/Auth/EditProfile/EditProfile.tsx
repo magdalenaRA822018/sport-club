@@ -6,10 +6,10 @@ import swal from 'sweetalert';
 import axios from '../../../http-common';
 import { User } from '../../../interfaces';
 import Input from '../../styled/Input';
-import Card from '../../styled/Card';
-import GreenButton from '../../styled/GreenButton';
-import RedButton from '../../styled/RedButton';
-import Wrapper from '../../styled/Wrapper';
+import Card from '../../styled/Cards/Card';
+import GreenButton from '../../styled/Buttons/GreenButton';
+import RedButton from '../../styled/Buttons/RedButton';
+import Wrapper from '../../styled/Wrappers/Wrapper';
 const EditProfile = () => {
 
   const NAMES_REGEX=/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;

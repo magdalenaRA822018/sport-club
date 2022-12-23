@@ -4,8 +4,8 @@ import SportClubProfile from '../../Clubs/SportClubProfile/SportClubProfile'
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-import CenterWrapper from '../../styled/CenterWrapper';
-import Button from '../../styled/Button';
+import CenterWrapper from '../../styled/Wrappers/CenterWrapper';
+import Button from '../../styled/Buttons/Button';
 const ClubProfileEditor = () => {
   const navigate=useNavigate()
   const {id}=useParams()

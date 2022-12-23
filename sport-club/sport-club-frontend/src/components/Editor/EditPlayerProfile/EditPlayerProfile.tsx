@@ -3,16 +3,16 @@ import { AuthContext } from '../../../context/auth-context';
 import { useParams } from 'react-router-dom';
 import useHttp from '../../../hooks/useHttp';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
-import   './EditPlayerProfile.css'
+
 import Multiselect from 'multiselect-react-dropdown';
 import swal from 'sweetalert';
 import axios from '../../../http-common'
 import { Skill } from '../../../interfaces';
 import { Player } from '../../../interfaces';
-import Card from '../../styled/Card';
+import Card from '../../styled/Cards/Card';
 import Input from '../../styled/Input';
-import GreenButton from '../../styled/GreenButton';
-import DashboardWrapper from '../../styled/DashboardWrapper';
+import GreenButton from '../../styled/Buttons/GreenButton';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import ImageWithBorder from '../../styled/Images/ImageWithBorder';
 const EditPlayerProfile = () => {
   const [enteredName, setEnteredName] = useState<string>('');

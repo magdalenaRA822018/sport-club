@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import axios from '../../../http-common';
 import { Credentials, UserTokenState } from '../../../interfaces';
 import Input from '../../styled/Input';
-import Card from '../../styled/Card';
-import Button from '../../styled/Button';
-import Wrapper from '../../styled/Wrapper';
-import InlineParagraph from '../../styled/InlineWrapper';
+import Card from '../../styled/Cards/Card';
+import Button from '../../styled/Buttons/Button';
+import Wrapper from '../../styled/Wrappers/Wrapper';
+import InlineParagraph from '../../styled/Wrappers/InlineWrapper';
 
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);

@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../../../http-common';
 
 import { Table, TD ,TR,TH} from '../../styled/Table';
-import DashboardWrapper from '../../styled/DashboardWrapper';
-import Button from '../../styled/Button';
+import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
+import Button from '../../styled/Buttons/Button';
 const SportClubs = () => {
   const [sportClubs, setSportClubs] = useState<Array<SportClub>>([]);
   const authContext= useContext(AuthContext);

@@ -3,8 +3,8 @@ import SportClubs from '../../Clubs/SportClubs/SportClubs';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import { useNavigate } from 'react-router-dom';
 
-import Button from '../../styled/Button';
-import CenterWrapper from '../../styled/CenterWrapper';
+import Button from '../../styled/Buttons/Button';
+import CenterWrapper from '../../styled/Wrappers/CenterWrapper';
 const EditorHomepage = () => {
   const navigate = useNavigate();
   return (
