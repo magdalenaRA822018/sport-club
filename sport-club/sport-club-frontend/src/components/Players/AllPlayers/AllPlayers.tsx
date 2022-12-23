@@ -14,18 +14,18 @@ const AllPlayers = () => {
  
   const removePlayerHandler = (id:number) => {
       axios.post('players/remove',{id: id})
-      .then(function (response) {
+      .then( (response)=> {
         const newPlayers = players.filter(player=> player.id!=id);
         setPlayers(newPlayers)
         alert("success")
       })
-      .catch(function (error) {
+      .catch( (error)=> {
         alert(error.response.data.content)
       });
   }
   useEffect(() => {
       axios.get('players/all')
-      .then(function (response) {
+      .then( (response)=> {
          setPlayers(response.data)
       })
   

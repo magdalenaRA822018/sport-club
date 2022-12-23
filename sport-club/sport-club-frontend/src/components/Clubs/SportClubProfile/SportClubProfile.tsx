@@ -20,7 +20,7 @@ const SportClubProfile = () => {
 
   useEffect(() => {
       axios.post('sportclubs/club',{id: id})
-      .then(function (response) {
+      .then( (response) =>{
          setSportClub(response.data)
       })
   }, []);

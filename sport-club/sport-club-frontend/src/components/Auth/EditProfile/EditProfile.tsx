@@ -37,13 +37,13 @@ const EditProfile = () => {
  
   const loadUser = (username:string) => {
     axios.post('users/username', {username: username})
-    .then(function (response) {
+    .then( (response) =>{
         setEnteredFirstName(response.data.firstname)
         setEnteredLastName(response.data.lastname)
         setUsername(response.data.username)
         setAccountType(response.data.role)
     })
-    .catch(function (error) {
+    .catch( (error)=> {
       alert("error")
     });
   
@@ -68,10 +68,10 @@ const EditProfile = () => {
       lastname: enteredLastName,
     }
     axios.post('users/update', user )
-    .then(function (response) {
+    .then( (response)=> {
       alert(response.data.content)
     })
-    .catch(function (error) {
+    .catch( (error) =>{
       alert("error")
     });
 

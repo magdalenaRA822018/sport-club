@@ -22,7 +22,7 @@ const NewPlayer = () => {
 
 useEffect(()=>{
         axios.get('skills/all')
-        .then(function (response) {
+        .then( (response)=> {
           setSkills(response.data)
          
         })
@@ -41,10 +41,10 @@ useEffect(()=>{
       }
 
       axios.post('players/new',player)
-      .then(function (response) {
+      .then( (response) =>{
         navigate(-1)
       })
-      .catch(function (error) {
+      .catch( (error) =>{
         alert("error")
       });
     

@@ -13,7 +13,7 @@ const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
-
+  const [valid, setValid] = useState(true);
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -23,7 +23,7 @@ const Auth: FC = () => {
      }
 
     axios.post('auth/login', user)
-    .then(function (response) {
+    .then( (response)=> {
       const tokenState: UserTokenState = {
         accessToken: response.data.accessToken,
         expiresIn: response.data.expiresIn,
@@ -32,7 +32,7 @@ const Auth: FC = () => {
       }
       authContext?.login(tokenState)
     })
-    .catch(function (error) {
+    .catch( (error) =>{
       alert("error")
     });
   };
@@ -60,7 +60,7 @@ const Auth: FC = () => {
            onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
             { setEnteredPassword(event.target.value)}}
           required/>
-        
+        <SubmitFormButton color="primary"></SubmitFormButton>
         <Button type="submit">Login</Button>
         </form>
         <InlineParagraph>Don't have an account? </InlineParagraph>

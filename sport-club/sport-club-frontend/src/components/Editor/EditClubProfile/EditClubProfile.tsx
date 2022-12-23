@@ -29,11 +29,11 @@ const EditClubProfile = () => {
       players: []
     }
     axios.post('sportclubs/update', sportClub)
-    .then(function (response) {
+    .then( (response) =>{
       alert(response.data.content)
             return response;
     })
-    .catch(function (error) {
+    .catch( (error)=> {
       alert("error")
     });
   }
@@ -41,12 +41,12 @@ const EditClubProfile = () => {
   const addPlayerToClubHandler = (player: Player)=>{
     if(!id) return;
           axios.post('players/addToClub', {clubId: id, playerId: player.id})
-          .then(function (response) {
+          .then( (response) => {
             const newClubPlayers: Array<Player> = [...clubPlayers, player]  
             setClubPlayers(newClubPlayers)
             setPlayersWithoutClub(playersWithoutClub.filter(p=> p.id!=player.id))
           })
-          .catch(function (error) {
+          .catch( (error) => {
             alert("error")
           });
   
@@ -54,12 +54,12 @@ const EditClubProfile = () => {
   const removeFromClubHandler = (player : Player) => {
     let id = player.id
     axios.post('players/removeFromClub', {playerId: player.id})
-    .then(function (response) {
+    .then( (response) => {
       setClubPlayers(clubPlayers.filter(player=> player.id!=id))
       setPlayersWithoutClub([...playersWithoutClub, player])
       
     })
-    .catch(function (error) {
+    .catch( (error) =>{
       alert("error")
     });
   }
@@ -67,19 +67,19 @@ const EditClubProfile = () => {
 
   useEffect(()=>{
     axios.get('players/withoutClub')
-    .then(function (response) {
+    .then( (response)=> {
       setPlayersWithoutClub(response.data)
     })
-    .catch(function (error) {
+    .catch( (error)=> {
       alert("error")
     });
 
     axios.post('sportclubs/club', {id: id})
-    .then(function (response) {
+    .then( (response)=> {
       setEnteredName(response.data.name)
       setClubPlayers(response.data.players)
     })
-    .catch(function (error) {
+    .catch( (error) =>{
       alert("error")
     });
 

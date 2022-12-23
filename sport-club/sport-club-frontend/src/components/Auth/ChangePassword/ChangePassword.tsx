@@ -35,11 +35,11 @@ const ChangePassword = () => {
      }
 
      axios.post('users/password', credentials)
-     .then(function (response) {
+     .then( (response)=> {
         alert("success")
         authContext.logout()
      })
-     .catch(function (error) {
+     .catch( (error) => {
        alert("error")
      });
   }

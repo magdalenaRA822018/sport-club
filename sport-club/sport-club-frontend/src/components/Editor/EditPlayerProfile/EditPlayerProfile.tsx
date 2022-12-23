@@ -128,10 +128,10 @@ const loadSkills = useCallback(() => {
       }
       
       axios.post('players/update',player)
-      .then(function (response) {
+      .then((response) =>{
          alert("success")
       })
-      .catch(function (error) {
+      .catch( (error) =>{
         alert("error")
       });
   }

@@ -26,10 +26,10 @@ const NewSportClub = () => {
   }
   useEffect(()=>{
         axios.get('players/withoutClub')
-        .then(function (response) {
+        .then( (response)=> {
           setPlayers(response.data)
         })
-        .catch(function (error) {
+        .catch( (error)=> {
           alert("error")
         });
 
@@ -46,10 +46,10 @@ const NewSportClub = () => {
         players: selectedPlayers,
       }
       axios.post('sportclubs/new',club)
-      .then(function (response) {
+      .then((response) =>{
         navigate(-1)
       })
-      .catch(function (error) {
+      .catch((error) => {
         alert("error")
       });
   }

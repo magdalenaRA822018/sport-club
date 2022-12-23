@@ -1,14 +1,16 @@
 import styled from 'styled-components';
-export const SubmitFormButton = styled.button`
-
-
+export const SubmitFormButton= styled.button` 
   font-size: 1em;
-  margin: 1em;
   padding: 0.25em 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
+  height: 2.5rem;
+  width: 100%;
+  background: #07725f;
+  border: 1px solid #07725f;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1%;
+  
 `;
 
-  /* Adapt the colors based on primary prop */
-  //background: ${props => props.validated ? "palevioletred" : "white"};
- // color: ${props => props.primary ? "white" : "palevioletred"};
+//color: ${props:boolan => props.valid ? "white" : "red"};
+//background-color: ${props => (props.valid ? '#afafaf' : 'red')};

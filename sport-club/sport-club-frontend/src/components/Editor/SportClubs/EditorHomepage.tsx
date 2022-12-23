@@ -1,5 +1,5 @@
 import React from 'react';
-import SportClubs from '../../Clubs/SportClubs/SportClubs';
+import SportClubs from '../../Clubs/AllSportClubs/AllSportClubs';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import { useNavigate } from 'react-router-dom';
 

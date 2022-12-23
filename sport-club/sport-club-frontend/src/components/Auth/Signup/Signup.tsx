@@ -71,10 +71,10 @@ const Signup = () => {
       lastname: enteredLastName,
      }
       axios.post(ACC_TYPE[selectedRole].url, user)
-      .then(function (response) {
+      .then( (response) =>{
          alert("Success")
       })
-      .catch(function (error) {
+      .catch( (error)=> {
           alert(error.response.data.content)
       });
    
