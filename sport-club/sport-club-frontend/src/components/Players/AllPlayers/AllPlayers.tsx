@@ -20,7 +20,7 @@ const AllPlayers = () => {
         alert("success")
       })
       .catch(function (error) {
-        alert("error")
+        alert(error.response.data.content)
       });
   }
   useEffect(() => {
@@ -28,9 +28,6 @@ const AllPlayers = () => {
       .then(function (response) {
          setPlayers(response.data)
       })
-      .catch(function (error) {
-        alert("error")
-      });
   
   }, []);
   return (

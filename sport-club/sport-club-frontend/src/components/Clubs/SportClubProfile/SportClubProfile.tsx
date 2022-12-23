@@ -23,16 +23,14 @@ const SportClubProfile = () => {
       .then(function (response) {
          setSportClub(response.data)
       })
-      .catch(function (error) {
-        alert("error")
-      });
   }, []);
 
   return (
     <DashboardWrapper>
-    <h1>Sport club:  {sportClub.name}</h1>
-
+    <h1><b>Sport club:  {sportClub.name}</b></h1>
+  
     <Table >
+      
       <tbody>
         {sportClub.players?.map((player,index)=>  
         <TR key={player.id}>
@@ -50,6 +48,7 @@ const SportClubProfile = () => {
        </tbody>
           
         </Table>
+    
     </DashboardWrapper>
   );
 };

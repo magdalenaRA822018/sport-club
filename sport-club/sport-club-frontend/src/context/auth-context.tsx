@@ -40,7 +40,7 @@ const AuthContextProvider = (props :any) => {
   const logout = () => {
     axios.defaults.headers.common['Authorization']=null
     setIsAuthenticated(false)
-    setToken('');
+    setToken('')
     setExpiresIn(0)
     setRole('')
     setUsername('')

@@ -17,9 +17,6 @@ const PlayerProfile = () => {
       .then(function (response) {
          setPlayer(response.data)
       })
-      .catch(function (error) {
-        alert("error")
-      });
     }, []);
 
   return (
