@@ -2,19 +2,20 @@ import React from 'react';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import SportClubProfile from '../../Clubs/SportClubProfile/SportClubProfile'
 import { useParams } from 'react-router-dom';
-//import { useNavigate } from 'react-router-dom';
-import './ClubProfileEditor.css'
+import { useNavigate } from 'react-router-dom';
 
-const ClubProfileEditor = props => {
-  ////const navigate=useNavigate()
+import CenterWrapper from '../../styled/CenterWrapper';
+import Button from '../../styled/Button';
+const ClubProfileEditor = () => {
+  const navigate=useNavigate()
   const {id}=useParams()
 
   return (
     <React.Fragment>
         <EditorNavbar></EditorNavbar>
-        <div className='content' >
-        <button /*onClick={() => navigate("/editor/editClubProfile/"+id)}*/>Edit club profile</button>
-        </div>
+        <CenterWrapper >
+        <Button onClick={() => navigate("/editor/editClubProfile/"+id)}>Edit club profile</Button>
+        </CenterWrapper>
         <SportClubProfile></SportClubProfile>
     </React.Fragment>
   );

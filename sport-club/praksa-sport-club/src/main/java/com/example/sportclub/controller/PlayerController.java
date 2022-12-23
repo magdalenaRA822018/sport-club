@@ -69,7 +69,7 @@ public class PlayerController {
     @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<ResponseDto> addPlayerToClub(@RequestBody ClubPlayersDto clubPlayersDto) {
         try{
-            this.playerService.addPlayersToClub(clubPlayersDto.getPlayers(),clubPlayersDto.getClubId());
+            this.playerService.addPlayerToClub(clubPlayersDto.getPlayerId(),clubPlayersDto.getClubId());
             return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(new ResponseDto("Error"), HttpStatus.BAD_REQUEST);

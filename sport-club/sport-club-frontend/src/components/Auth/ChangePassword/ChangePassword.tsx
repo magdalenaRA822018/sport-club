@@ -4,8 +4,10 @@ import { Credentials } from '../../../interfaces';
 import axios from '../../../http-common';
 import swal from 'sweetalert';
 
-import { Button, FormGroup,Form, Label, Input ,Card,CardBody} from 'reactstrap';
-import './ChangePassword.css';
+import Input from '../../styled/Input';
+import Card from '../../styled/Card';
+import GreenButton from '../../styled/GreenButton';
+import Wrapper from '../../styled/Wrapper';
 const ChangePassword = () => {
   const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -44,32 +46,29 @@ const ChangePassword = () => {
   }
 
   return (
-    <div className="changePassword">
+    <Wrapper>
     <Card>
-      <CardBody>
-      <h1 className='h1' >Change password</h1>
+      <h1>Change password</h1>
       <br/>
-       <Form onSubmit={changePasswordHandler}>
-       <FormGroup >
-          <Label for="password">New password</Label>
-          <Input id="password"  
-                value={enteredPassword}  onChange={event => {
-                  setEnteredPassword(event.target.value); 
-                }}
+       <form onSubmit={changePasswordHandler}>
+     
+          <label htmlFor='password' >New password</label>
+          <Input id="password"  value={enteredPassword} 
+           onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+            { setEnteredPassword(event.target.value)}}
              type="password" required/>
-       </FormGroup>
 
-        <FormGroup>
-          <Label for="confirmPassword">Confirm new password</Label>
-          <Input id="confirmPassword"  value={confirmedPassword}  onChange={event => {
-                setConfirmedPassword(event.target.value);
-              }} type="password"  required/>
-        </FormGroup>
-        <Button className="submitNewPasswordButton"  >Save new password</Button>
-        </Form>
-       </CardBody>
+
+          <label htmlFor='confirmPassword' >Confirm new password</label>
+          <Input id="confirmPassword"  value={confirmedPassword} type="password" 
+            onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+            { setConfirmedPassword(event.target.value)}}
+          required/>
+      
+        <GreenButton type='submit'  >Save new password</GreenButton>
+        </form>
     </Card>
-    </div>
+    </Wrapper>
    
   );
 };

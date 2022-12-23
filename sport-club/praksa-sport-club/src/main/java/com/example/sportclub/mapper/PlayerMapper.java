@@ -35,8 +35,6 @@ public class PlayerMapper {
                 playerDto.getSalary(),skillMapper.skillDtosToSkills(playerDto.getSkills()), null);
     }
 
-
-
     public List<Player> playerDtosToPlayers(List<PlayerDto> playerDtos) {
         List<Player> players=new ArrayList<>();
         for(PlayerDto playerDto: playerDtos)

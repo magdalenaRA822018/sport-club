@@ -8,7 +8,7 @@ import java.util.List;
 public interface SportClubService {
     List<SportClub> findAll();
     SportClub findById(Long id);
-    void save(SportClub sportClub) throws Exception;
+    SportClub save(SportClub sportClub) throws Exception;
 
     void updateName(SportClub sportClub);
 }

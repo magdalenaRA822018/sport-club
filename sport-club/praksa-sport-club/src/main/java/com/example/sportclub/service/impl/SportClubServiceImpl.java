@@ -27,9 +27,9 @@ public class SportClubServiceImpl implements SportClubService {
     }
 
     @Override
-    public void save(SportClub sportClub) throws Exception {
+    public SportClub save(SportClub sportClub) throws Exception {
         try{
-            this.sportClubRepository.save(sportClub);
+             return this.sportClubRepository.save(sportClub);
         }catch (Exception e){
             throw new Exception(e);
         }

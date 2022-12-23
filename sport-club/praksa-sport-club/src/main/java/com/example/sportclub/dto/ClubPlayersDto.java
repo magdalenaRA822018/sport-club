@@ -12,5 +12,5 @@ import java.util.List;
 @Setter
 public class ClubPlayersDto {
     private Long clubId;
-    private List<PlayerDto> players;
+    private Long playerId;
 }

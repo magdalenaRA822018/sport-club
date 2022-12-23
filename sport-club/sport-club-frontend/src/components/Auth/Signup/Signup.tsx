@@ -1,10 +1,13 @@
 import React, { useState, useEffect,useRef }  from 'react';
 import { Link } from 'react-router-dom';
-
-import { Button, FormGroup, Form, Label, Input , Card, CardBody} from 'reactstrap';
-import './Signup.css';
 import axios from '../../../http-common';;
 import { User } from '../../../interfaces';
+
+import Input from '../../styled/Input';
+import Card from '../../styled/Card';
+import Button from '../../styled/Button';
+import Wrapper from '../../styled/Wrapper';
+import InlineParagraph from '../../styled/InlineWrapper';
 
 const Signup = () => {
 
@@ -24,13 +27,12 @@ const Signup = () => {
   const NAMES_REGEX=/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
   const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   const EMAIL_REGEX= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const errRef = useRef();
+ 
 
   const [enteredFirstName, setEnteredFirstName]= useState<string>('');
   const [enteredLastName, setEnteredLastName]= useState<string>('');
   const [enteredUsername, setEnteredUsername] = useState<string>('');
   const [enteredPassword, setEnteredPassword] = useState<string>('');
-  const [errMsg, setErrMsg] = useState<string>('');
   const [selectedRole, setSelectedRole] = useState<number>(0);
 
   const optionchanged = (e : React.FormEvent) => {
@@ -40,16 +42,16 @@ const Signup = () => {
   
   const validInput = () =>{
     if(!NAMES_REGEX.test(enteredFirstName)){
-      setErrMsg('Invalid first name input') ;
+      alert('Invalid first name input') ;
       return false;
     }else if(!NAMES_REGEX.test(enteredLastName)){
-      setErrMsg('Invalid last name input') ;
+      alert('Invalid last name input') ;
       return false;
     }else if(!EMAIL_REGEX.test(enteredUsername)){
-      setErrMsg('Invalid email input') ;
+      alert('Invalid email input') ;
       return false;
     }else if(!PASSWORD_REGEX.test(enteredPassword)){
-      setErrMsg('Invalid password input') ;
+      alert('Invalid password input') ;
       return false;
     }
       return true;
@@ -78,63 +80,48 @@ const Signup = () => {
    
     }
   return (
-    <div className="signup">
+    <Wrapper>
     <Card>
-      <CardBody>
-      <h1 className='h1' >Sign up</h1>
+      <h1 >Sign up</h1>
       <br/>
-       <Form onSubmit={signUpHandler}>
-       <FormGroup >
-          <Label for="firstname">First name</Label>
-          <Input id="firstname"  
-                value={enteredFirstName}  onChange={event => {
-                 setEnteredFirstName(event.target.value)
-                }}
-             type="text" required/>
-       </FormGroup>
-
-        <FormGroup>
-          <Label for="lastname">Last name</Label>
-          <Input id="lastname"  value={enteredLastName} 
-           onChange={event => {setEnteredLastName(event.target.value);} } type="text"  required/>
-        </FormGroup>
-
-        <FormGroup >
-          <Label for="email" >Email</Label>
-          <Input id="email" value={enteredUsername}  onChange={event => {
-            
-                setEnteredUsername(event.target.value);
-              
-              }} type="email" required/>
-       </FormGroup>
-
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input id="password"  value={enteredPassword}  onChange={event => {
-         
-                setEnteredPassword(event.target.value);
-              
-              }} type="password" required/>
-        </FormGroup>
-       
-        <FormGroup >
-          <Label for="accountType">Account type</Label>
+       <form onSubmit={signUpHandler}>
+          <label htmlFor='firstname'>First name</label>
+          <Input id="firstname" type="text" value={enteredFirstName}  
+             onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+            { setEnteredFirstName(event.target.value)}}
+          required/>
+    
+          <label htmlFor='lastname'>Last name</label>
+          <Input id="lastname"  value={enteredLastName} type="text" 
+             onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+              { setEnteredLastName(event.target.value)}}  
+          required/>
+    
+          <label htmlFor='email'  >Email</label>
+          <Input id="email" value={enteredUsername} type="email"
+          onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+            { setEnteredUsername(event.target.value)}}
+          required/>
+    
+          <label htmlFor='passowrd' >Password</label>
+          <Input id="password"  value={enteredPassword} type="password" 
+           onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+            { setEnteredPassword(event.target.value)}}
+          required/>
+      
+          <label htmlFor='accountType' >Account type</label>
           <Input id="accountType" onChange={optionchanged} 
                      type="select" required>
                     <option value={0}>{ACC_TYPE[0].name}</option>
                     <option value={1}>{ACC_TYPE[1].name}</option>
           </Input>
-       </FormGroup>
-       <p id="err" className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-    
-        <Button className="submitButton"  >Sign up</Button>
-        
-        <p className='p'>Already have an account? </p>
+  
+        <Button type='submit' >Sign up</Button>
+        <InlineParagraph>Already have an account? </InlineParagraph>
         <Link to="/">Log in</Link>
-        </Form>
-       </CardBody>
+        </form>
     </Card>
-    </div>
+    </Wrapper>
    
   );
 };

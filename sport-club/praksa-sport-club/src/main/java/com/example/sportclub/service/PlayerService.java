@@ -12,6 +12,6 @@ public interface PlayerService {
     Player findById(Long id);
     void update(Player player, boolean addNewImage) throws Exception;
     void addPlayersToClub(List<PlayerDto> playerIds, Long sportClub) throws Exception;
-
+    void addPlayerToClub(Long id, Long sportClubId) throws Exception;
     void delete(Long id) throws Exception;
 }
