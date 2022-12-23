@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 import { AuthContext } from '../../../context/auth-context'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from '../../../http-common';
 import { Credentials, UserTokenState } from '../../../interfaces';
 import Input from '../../styled/Input';
@@ -40,8 +40,9 @@ const Auth: FC = () => {
 
  
   return (
-    <div className="auth">
+ 
     <Wrapper>
+
     <Card>
       
       <h1 className='h1' >Log in</h1>
@@ -67,7 +68,7 @@ const Auth: FC = () => {
       
     </Card>
     </Wrapper>
-   </div>
+  
   );
 };
 
