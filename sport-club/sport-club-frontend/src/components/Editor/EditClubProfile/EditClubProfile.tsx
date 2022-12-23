@@ -1,290 +1,172 @@
-import React, {useContext, useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import { useParams } from 'react-router-dom';
-import { AuthContext } from '../../../context/auth-context';
-import useHttp from '../../../hooks/useHttp';
-import swal from 'sweetalert';
-import { Card,CardBody,Form,FormGroup,Label,Input,Button,Table } from 'reactstrap';
-import Multiselect from 'multiselect-react-dropdown';
-import './EditClubProfile.css'
 import { Player } from '../../../interfaces';
 import { SportClub } from '../../../interfaces';
 import axios from '../../../http-common'
+import Card from '../../styled/Card';
+import DashboardWrapper from '../../styled/DashboardWrapper';
+import { Table, TH,TD,TR } from '../../styled/Table';
+import Input from '../../styled/Input';
+import GreenButton from '../../styled/GreenButton';
+import RedButton from '../../styled/RedButton';
+import swal from 'sweetalert';
 const EditClubProfile = () => {
     const [enteredName, setEnteredName] = useState<string>('');
 
     const [playersWithoutClub, setPlayersWithoutClub] = useState<Array<Player>>([]);
     const [clubPlayers, setClubPlayers] = useState<Array<Player>>([]);
-    const [selectedPlayers, setSelectedPlayers]= useState<Array<Player>>([]);
-
-   /* const [showPlayers, setShowPlayers] = useState(false);
-    const [showClubPlayers, setShowClubPlayers] = useState(false);
-    const authContext = useContext(AuthContext);*/
-    const {id} =useParams()
-    const {
-      data,
-      sendRequest,
-      methodName
-    } = useHttp();
-
-    /*const loadSportClub = useCallback(() => {
-      sendRequest(
-        'sportclubs/club',
-        'POST',
-        JSON.stringify({id: id }),
-        authContext.token,
-        'LOAD_CLUB',
-      );
-  
-      }, [sendRequest]
-  );
-
-  const loadPlayers = useCallback(() => {
-    sendRequest(
-      'players/withoutClub',
-      'GET',
-      null,
-      authContext.token,
-      'LOAD_PLAYERS',
-    );
-
-    }, [sendRequest]
-);
    
-
-  const addPlayersToClub= useCallback( (clubPlayersDto) => {
-    sendRequest(
-      'players/addToClub',
-      'POST',
-      JSON.stringify(clubPlayersDto),
-      authContext.token,
-      'ADD_PLAYERS_TO_CLUB',
-      'ADD_PLAYERS_TO_CLUB',
-    );
-    
-}, [sendRequest]);
-
-const removeFromClub= useCallback( (playerId) => {
-  sendRequest(
-    'players/removeFromClub',
-    'POST',
-    JSON.stringify({playerId: playerId}),
-    authContext.token,
-    'REMOVE_FROM_CLUB',
-    'REMOVE_FROM_CLUB',
-  );
-  
-}, [sendRequest]);
-
-const updateClubName= useCallback( (sportClubDto) => {
-  sendRequest(
-    'sportclubs/update',
-    'POST',
-    JSON.stringify(sportClubDto),
-    authContext.token,
-    'UPDATE_CLUB_NAME',
-  );
-  
-}, [sendRequest]);
-
-  useEffect(()=>{
-    if(data!=null){
-       if(methodName==='LOAD_PLAYERS'){
-        setPlayersWithoutClub(data)
-        setShowPlayers(true)
-       }else if(methodName==='LOAD_CLUB'){
-       
-        setEnteredName(data.name)
-        setClubPlayers(data.players)
-        setSelectedPlayers(data.players)
-        setShowClubPlayers(true)
-       }else if(methodName==='UPDATE_CLUB'){
-        if(data.content==="Success"){
-          swal({ icon: 'success', title: data.content,});
-         }
-         else {
-          swal({ icon: 'error', title: data.content,});
-         }
-       }else if(methodName==='ADD_PLAYERS_TO_CLUB'){
-        if(data.content==="Success"){
-          setClubPlayers([])
-          setShowPlayers(false)
-          setShowClubPlayers(false)
-          setPlayersWithoutClub([])
-          setSelectedPlayers([])
-          loadSportClub()
-          loadPlayers()
-          swal({ icon: 'success', title: data.content,});
-         }
-         else {
-          swal({ icon: 'error', title: data.content,});
-          }
-        
-       }else if(methodName==='REMOVE_FROM_CLUB'){
-        if(data.content==="Success"){
-          setClubPlayers([])
-          setShowPlayers(false)
-          setShowClubPlayers(false)
-          setPlayersWithoutClub([])
-          setSelectedPlayers([])
-          loadSportClub()
-          loadPlayers()
-          swal({ icon: 'success', title: data.content,});
-         }
-         else {
-          swal({ icon: 'error', title: data.content,});
-          }
-       }else if(methodName==='UPDATE_CLUB_NAME'){
-         if(data.content==="Success"){
-          swal({ icon: 'success', title: data.content,});
-         }
-         else {
-          swal({ icon: 'error', title: data.content,});
-         }
-       }
-        
-    }
-  }, [data])
-  
-  */
-  
-
-
+    const {id} =useParams()
 
  
- const updateClubNameHandler = (event: any)=>{
-   if(enteredName==="" || !id) return;
-   const sportClub: SportClub ={
-    id: +id,
-    name: enteredName,
-    players: []
-   }
-   axios.post('sportclubs/update', sportClub)
-   .then(function (response) {
-     alert("success")
-   })
-   .catch(function (error) {
-     alert("error")
-   });
- }
-
-const addPlayersToClubHandler = ()=>{
-  if(selectedPlayers.length>0 && id){
-    const clubPlayers: SportClub = {id: +id, name: '', players: selectedPlayers}
-        axios.post('players/addToClub', clubPlayers)
-        .then(function (response) {
-          alert("success")
-        })
-        .catch(function (error) {
-          alert("error")
-        });
+  const updateClubNameHandler = (e: React.FormEvent)=>{
+    e.preventDefault()
+    if(enteredName==="" || !id) return;
+    const sportClub: SportClub ={
+      id: +id,
+      name: enteredName,
+      players: []
+    }
+    axios.post('sportclubs/update', sportClub)
+    .then(function (response) {
+      alert(response.data.content)
+            return response;
+    })
+    .catch(function (error) {
+      alert("error")
+    });
   }
-}
-const removeFromClubHandler = (playerId:number) => {
-  axios.post('players/removeFromClub', {playerId: playerId})
-  .then(function (response) {
-    alert("success")
-  })
-  .catch(function (error) {
-    alert("error")
-  });
-}
+
+  const addPlayerToClubHandler = (player: Player)=>{
+    if(!id) return;
+          axios.post('players/addToClub', {clubId: id, playerId: player.id})
+          .then(function (response) {
+            const newClubPlayers: Array<Player> = [...clubPlayers, player]  
+            setClubPlayers(newClubPlayers)
+            setPlayersWithoutClub(playersWithoutClub.filter(p=> p.id!=player.id))
+          })
+          .catch(function (error) {
+            alert("error")
+          });
+  
+  }
+  const removeFromClubHandler = (player : Player) => {
+    let id = player.id
+    axios.post('players/removeFromClub', {playerId: player.id})
+    .then(function (response) {
+      setClubPlayers(clubPlayers.filter(player=> player.id!=id))
+      setPlayersWithoutClub([...playersWithoutClub, player])
+      
+    })
+    .catch(function (error) {
+      alert("error")
+    });
+  }
 
 
-useEffect(()=>{
-  axios.get('players/withoutClub')
-  .then(function (response) {
-    setPlayersWithoutClub(response.data)
-  })
-  .catch(function (error) {
-    alert("error")
-  });
-}, [])
+  useEffect(()=>{
+    axios.get('players/withoutClub')
+    .then(function (response) {
+      setPlayersWithoutClub(response.data)
+    })
+    .catch(function (error) {
+      alert("error")
+    });
+
+    axios.post('sportclubs/club', {id: id})
+    .then(function (response) {
+      setEnteredName(response.data.name)
+      setClubPlayers(response.data.players)
+    })
+    .catch(function (error) {
+      alert("error")
+    });
+
+
+  }, [])
     
+ 
 
 
-const onSelect = (selectedPlayers:Array<Player>) => { setSelectedPlayers(selectedPlayers)} 
-const onRemove = (selectedPlayers:Array<Player>) => {setSelectedPlayers(selectedPlayers)}
+  return (
+    <React.Fragment>
+    <EditorNavbar></EditorNavbar>
+    <DashboardWrapper>
+    <Card >
 
+      <h1><b>Update club</b></h1>
+      <br/>
+        <form >
 
-return (
-  <React.Fragment>
-   <EditorNavbar></EditorNavbar>
-   <div className='EditClubProfile'>
-   <Card >
-     <CardBody>
-     <h1><b>Update club</b></h1>
-     <br/>
-      <Form >
-      <FormGroup  >
-         <Label for="name">Name</Label>
-         <div className='row'>
-         <div className='col'>
+          <label htmlFor='name'>Name</label>
+          <div className='row'>
+          <div className='col'>
+            
+          <Input id="name" value={enteredName} type="text"
+                onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
+                  { setEnteredName(event.target.value)}} 
+          required/>
+          </div>
+          <div className='col'><GreenButton onClick={ updateClubNameHandler} >CHANGE NAME</GreenButton></div>
+          </div>
           
-         <Input id="name"  
-               value={enteredName}  onChange={event => {
-                 setEnteredName(event.target.value); 
-               }}
-            type="text" required/>
-         </div>
-         <div className='col'><Button onClick={ updateClubNameHandler} >CHANGE NAME</Button></div>
-         
-         </div>
-      </FormGroup>
-      <FormGroup >
-              <Label for="players">Add new players</Label>
-             
-               
-                     <div className='row'>
-                           <div className='col'>
-                               <Multiselect
-                                   options={playersWithoutClub} 
-                                  
-                                   onSelect={onSelect} 
-                                    onRemove={onRemove} 
-                                 displayValue="playerName" 
-                                    />
-                          </div>
-                          <div className='col'>
-                          <Button onClick={ addPlayersToClubHandler} >SAVE PLAYERS</Button>
-                          </div>
-                     </div>
-                  
-               
-           
-        </FormGroup>
-        <Label for="players">Players</Label>
-          <Table >
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
+                    
+          <br></br>
+          <label htmlFor='players' >Club players</label>
+          <hr></hr>
+             {
+              clubPlayers.length>0 ? 
+              <Table >
+              <tbody>
+                {clubPlayers.map((player,index)=>  
+                <TR key={player.id}>
+                  <TH scope="row"  >{index+1}</TH>
+                  <TD >{player.playerName}</TD>
+                  <TD ><RedButton color='danger' 
+                    onClick={ (e: React.FormEvent) => { e.preventDefault(); removeFromClubHandler(player) } } 
+                    
+                    >REMOVE FROM CLUB</RedButton>
+                    
+                  </TD>
+                </TR>
+                )}
+              </tbody>
+            </Table>
+             :  <p>No players</p>
+             }
           
-          
+
+            <br></br>
+            <label htmlFor='players'>Players without club</label>
+            <hr></hr>
+            <Table >
+            
             <tbody>
-              {clubPlayers.map((player,index)=>  
-              <tr key={player.id}>
-                <th scope="row"  >{index+1}</th>
-                <td >{player.playerName}</td>
-                <td ><Button color='danger' onClick={() => 
-                  removeFromClubHandler(player.id)
-                  } >REMOVE FROM CLUB</Button></td>
-              </tr>
+              {playersWithoutClub.map((player,index)=>  
+              <TR key={player.id}>
+                <TH scope="row"  >{index+1}</TH>
+                <TD >{player.playerName}</TD>
+                <TD ><GreenButton color='danger' 
+                  onClick={ (e: React.FormEvent) => { e.preventDefault(); addPlayerToClubHandler(player) } } 
+                  
+                  >ADD TO CLUB</GreenButton>
+                  
+                </TD>
+              </TR>
               )}
             </tbody>
             
           </Table>
-       </Form>
-      </CardBody>
-   </Card>
-   </div>
-   </React.Fragment>
-  );
+              
+        </form>
     
-  
-};
+    </Card>
+    </DashboardWrapper>
+    </React.Fragment>
+    );
+      
+    
+  };
 
 export default EditClubProfile;

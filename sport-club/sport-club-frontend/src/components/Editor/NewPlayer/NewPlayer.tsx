@@ -1,5 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react';
-import { AuthContext } from '../../../context/auth-context';
+import React, { useState, useEffect } from 'react';
 import axios from '../../../http-common';
 import { useNavigate } from 'react-router-dom';
 import { Player } from '../../../interfaces';
@@ -10,7 +9,7 @@ import Input from '../../styled/Input';
 import swal from 'sweetalert';
 import Card from '../../styled/Card';
 import DashboardWrapper from '../../styled/DashboardWrapper';
-import Button from '../../styled/Button';
+import GreenButton from '../../styled/GreenButton';
 const NewPlayer = () => {
   const [enteredName, setEnteredName] = useState<string>('');
   const [enteredSalary, setEnteredSalary] = useState<string>('');
@@ -27,9 +26,6 @@ useEffect(()=>{
           setSkills(response.data)
          
         })
-        .catch(function (error) {
-          alert("error")
-        });
 }, [])
 
   const newPlayerHandler = (event: React.FormEvent) => {
@@ -104,8 +100,8 @@ useEffect(()=>{
                      onRemove={onRemove} 
                      displayValue="name" 
                />
-                  
-            <Button type="submit"  >Submit</Button>
+            <br></br>
+            <GreenButton type="submit"  >Submit</GreenButton>
             
            </form>
           

@@ -7,9 +7,10 @@ import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import Multiselect from 'multiselect-react-dropdown';
 import swal from 'sweetalert';
 import Card from '../../styled/Card';
-import {Button} from 'reactstrap';
+import GreenButton from '../../styled/GreenButton';
 import DashboardWrapper from '../../styled/DashboardWrapper';
 import Input from '../../styled/Input';
+
 const NewSportClub = () => {
   const [enteredName, setEnteredName] = useState<string>('');
   const [players, setPlayers] = useState<Array<Player>>([]);
@@ -67,17 +68,17 @@ const NewSportClub = () => {
               required/>
           
               <label htmlFor='players'>Players</label>
-             {players?
+           
               <Multiselect
                      options={players} 
                      onSelect={onSelect} 
                      onRemove={onRemove} 
                      displayValue="playerName" 
               />
-              : null
-             }
-                   
-          <Button type="submit"  >Submit</Button>
+            
+           
+          <br></br>         
+          <GreenButton type="submit"  >Submit</GreenButton>
             
             </form>
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Player } from '../../../interfaces';
 import axios from '../../../http-common';
 import DashboardWrapper from '../../styled/DashboardWrapper';
-import TableImage from '../../styled/TableImage';
+import TableImage from '../../styled/Images/TableImage';
 import { Table, TD ,TR,TH} from '../../styled/Table';
 import Button from '../../styled/Button';
 import RedButton from '../../styled/RedButton';
@@ -35,7 +35,7 @@ const AllPlayers = () => {
   }, []);
   return (
     <DashboardWrapper>
-    <h1>Players</h1>
+    <h1><b>Players</b></h1>
         <Table >
               <tbody>
                 {players?.map((player,index)=>  

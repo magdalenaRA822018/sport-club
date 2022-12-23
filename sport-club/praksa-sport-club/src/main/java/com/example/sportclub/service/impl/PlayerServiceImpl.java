@@ -96,6 +96,19 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public void addPlayerToClub(Long id, Long sportClubId) throws Exception {
+        try{
+            SportClub sportClub=sportClubService.findById(sportClubId);
+            Player player=this.playerRepository.findById(id).get();
+            player.setSportClub(sportClub);
+            this.playerRepository.save(player);
+
+        }catch (Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    @Override
     public void delete(Long id) throws Exception {
         try{
             Player player=this.playerRepository.findPlayerById(id);

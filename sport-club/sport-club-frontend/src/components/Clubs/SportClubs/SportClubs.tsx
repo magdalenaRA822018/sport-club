@@ -17,16 +17,13 @@ const SportClubs = () => {
       .then(function (response) {
          setSportClubs(response.data)
       })
-      .catch(function (error) {
-        alert("error")
-      });
      
   }, []);
 
 
   return (
     <DashboardWrapper>
-    <h1>Sport clubs</h1>
+    <h1><b>Sport clubs</b></h1>
     <Table >
       <tbody>
         {sportClubs?.map((sportClub,index)=>  

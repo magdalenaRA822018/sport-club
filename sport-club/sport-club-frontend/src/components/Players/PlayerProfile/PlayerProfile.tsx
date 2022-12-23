@@ -6,7 +6,7 @@ import DashboardWrapper from '../../styled/DashboardWrapper';
 import CenteredCard from '../../styled/CenteredCard';
 import SkillCard from '../../styled/SkillCard';
 import InlineWrapper from '../../styled/InlineWrapper';
-import ProfileImage from '../../styled/ProfileImage';
+import ProfileImage from '../../styled/Images/ProfileImage';
 const PlayerProfile = () => {
 
   const [player, setPlayer] = useState<Player>({} as Player);

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { Table, TD ,TR,TH } from '../../styled/Table';
 import DashboardWrapper from '../../styled/DashboardWrapper';
 import Button from '../../styled/Button';
-import TableImage from '../../styled/TableImage';
+import TableImage from '../../styled/Images/TableImage';
 
 const SportClubProfile = () => {
   const [sportClub, setSportClub] = useState<SportClub>({} as SportClub);
