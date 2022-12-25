@@ -5,15 +5,17 @@ import axios from '../../../http-common';
 import { Credentials, UserTokenState } from '../../../interfaces';
 import Input from '../../styled/Input';
 import Card from '../../styled/Cards/Card';
-import Button from '../../styled/Buttons/Button';
+//import Button from '../../styled/Buttons/Button';
 import Wrapper from '../../styled/Wrappers/Wrapper';
 import InlineParagraph from '../../styled/Wrappers/InlineWrapper';
 import { SubmitFormButton } from '../../styled/Buttons/SubmitFormButton';
+import Button from '../../styled/Buttons/Button';
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
   const [valid, setValid] = useState(true);
+  const light=false;
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -36,6 +38,8 @@ const Auth: FC = () => {
       alert("error")
     });
   };
+
+
   
 
  
@@ -60,12 +64,13 @@ const Auth: FC = () => {
            onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
             { setEnteredPassword(event.target.value)}}
           required/>
-        <SubmitFormButton color="primary"></SubmitFormButton>
-        <Button type="submit">Login</Button>
+        <Button  type="submit">Login</Button>
         </form>
         <InlineParagraph>Don't have an account? </InlineParagraph>
         <Link to="/signup">Sign Up</Link>
-      
+    <SubmitFormButton valid={valid} >a</SubmitFormButton>
+    
+   
     </Card>
     </Wrapper>
   

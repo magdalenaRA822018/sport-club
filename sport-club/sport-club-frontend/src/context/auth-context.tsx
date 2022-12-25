@@ -1,7 +1,7 @@
 import React, { createContext,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserTokenState } from '../interfaces';
-import axios from '../http-common';
+
 interface AppContextInterface {
   isAuth: boolean;
   token: string;
@@ -25,7 +25,8 @@ const AuthContextProvider = (props :any) => {
   const navigate=useNavigate()
 
   const login = (tokenState:UserTokenState) => {
-    axios.defaults.headers.common['Authorization']=`Bearer ${tokenState.accessToken}`
+    //axios.defaults.headers.common['Authorization']=`Bearer ${tokenState.accessToken}`
+    localStorage.setItem('token',tokenState.accessToken)
     setIsAuthenticated(true)
     setToken(tokenState.accessToken)
     setExpiresIn(tokenState.expiresIn)
@@ -38,7 +39,8 @@ const AuthContextProvider = (props :any) => {
   
   
   const logout = () => {
-    axios.defaults.headers.common['Authorization']=null
+    //axios.defaults.headers.common['Authorization']=null
+    localStorage.removeItem('token')
     setIsAuthenticated(false)
     setToken('')
     setExpiresIn(0)
