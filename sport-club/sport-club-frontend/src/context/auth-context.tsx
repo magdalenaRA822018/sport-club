@@ -1,5 +1,4 @@
 import React, { createContext,useState} from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserTokenState } from '../interfaces';
 
 interface AppContextInterface {
@@ -22,10 +21,9 @@ const AuthContextProvider = (props :any) => {
   const [expiresIn, setExpiresIn] = useState<number>(0);
   const [role, setRole] = useState<string>('');
   const [username, setUsername] = useState<string>('');
-  const navigate=useNavigate()
+ 
 
   const login = (tokenState:UserTokenState) => {
-    //axios.defaults.headers.common['Authorization']=`Bearer ${tokenState.accessToken}`
     localStorage.setItem('token',tokenState.accessToken)
     setIsAuthenticated(true)
     setToken(tokenState.accessToken)
@@ -33,13 +31,10 @@ const AuthContextProvider = (props :any) => {
     setRole(tokenState.roles)
     setUsername(tokenState.username)
     logoutTimer = setTimeout(logout, tokenState.expiresIn);
-    if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
-    else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
   } 
   
   
   const logout = () => {
-    //axios.defaults.headers.common['Authorization']=null
     localStorage.removeItem('token')
     setIsAuthenticated(false)
     setToken('')

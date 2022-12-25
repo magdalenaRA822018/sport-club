@@ -10,12 +10,14 @@ import Wrapper from '../../styled/Wrappers/Wrapper';
 import InlineParagraph from '../../styled/Wrappers/InlineWrapper';
 import { SubmitFormButton } from '../../styled/Buttons/SubmitFormButton';
 import Button from '../../styled/Buttons/Button';
+import { useNavigate } from 'react-router-dom';
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
   const [valid, setValid] = useState(true);
   const light=false;
+  const navigate=useNavigate()
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -33,6 +35,10 @@ const Auth: FC = () => {
         roles: response.data.roles
       }
       authContext?.login(tokenState)
+     
+      if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
+      else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
+      
     })
     .catch( (error) =>{
       alert("error")

@@ -17,9 +17,17 @@ const SportClubComponent = (props: SportClubProp) => {
   return (
     <React.Fragment>
        <div>
-          <TH  >{props.index}</TH>
-          <TD >{props.clubName}</TD>
-          <TD ><Button  onClick={()=> {props.openProfile(props.id)}}>PROFILE</Button></TD>
+          <div className='row' >
+             <div className='col' >
+             {props.index}
+             </div>
+             <div className='col' >
+             {props.clubName}
+             </div>
+             <div className='col' >
+             <Button  onClick={()=> {props.openProfile(props.id)}}>PROFILE</Button>
+             </div>
+          </div>
       </div>
     </React.Fragment>
 
