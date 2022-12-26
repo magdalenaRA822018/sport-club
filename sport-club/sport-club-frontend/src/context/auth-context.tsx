@@ -16,14 +16,14 @@ let logoutTimer:any;
 
 
 const AuthContextProvider = (props :any) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [token, setToken] = useState<string>('');
-  const [expiresIn, setExpiresIn] = useState<number>(0);
-  const [role, setRole] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState('');
+  const [expiresIn, setExpiresIn] = useState(0);
+  const [role, setRole] = useState('');
+  const [username, setUsername] = useState('');
   const navigate=useNavigate()
 
-  const login = (tokenState:UserTokenState) => {
+  const login = (tokenState: UserTokenState) => {
     localStorage.setItem('token',tokenState.accessToken)
     setIsAuthenticated(true)
     setToken(tokenState.accessToken)

@@ -6,12 +6,11 @@ import PlayerForm from '../../Players/PlayerForm/PlayerForm';
 
 const EditPlayerProfile = () => {
   const {id} = useParams()
- 
     return (
       <React.Fragment>
         <EditorNavbar/>
         <DashboardWrapper>
-        <PlayerForm playerId={id} />
+        <PlayerForm playerId={id} isCreateMode={false} />
         </DashboardWrapper>
       </React.Fragment>
     );

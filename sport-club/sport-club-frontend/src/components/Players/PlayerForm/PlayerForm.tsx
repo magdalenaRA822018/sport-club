@@ -5,23 +5,26 @@ import { Player } from '../../../interfaces';
 import { Skill } from '../../../interfaces';
 import Multiselect from 'multiselect-react-dropdown';
 import Input from '../../styled/Input';
-
+import { useFormik } from 'formik';
 import Card from '../../styled/Cards/Card';
 import GreenButton from '../../styled/Buttons/GreenButton';
+import ImageWithBorder from '../../styled/Images/ImageWithBorder';
 export interface PlayerProps {
    playerId?: string | undefined;
+   isCreateMode: boolean;
 }
 
 const PlayerForm = (props: PlayerProps) => {
+
   const [enteredName, setEnteredName] = useState('');
   const [enteredSalary, setEnteredSalary] = useState('');
   const [image, setImage] = useState('');
   const [playerSkills, setPlayerSkills] = useState<Array<Skill>>([]);
   const [id, setId] = useState<number|null>(null);
-  const [skills, setSkills] = useState([]);
-  const [selectedSkills, setSelectedSkills] = useState<Array<Skill>>([]);
+  const [skills, setSkills] = useState<Array<Skill>>([]);
+  const [allSkills, setAllSkills] = useState([]);
   const navigate=useNavigate();
-
+  const [player, setPlayer] = useState({} as Player)
   useEffect(()=>{
         if(props.playerId!==undefined){
                 setId(+props.playerId)
@@ -31,12 +34,14 @@ const PlayerForm = (props: PlayerProps) => {
                     setEnteredSalary(response.data.salary)
                     setImage(response.data.image)
                     setPlayerSkills(response.data.skills)
-                    console.log(response.data)
+                    setPlayer(response.data)
+                    console.log("naziv"+response.data)
+                    console.log(player)
                 })
         }
         axios.get('skills/all')
         .then( (response)=> {
-          setSkills(response.data)
+          setAllSkills(response.data)
          
         })
 }, [])
@@ -48,12 +53,11 @@ const PlayerForm = (props: PlayerProps) => {
         playerName: enteredName,
         image: image,
         salary: +enteredSalary,
-        skills: selectedSkills,
+        skills: skills,
         clubName: '',
         clubId: 0,
       }
 
-        
               axios.post('players/new',player)
               .then( (response) =>{
                 navigate(-1)
@@ -75,43 +79,76 @@ const PlayerForm = (props: PlayerProps) => {
                }
                reader.readAsDataURL(file);
         }
- }
-  
-  const onSelect = (selectedSkills: Array<Skill>) => { setSelectedSkills(selectedSkills) } 
-  const onRemove = (selectedSkills: Array<Skill>) => { setSelectedSkills(selectedSkills) }
+   }
+   const formik = useFormik({
+
+     initialValues: {
+        id: 0,
+        playerName: '',
+        image: '',
+        salary: 0,
+     },
+     onSubmit: values => {
+       alert(JSON.stringify(values, null, 2));
+      
+       axios.post('players/new',{...values, skills, image})
+              .then( (response) =>{
+                navigate(-1)
+              })
+              .catch( (error) =>{
+                alert("error")
+      });
+       
+     },
+   });
+  const onSelect = (selectedSkills: Array<Skill>) => { console.log("skill selected"); setSkills(selectedSkills) } 
+  const onRemove = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) }
  
     return (
  
         <Card>
-          <h1><b>Player form</b></h1>
 
-           <form onSubmit={submitPlayerHandler}>
+           <h1>{props.isCreateMode ? 'Add player' : 'Update player'}</h1>
+           <h1><b>Player form</b></h1>
+           <form onSubmit={formik.handleSubmit}>
       
               <label htmlFor='name' >Full name</label>
-              <Input id="name"  value={enteredName}  type="text" 
-                    onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
-                      { setEnteredName(event.target.value)}}
+              <Input id="playerName"   name="playerName"  type="text" 
+                    onChange={formik.handleChange}
+                    value={formik.values.playerName}
               required/>
         
               <label htmlFor='salary'>Salary</label>
-              <Input id="salary"  value={enteredSalary} type="number" 
-                   onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
-                    { setEnteredSalary(event.target.value)}} 
+              <Input id="salary" name="salary"  type="number" 
+                   onChange={formik.handleChange}
+                   value={formik.values.salary}
                required/>
    
               <label htmlFor='image'>Image</label>
               <Input id="image"  onChange={imageSelectedHandler} type="file" required/>
            
 
-              <label htmlFor='skills'>Skills</label>
+              <hr></hr>
+                
+              <label htmlFor='image' >Upload new image</label>
+              <Input id="image"  onChange={imageSelectedHandler} type="file" />
+     
+              {  props.isCreateMode? 
+                    <div>
+                        <hr/>
+                        <ImageWithBorder alt="Sample" id='playerImage'  src={image}/>
+                        <hr/>
+                    </div>
+                    : null
+              }
+             <label htmlFor='skills'>Skills</label>
                      <Multiselect
                      id="skills"
-                     options={skills} 
+                     options={allSkills} 
                      selectedValues={playerSkills}
                      onSelect={onSelect} 
                      onRemove={onRemove} 
-                     displayValue="name" 
-               />
+                     displayValue="name" />
             <br></br>
             <GreenButton type="submit"  >Submit</GreenButton>
             
