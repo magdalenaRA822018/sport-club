@@ -36,8 +36,7 @@ const Auth: FC = () => {
       }
       authContext?.login(tokenState)
      
-      if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
-      else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
+      
       
     })
     .catch( (error) =>{
