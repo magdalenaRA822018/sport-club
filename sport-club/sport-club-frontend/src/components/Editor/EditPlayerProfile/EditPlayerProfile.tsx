@@ -2,15 +2,14 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
-import PlayerForm from '../../Players/PlayerForm/PlayerForm';
-
+import FormikForm123 from '../../Players/FormikForm/PlayerFormikForm';
 const EditPlayerProfile = () => {
   const {id} = useParams()
     return (
       <React.Fragment>
         <EditorNavbar/>
         <DashboardWrapper>
-        <PlayerForm playerId={id} isCreateMode={false} />
+        <FormikForm123 playerId={id} />
         </DashboardWrapper>
       </React.Fragment>
     );

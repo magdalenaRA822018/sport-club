@@ -3,7 +3,7 @@ import { SportClub } from '../../../interfaces';
 import { AuthContext } from '../../../context/auth-context';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../http-common';
-
+import { Content,ContentBox } from './sport-club-styled/SportClubStyled';
 import { Table, TD ,TR,TH} from '../../styled/Table';
 import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import Button from '../../styled/Buttons/Button';
@@ -16,19 +16,19 @@ interface SportClubProp {
 const SportClubComponent = (props: SportClubProp) => {
   return (
     <React.Fragment>
-       <div>
-          <div className='row' >
-             <div className='col' >
+       
+          <ContentBox >
+             <Content >
              {props.index}
-             </div>
-             <div className='col' >
+             </Content>
+             <Content>
              {props.clubName}
-             </div>
-             <div className='col' >
+             </Content>
+             <Content>
              <Button  onClick={()=> {props.openProfile(props.id)}}>PROFILE</Button>
-             </div>
-          </div>
-      </div>
+             </Content>
+          </ContentBox>
+     
     </React.Fragment>
 
   );

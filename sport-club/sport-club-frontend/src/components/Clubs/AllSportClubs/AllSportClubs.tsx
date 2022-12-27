@@ -18,7 +18,7 @@ const AllSportClubs = () => {
      
   }, []);
 
-  const openProfile = (id: number) : void => {
+  const openProfile = (id: number) => {
     if(authContext?.role==="ROLE_EDITOR") navigate("/editor/clubProfile/"+id)
     else navigate("/clubProfile/"+id)
   }

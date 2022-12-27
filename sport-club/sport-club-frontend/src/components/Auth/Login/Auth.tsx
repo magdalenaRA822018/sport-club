@@ -15,9 +15,10 @@ const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
-  const [valid, setValid] = useState(true);
-  const light=false;
+  const [valid, setValid] = useState(false);
   const navigate=useNavigate()
+  const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+  const EMAIL_REGEX= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -35,7 +36,10 @@ const Auth: FC = () => {
         roles: response.data.roles
       }
       authContext?.login(tokenState)
-     
+      
+
+     if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
+     else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
       
       
     })
@@ -67,13 +71,13 @@ const Auth: FC = () => {
           <label  htmlFor='password' >Password</label>
           <Input id="password" type="password" value={enteredPassword}
            onChange={(event : React.ChangeEvent<HTMLInputElement>) => 
-            { setEnteredPassword(event.target.value)}}
+            {setEnteredPassword(event.target.value) 
+            }}
           required/>
-        <Button  type="submit">Login</Button>
+        <SubmitFormButton valid={EMAIL_REGEX.test(enteredEmail) && enteredPassword!==''} type="submit">Login</SubmitFormButton>
         </form>
         <InlineParagraph>Don't have an account? </InlineParagraph>
         <Link to="/signup">Sign Up</Link>
-    <SubmitFormButton valid={valid} >a</SubmitFormButton>
     
    
     </Card>

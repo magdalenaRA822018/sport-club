@@ -35,12 +35,12 @@ public class PlayerController {
     }
     @PostMapping("/new")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<ResponseDto> newPlayer(@RequestBody PlayerDto playerDto) {
+    public ResponseEntity<String> newPlayer(@RequestBody PlayerDto playerDto) {
         try{
             this.playerService.save(playerMapper.playerDtoToPlayer(playerDto));
-            return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.CREATED);
+            return new ResponseEntity<>("Success", HttpStatus.CREATED);
         }catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto("Error"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
         }
     }
     @PostMapping("/find")
@@ -54,14 +54,14 @@ public class PlayerController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<ResponseDto> update(@RequestBody PlayerDto playerDto) {
+    public ResponseEntity<String> update(@RequestBody PlayerDto playerDto) {
         try{
-            boolean addNewImage=false;
-            if(playerDto.getImage()!=null) addNewImage=true;
+            boolean addNewImage=true;
+            if(playerDto.getImage().equals("")) addNewImage=false;
             this.playerService.update(playerMapper.playerDtoToPlayer(playerDto),addNewImage);
-            return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.OK);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto("Error"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
         }
     }
 

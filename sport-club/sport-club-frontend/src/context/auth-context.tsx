@@ -1,6 +1,6 @@
 import React, { createContext,useState} from 'react';
 import { UserTokenState } from '../interfaces';
-import { useNavigate } from 'react-router-dom';
+
 interface AppContextInterface {
   isAuth: boolean;
   token: string;
@@ -21,7 +21,7 @@ const AuthContextProvider = (props :any) => {
   const [expiresIn, setExpiresIn] = useState(0);
   const [role, setRole] = useState('');
   const [username, setUsername] = useState('');
-  const navigate=useNavigate()
+  
 
   const login = (tokenState: UserTokenState) => {
     localStorage.setItem('token',tokenState.accessToken)
@@ -31,9 +31,6 @@ const AuthContextProvider = (props :any) => {
     setRole(tokenState.roles)
     setUsername(tokenState.username)
     logoutTimer = setTimeout(logout, tokenState.expiresIn);
-
-    if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
-      else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
   } 
   
   
