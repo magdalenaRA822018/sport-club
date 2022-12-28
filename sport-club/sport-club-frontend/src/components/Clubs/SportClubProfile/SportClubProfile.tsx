@@ -29,8 +29,7 @@ const SportClubProfile = () => {
     <DashboardWrapper>
     <h1><b>Sport club:  {sportClub.name}</b></h1>
   
-    <Table >
-      
+    <Table>
       <tbody>
         {sportClub.players?.map((player,index)=>  
         <TR key={player.id}>

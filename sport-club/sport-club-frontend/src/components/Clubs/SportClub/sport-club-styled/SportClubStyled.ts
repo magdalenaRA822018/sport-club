@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ContentBox = styled.div`
+export const Row = styled.div`
   display: flex;
   gap: 0.25rem;
   padding: 0.25rem;
@@ -12,7 +12,7 @@ export const ContentBox = styled.div`
   border-radius: 1px;
 `;
 
-export const Content = styled.div`
+export const Col = styled.div`
   padding: 0.25rem;
   width: 100%;
   height: 100%;

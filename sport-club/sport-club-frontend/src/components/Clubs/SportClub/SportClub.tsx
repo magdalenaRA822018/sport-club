@@ -1,11 +1,5 @@
-import React, { useState, useEffect,useContext,FC } from 'react';
-import { SportClub } from '../../../interfaces';
-import { AuthContext } from '../../../context/auth-context';
-import { useNavigate } from 'react-router-dom';
-import axios from '../../../http-common';
-import { Content,ContentBox } from './sport-club-styled/SportClubStyled';
-import { Table, TD ,TR,TH} from '../../styled/Table';
-import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
+import React from 'react';
+import { Row,Col } from './sport-club-styled/SportClubStyled';
 import Button from '../../styled/Buttons/Button';
 interface SportClubProp {
     index: number;
@@ -15,22 +9,13 @@ interface SportClubProp {
   }
 const SportClubComponent = (props: SportClubProp) => {
   return (
-    <React.Fragment>
-       
-          <ContentBox >
-             <Content >
-             {props.index}
-             </Content>
-             <Content>
-             {props.clubName}
-             </Content>
-             <Content>
+          <Row >
+             <Col >{props.index}</Col>
+             <Col>{props.clubName}</Col>
+             <Col>
              <Button  onClick={()=> {props.openProfile(props.id)}}>PROFILE</Button>
-             </Content>
-          </ContentBox>
-     
-    </React.Fragment>
-
+             </Col>
+          </Row>
   );
 };
 
