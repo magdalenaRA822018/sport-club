@@ -34,10 +34,10 @@ const App: FC = ()  => {
   
   return (
   <Routes>
-   <Route path='/' element={<Layout/>} >
+   <Route path='/' element={<Layout/>}>
 
-   <Route path='/' element={<Auth/>}    />
-   <Route path='/signup' element={<Signup/>}    />
+   <Route path='/' element={<Auth/>}/>
+   <Route path='/signup' element={<Signup/>}/>
   
    <Route element={<RequireAuth allowedRoles={[ROLES.EDITOR,ROLES.VIEWER]} />} >
       <Route path='/editProfile' element={<EditProfile/>}    />
@@ -60,10 +60,8 @@ const App: FC = ()  => {
       <Route path='/clubProfile/:id' element={<SportClubProfileViewer/>}    />
       <Route path='/playerProfile/:id' element={<PlayerProfileViewer/>}    />
    </Route>
-
-
    </Route>
-</Routes>
+   </Routes>
     
   )
   

@@ -5,8 +5,6 @@ import './index.css';
 import App from './App';
 import AuthContextProvider from './context/auth-context';
 import {BrowserRouter,Route, Routes} from 'react-router-dom'
-import axios from 'axios';
-
 
 ReactDOM.render(
   <React.StrictMode>
