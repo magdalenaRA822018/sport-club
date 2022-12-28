@@ -4,7 +4,7 @@ import EditorNavbar from '../EditorNavbar/EditorNavbar';
 import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import PlayerFormikForm from '../../Players/FormikForm/PlayerFormikForm';
 const EditPlayerProfile = () => {
-  const {id} = useParams()
+    const {id} = useParams()
     return (
       <React.Fragment>
         <EditorNavbar/>
