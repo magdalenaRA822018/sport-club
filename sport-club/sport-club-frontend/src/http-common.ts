@@ -8,10 +8,11 @@ const instance= axios.create(
   baseURL: "http://localhost:8081/",
   headers: {
     "Content-type": "application/json",
+    "Authorization": `Bearer ${token}`
   },
 });
 
-instance.interceptors.response.use((response) => {
+/*instance.interceptors.response.use((response) => {
       console.log(`response ${response}`);
       return response;
     }, (error) => {
@@ -25,6 +26,6 @@ instance.interceptors.request.use((config) => {
      }         
    
      return config
-})
+})*/
 
 export default instance;

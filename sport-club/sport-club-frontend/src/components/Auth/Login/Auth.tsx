@@ -1,15 +1,13 @@
 import React, { FC, useContext, useState } from 'react';
 import { AuthContext } from '../../../context/auth-context'
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from '../../../http-common';
 import { Credentials, UserTokenState } from '../../../interfaces';
 import Input from '../../styled/Input';
 import Card from '../../styled/Cards/Card';
-//import Button from '../../styled/Buttons/Button';
 import Wrapper from '../../styled/Wrappers/Wrapper';
 import InlineParagraph from '../../styled/Wrappers/InlineWrapper';
 import { SubmitFormButton } from '../../styled/Buttons/SubmitFormButton';
-import Button from '../../styled/Buttons/Button';
 import { useNavigate } from 'react-router-dom';
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);

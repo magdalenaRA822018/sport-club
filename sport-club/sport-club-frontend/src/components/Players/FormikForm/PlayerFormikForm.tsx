@@ -9,7 +9,8 @@ import ImageWithBorder from '../../styled/Images/ImageWithBorder';
 import Multiselect from 'multiselect-react-dropdown';
 import Card from '../../styled/Cards/Card';
 import { StyledField } from './styled-form/styled-form';
-
+import useUploadImage from '../../../hooks/useUploadImage';
+import { useRef } from 'react';
 interface PlayerProps {
    playerId: string | undefined;
 }
@@ -20,16 +21,13 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [skills, setSkills]= useState<Array<Skill>>([])
    const [formValues, setFormValues] = useState({});
    const [image, setImage] = useState('');
-
-
+   const uploadImage = useUploadImage(null);
+   const imgRef=useRef()
    const initialValues = {
     playerName: '',
     salary: 0,
    }
-   const onSubmit = (values: any) => {
-       if(props.playerId) update(values)
-       else create(values)
-   }
+   
    const validationSchema= Yup.object({
     playerName: Yup.string().required('Required'),
     salary: Yup.number().required('Required').min(0,'Please enter valid number'),
@@ -56,16 +54,21 @@ const PlayerFormikForm = (props: PlayerProps) => {
       })
     }, [])
 
-  const create = (values: any) => {
+  const create = (values: any, actions: any) => {
         const player: NewPlayer = {
           playerName: values.playerName,
           image: image,
           salary: values.salary,
           skills: skills
         }
-
+        
         axios.post('players/new', player)
-        .then( response =>  alert(response.data))
+        .then( response => { 
+          alert(response.data)
+          actions.resetForm({ values: initialValues })
+          setImage('')
+          setSkills([])
+        })
         .catch( err =>  alert(err))
   }
 
@@ -99,17 +102,27 @@ const PlayerFormikForm = (props: PlayerProps) => {
                   setImage(reader.result.toString())
                }
                reader.readAsDataURL(file);
-        }
+    }
+
  }
   
     return (
  
       <Formik 
         initialValues={formValues || initialValues}
-        onSubmit={onSubmit} 
         validationSchema={validationSchema}
         enableReinitialize
+        onSubmit = { (values, actions) => {
+            console.log(actions)
+            if (props.playerId){
+                update(values)
+            }else{
+                create(values,actions)
+               // actions.resetForm({ values: initialValues })
+            }
+        }}
       >
+      {({ errors, touched, values, handleSubmit }) => (
     <Card>
          <h1><b>{props.playerId ?  'Update player' : 'New player' }</b></h1>
          <Form>
@@ -125,13 +138,14 @@ const PlayerFormikForm = (props: PlayerProps) => {
               <label htmlFor='image'>Image</label>
               <Input id="image"  onChange={imageSelectedHandler} type="file"/>
               { 
-               image==='' ? 
-                     null:
+               image ? 
+
                     <div>
                         <hr/>
                         <ImageWithBorder alt="Sample" src={image}/>
                         <hr/>
                     </div>
+                    : null
               }
              <label htmlFor='skills'>Skills</label>
                      <Multiselect
@@ -142,10 +156,10 @@ const PlayerFormikForm = (props: PlayerProps) => {
                      onRemove={onRemove} 
                      displayValue="name" />
             <br></br>
-            <GreenButton type="submit"  >Submit</GreenButton>
-            
+            <GreenButton type="submit"  onClick={() => handleSubmit}    >Submit</GreenButton>
          </Form>
          </Card>
+)}
       </Formik>
     
       );
