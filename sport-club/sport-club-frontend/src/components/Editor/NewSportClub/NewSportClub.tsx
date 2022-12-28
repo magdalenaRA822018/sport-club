@@ -32,8 +32,6 @@ const NewSportClub = () => {
         .catch( error=> {
           alert("error")
         });
-
-
         return setSelectedPlayers([])
   }, [])
 
