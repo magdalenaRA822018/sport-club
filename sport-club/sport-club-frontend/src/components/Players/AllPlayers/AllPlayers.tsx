@@ -14,12 +14,12 @@ const AllPlayers = () => {
  
   const removePlayerHandler = (id:number) => {
       axios.post('players/remove',{id: id})
-      .then( (response)=> {
+      .then( response=> {
         const newPlayers = players.filter(player=> player.id!=id);
         setPlayers(newPlayers)
         alert("success")
       })
-      .catch( (error)=> {
+      .catch( error=> {
         alert(error.response.data.content)
       });
   }

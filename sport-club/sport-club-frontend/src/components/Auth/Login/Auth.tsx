@@ -15,10 +15,9 @@ const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
-  const [valid, setValid] = useState(false);
   const navigate=useNavigate()
-  const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   const EMAIL_REGEX= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -28,7 +27,7 @@ const Auth: FC = () => {
      }
 
     axios.post('auth/login', user)
-    .then( (response)=> {
+    .then( response => {
       const tokenState: UserTokenState = {
         accessToken: response.data.accessToken,
         expiresIn: response.data.expiresIn,
@@ -36,14 +35,14 @@ const Auth: FC = () => {
         roles: response.data.roles
       }
       authContext?.login(tokenState)
-      
+     
 
      if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
      else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
       
       
     })
-    .catch( (error) =>{
+    .catch( error =>{
       alert("error")
     });
   };

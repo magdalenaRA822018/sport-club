@@ -29,11 +29,11 @@ const EditClubProfile = () => {
       players: []
     }
     axios.post('sportclubs/update', sportClub)
-    .then( (response) =>{
+    .then(response=>{
       alert(response.data.content)
             return response;
     })
-    .catch( (error)=> {
+    .catch(error=> {
       alert("error")
     });
   }

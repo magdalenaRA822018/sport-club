@@ -14,7 +14,7 @@ const PlayerProfile = () => {
 
     useEffect(() => {
       axios.post('players/find',{id: id})
-      .then((response)=> {
+      .then(response=> {
          setPlayer(response.data)
       })
     }, []);

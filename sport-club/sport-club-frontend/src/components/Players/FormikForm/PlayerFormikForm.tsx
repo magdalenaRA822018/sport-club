@@ -10,7 +10,7 @@ import Multiselect from 'multiselect-react-dropdown';
 import Card from '../../styled/Cards/Card';
 import { StyledField } from './styled-form/styled-form';
 export interface PlayerProps {
-   playerId?: string | undefined;
+   playerId: string | undefined;
 }
 
 const PlayerFormikForm = (props: PlayerProps) => {
@@ -67,7 +67,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
   const create = (player: Player) => {
         axios.post('players/new', player)
         .then( response =>  alert(response.data))
-        .catch( err =>  alert('Error'))
+        .catch( err =>  alert(err))
   }
 
   const update = (player: Player) => {
