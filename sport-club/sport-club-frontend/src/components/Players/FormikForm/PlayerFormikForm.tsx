@@ -8,31 +8,33 @@ import Input from '../../styled/Input';
 import ImageWithBorder from '../../styled/Images/ImageWithBorder';
 import Multiselect from 'multiselect-react-dropdown';
 import Card from '../../styled/Cards/Card';
-import { StyledField } from './styled-form/styled-form';
 import useUploadImage from '../../../hooks/useUploadImage';
+import { Error } from './styled-form/styled-form';
 import { useRef } from 'react';
 interface PlayerProps {
    playerId: string | undefined;
 }
+interface FormFields {
+  playerName: string;
+  salary: string;
+}
 
 const PlayerFormikForm = (props: PlayerProps) => {
-   const [allSkills, setAllSkills]= useState<Array<Skill>>([])
-   const [playerSkills, setPlayerSkills]= useState<Array<Skill>>([])
-   const [skills, setSkills]= useState<Array<Skill>>([])
-   const [formValues, setFormValues] = useState({});
+   const [allSkills, setAllSkills]= useState<Array<Skill>>([]);
+   const [playerSkills, setPlayerSkills]= useState<Array<Skill>>([]);
+   const [skills, setSkills]= useState<Array<Skill>>([]);
+   const [formValues, setFormValues] = useState<FormFields>();
    const [image, setImage] = useState('');
-   const uploadImage = useUploadImage(null);
-   const imgRef=useRef()
+   
+   const imgRef = useRef<any>(null);
+   const multiselectRef = useRef<any>(null);
+
+
    const initialValues = {
     playerName: '',
     salary: 0,
    }
    
-   const validationSchema= Yup.object({
-    playerName: Yup.string().required('Required'),
-    salary: Yup.number().required('Required').min(0,'Please enter valid number'),
-   })
-
    useEffect(()=>{
         if(props.playerId){
                 axios.post('players/find', {id: props.playerId})
@@ -61,13 +63,15 @@ const PlayerFormikForm = (props: PlayerProps) => {
           salary: values.salary,
           skills: skills
         }
-        
         axios.post('players/new', player)
         .then( response => { 
           alert(response.data)
-          actions.resetForm({ values: initialValues })
+          actions.resetForm(initialValues)
           setImage('')
           setSkills([])
+          console.log(imgRef)
+          if(imgRef.current) imgRef.current.value=''
+          if(multiselectRef.current) multiselectRef.current.resetSelectedValues(['1'])
         })
         .catch( err =>  alert(err))
   }
@@ -84,7 +88,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         axios.post('players/update', player)
         .then( response =>  {
           alert(response.data)
-          
+          if(imgRef.current) imgRef.current.value=''
         })
         .catch( err =>  alert(err))
   }
@@ -105,48 +109,45 @@ const PlayerFormikForm = (props: PlayerProps) => {
     }
 
  }
-  
+ const validationSchema= Yup.object({
+  playerName: Yup.string().required('Required'),
+  salary: Yup.number().required('Required').min(0,'Please enter valid number'),
+ })
     return (
  
       <Formik 
-        initialValues={formValues || initialValues}
+        initialValues={formValues ||  initialValues }
         validationSchema={validationSchema}
         enableReinitialize
         onSubmit = { (values, actions) => {
-            console.log(actions)
-            if (props.playerId){
-                update(values)
-            }else{
-                create(values,actions)
-               // actions.resetForm({ values: initialValues })
-            }
+            if (props.playerId) update(values)
+            else create(values,actions)
         }}
       >
-      {({ errors, touched, values, handleSubmit }) => (
-    <Card>
-         <h1><b>{props.playerId ?  'Update player' : 'New player' }</b></h1>
-         <Form>
+      {({handleSubmit, values, handleChange, errors, touched} ) => (
+          <Card>
+             <h1><b>{props.playerId ?  'Update player' : 'New player' }</b></h1>
+             <form  >
           
               <label htmlFor='playerName' >Full name</label>
-              <StyledField id="playerName"   name="playerName"  type="text" />
-              <ErrorMessage  name='playerName' /> <br/>
-              
+              <Input type="text" value={values.playerName} onChange={handleChange} name="playerName"/>
+                  {errors.playerName && touched.playerName ? (  <Error>{errors.playerName}</Error> ) : null}
               <label htmlFor='salary'>Salary</label>
-              <StyledField id="salary" name="salary"  type="number" />
-              <ErrorMessage name='salary' /> <br/>
+              <Input type="number" value={values.salary} onChange={handleChange} name="salary"/>
+                  {errors.salary && touched.salary ? (  <Error>{errors.salary}</Error> ) : null}
+            
 
               <label htmlFor='image'>Image</label>
-              <Input id="image"  onChange={imageSelectedHandler} type="file"/>
-              { 
+              <Input id="image" ref={imgRef} onChange={imageSelectedHandler} type="file"/>
+               { 
                image ? 
-
                     <div>
                         <hr/>
                         <ImageWithBorder alt="Sample" src={image}/>
                         <hr/>
                     </div>
                     : null
-              }
+               }
              <label htmlFor='skills'>Skills</label>
                      <Multiselect
                      id="skills"
@@ -156,8 +157,8 @@ const PlayerFormikForm = (props: PlayerProps) => {
                      onRemove={onRemove} 
                      displayValue="name" />
             <br></br>
-            <GreenButton type="submit"  onClick={() => handleSubmit}    >Submit</GreenButton>
-         </Form>
+            <GreenButton onClick={() => handleSubmit} type="submit">Submit</GreenButton>
+         </form>
          </Card>
 )}
       </Formik>
