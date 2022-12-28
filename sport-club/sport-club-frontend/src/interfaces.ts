@@ -33,6 +33,21 @@ export interface Player {
     clubId: number;
 }
 
+export interface UpdatePlayer {
+    id: number;
+    playerName: string;
+    image: string;
+    salary: number;
+    skills: Array<Skill>;
+}
+
+export interface NewPlayer {
+    playerName: string;
+    image: string;
+    salary: number;
+    skills: Array<Skill>;
+}
+
 export interface SportClub {
     id: number;
     name: string;

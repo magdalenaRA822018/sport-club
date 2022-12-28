@@ -10,7 +10,7 @@ interface SportClubProp {
 const SportClubComponent = (props: SportClubProp) => {
   return (
           <Row >
-             <Col >{props.index}</Col>
+             <Col>{props.index}</Col>
              <Col>{props.clubName}</Col>
              <Col>
              <Button  onClick={()=> {props.openProfile(props.id)}}>PROFILE</Button>

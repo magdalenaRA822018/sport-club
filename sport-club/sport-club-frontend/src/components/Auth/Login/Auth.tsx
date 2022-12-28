@@ -47,9 +47,6 @@ const Auth: FC = () => {
     });
   };
 
-
-  
-
  
   return (
  

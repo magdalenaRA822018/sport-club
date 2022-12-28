@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage, isEmptyArray } from 'formik';
 import React, { useState, useEffect,useLayoutEffect } from 'react';
 import * as Yup from 'yup';
-import { Player, Skill } from '../../../interfaces';
+import { NewPlayer, Skill, UpdatePlayer } from '../../../interfaces';
 import axios from '../../../http-common';
 import GreenButton from '../../styled/Buttons/GreenButton';
 import Input from '../../styled/Input';
@@ -9,6 +9,7 @@ import ImageWithBorder from '../../styled/Images/ImageWithBorder';
 import Multiselect from 'multiselect-react-dropdown';
 import Card from '../../styled/Cards/Card';
 import { StyledField } from './styled-form/styled-form';
+
 interface PlayerProps {
    playerId: string | undefined;
 }
@@ -19,26 +20,15 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [skills, setSkills]= useState<Array<Skill>>([])
    const [formValues, setFormValues] = useState({});
    const [image, setImage] = useState('');
-   const [id,setId]= useState(0);
+
 
    const initialValues = {
     playerName: '',
     salary: 0,
    }
    const onSubmit = (values: any) => {
-       const player: Player = {
-        id: id,
-        playerName: values.playerName,
-        image: image,
-        salary: values.salary,
-        skills: skills,
-        clubName: '',
-        clubId: 0
-       }
-
-       if(props.playerId===undefined) create(player)
-       else update(player)
-    
+       if(props.playerId) update(values)
+       else create(values)
    }
    const validationSchema= Yup.object({
     playerName: Yup.string().required('Required'),
@@ -46,8 +36,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
    })
 
    useEffect(()=>{
-        if(props.playerId!==undefined){
-                setId(+props.playerId)
+        if(props.playerId){
                 axios.post('players/find', {id: props.playerId})
                 .then(function (response) {
                     setImage(response.data.image)
@@ -58,21 +47,42 @@ const PlayerFormikForm = (props: PlayerProps) => {
                     })
                 })
         }
-        axios.get('skills/all')
-        .then( (response)=> {
-          setAllSkills(response.data)
-        })
     }, [])
 
-  const create = (player: Player) => {
+    useEffect(()=>{
+      axios.get('skills/all')
+      .then( (response)=> {
+        setAllSkills(response.data)
+      })
+    }, [])
+
+  const create = (values: any) => {
+        const player: NewPlayer = {
+          playerName: values.playerName,
+          image: image,
+          salary: values.salary,
+          skills: skills
+        }
+
         axios.post('players/new', player)
         .then( response =>  alert(response.data))
         .catch( err =>  alert(err))
   }
 
-  const update = (player: Player) => {
+  const update = (values: any) => {
+        if(!props.playerId) return;
+        const player: UpdatePlayer = {
+          id: +props.playerId,
+          playerName: values.playerName,
+          image: image,
+          salary: values.salary,
+          skills: skills,
+        }
         axios.post('players/update', player)
-        .then( response =>  alert(response.data))
+        .then( response =>  {
+          alert(response.data)
+          
+        })
         .catch( err =>  alert(err))
   }
  
@@ -101,7 +111,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         enableReinitialize
       >
     <Card>
-         <h1><b>{props.playerId===undefined ? 'New player' : 'Update player'}</b></h1>
+         <h1><b>{props.playerId ?  'Update player' : 'New player' }</b></h1>
          <Form>
           
               <label htmlFor='playerName' >Full name</label>

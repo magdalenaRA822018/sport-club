@@ -1,5 +1,6 @@
 package com.example.sportclub.controller;
 import com.example.sportclub.dto.ClubPlayersDto;
+import com.example.sportclub.dto.CreatePlayerDto;
 import com.example.sportclub.dto.PlayerDto;
 import com.example.sportclub.dto.ResponseDto;
 import com.example.sportclub.mapper.PlayerMapper;
@@ -35,9 +36,9 @@ public class PlayerController {
     }
     @PostMapping("/new")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<String> newPlayer(@RequestBody PlayerDto playerDto) {
+    public ResponseEntity<String> newPlayer(@RequestBody CreatePlayerDto playerDto) {
         try{
-            this.playerService.save(playerMapper.playerDtoToPlayer(playerDto));
+            this.playerService.save(playerMapper.createPlayerDtoToPlayer(playerDto));
             return new ResponseEntity<>("Success", HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
