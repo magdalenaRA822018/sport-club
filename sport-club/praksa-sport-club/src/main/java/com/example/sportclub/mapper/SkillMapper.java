@@ -20,7 +20,6 @@ public class SkillMapper {
         List<Skill> skills= new ArrayList<>();
         for(SkillDto skillDto: skillDtos) {
             skills.add(skillDtoToSkill(skillDto));
-            System.out.println("molim te "+skillDto);
         }
         return  skills;
     }
