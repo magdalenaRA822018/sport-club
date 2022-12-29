@@ -27,9 +27,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [skills, setSkills]= useState<Array<Skill>>([]);
    const [formValues, setFormValues] = useState<FormFields>();
    const fileInputRef = useRef<any>(null);
-   //const [displayImage, setDisplayImage] = useState('');
-  // const [file, setFile] = useState<File | null>(null);
-   const {convertedImage, extractFileFromEvent} = useConvertImage();
+   const {convertedImage, extractFileFromEvent, set} = useConvertImage();
    
    const initialValues: FormFields = {
     playerName: '',
@@ -40,7 +38,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         if(props.playerId){
                 axios.post('players/find', {id: props.playerId})
                 .then( response => {
-                 // setDisplayImage(response.data.image)
+                    set(response.data.image)
                     setPlayerSkills(response.data.skills)
                     setSkills(response.data.skills)
                     setFormValues({
@@ -69,8 +67,8 @@ const PlayerFormikForm = (props: PlayerProps) => {
         .then( response => { 
           alert(response.data)
           actions.resetForm(initialValues)
-        //  setDisplayImage('')
           setSkills([])
+          set('')
           if(fileInputRef.current) fileInputRef.current.value=''
         })
         .catch( err =>  alert(err))
@@ -99,10 +97,6 @@ const PlayerFormikForm = (props: PlayerProps) => {
     const onRemove = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) }
 
     const imageSelectedHandler=(event: React.ChangeEvent)=>{
-     /* const target = event.target as HTMLInputElement;
-      const file: File = (target.files as FileList)[0];
-      setFile(file)
-      setDisplayImage('')*/
       extractFileFromEvent(event)
     }
 
