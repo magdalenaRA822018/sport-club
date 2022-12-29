@@ -27,9 +27,9 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [skills, setSkills]= useState<Array<Skill>>([]);
    const [formValues, setFormValues] = useState<FormFields>();
    const fileInputRef = useRef<any>(null);
-   const [displayImage, setDisplayImage] = useState('');
-   const [file, setFile] = useState<File | null>(null);
-   const {convertedImage} = useConvertImage(file);
+   //const [displayImage, setDisplayImage] = useState('');
+  // const [file, setFile] = useState<File | null>(null);
+   const {convertedImage, extractFileFromEvent} = useConvertImage();
    
    const initialValues: FormFields = {
     playerName: '',
@@ -40,7 +40,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         if(props.playerId){
                 axios.post('players/find', {id: props.playerId})
                 .then( response => {
-                  setDisplayImage(response.data.image)
+                 // setDisplayImage(response.data.image)
                     setPlayerSkills(response.data.skills)
                     setSkills(response.data.skills)
                     setFormValues({
@@ -69,7 +69,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         .then( response => { 
           alert(response.data)
           actions.resetForm(initialValues)
-          setDisplayImage('')
+        //  setDisplayImage('')
           setSkills([])
           if(fileInputRef.current) fileInputRef.current.value=''
         })
@@ -90,7 +90,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         .then( response =>  {
           alert(response.data)
           if(fileInputRef.current)  fileInputRef.current.value=''
-          if(convertedImage) setDisplayImage(convertedImage)
+         // if(convertedImage) setDisplayImage(convertedImage)
         })
         .catch( err =>  alert(err))
   }
@@ -99,10 +99,11 @@ const PlayerFormikForm = (props: PlayerProps) => {
     const onRemove = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) }
 
     const imageSelectedHandler=(event: React.ChangeEvent)=>{
-      const target = event.target as HTMLInputElement;
+     /* const target = event.target as HTMLInputElement;
       const file: File = (target.files as FileList)[0];
       setFile(file)
-      setDisplayImage('')
+      setDisplayImage('')*/
+      extractFileFromEvent(event)
     }
 
     const validationSchema= Yup.object({
@@ -135,10 +136,10 @@ const PlayerFormikForm = (props: PlayerProps) => {
               <label htmlFor='image'>Image</label>
               <Input id="image" ref={fileInputRef} onChange={imageSelectedHandler} type="file"/>
                { 
-                     displayImage ? 
+                     convertedImage ? 
                       <div>
                           <hr/>
-                          <ImageWithBorder alt="Sample" src={displayImage}/>
+                          <ImageWithBorder alt="Sample" src={convertedImage}/>
                           <hr/>
                       </div>
                       : null
