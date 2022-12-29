@@ -1,5 +1,6 @@
 package com.example.sportclub.mapper;
 
+import com.example.sportclub.dto.CreatePlayerDto;
 import com.example.sportclub.dto.PlayerDto;
 import com.example.sportclub.model.Player;
 
@@ -35,12 +36,17 @@ public class PlayerMapper {
                 playerDto.getSalary(),skillMapper.skillDtosToSkills(playerDto.getSkills()), null);
     }
 
-
-
     public List<Player> playerDtosToPlayers(List<PlayerDto> playerDtos) {
         List<Player> players=new ArrayList<>();
         for(PlayerDto playerDto: playerDtos)
             players.add(playerDtoToPlayer(playerDto));
         return players;
+    }
+
+    public Player createPlayerDtoToPlayer(CreatePlayerDto playerDto){
+        String image="";
+        if(playerDto.getImage()!=null) image=playerDto.getImage();
+        return new Player(0L,playerDto.getPlayerName(),image,
+                playerDto.getSalary(),skillMapper.skillDtosToSkills(playerDto.getSkills()), null);
     }
 }

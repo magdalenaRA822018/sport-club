@@ -68,14 +68,15 @@ public class PlayerServiceImpl implements PlayerService {
             Player player = this.playerRepository.findById(newPlayer.getId()).get();
             player.setPlayerName(newPlayer.getPlayerName());
             player.setSalary(newPlayer.getSalary());
-            player.setSkills(null);
-            this.playerRepository.save(player);
             player.setSkills(newPlayer.getSkills());
+            this.playerRepository.save(player);
+
             if (addNewImage) {
                 String imagePath = saveImage(newPlayer.getImage());
                 player.setImage(imagePath);
+                this.playerRepository.save(player);
             }
-            this.playerRepository.save(player);
+
         }catch (Exception e){
             throw new Exception(e);
         }
@@ -90,6 +91,19 @@ public class PlayerServiceImpl implements PlayerService {
                 player.setSportClub(sportClub);
                 this.playerRepository.save(player);
             }
+        }catch (Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    @Override
+    public void addPlayerToClub(Long id, Long sportClubId) throws Exception {
+        try{
+            SportClub sportClub=sportClubService.findById(sportClubId);
+            Player player=this.playerRepository.findById(id).get();
+            player.setSportClub(sportClub);
+            this.playerRepository.save(player);
+
         }catch (Exception e){
             throw new Exception(e);
         }
