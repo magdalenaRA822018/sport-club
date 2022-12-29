@@ -8,7 +8,6 @@ interface Props{
 const RequireAuth = ({allowedRoles}: Props) => {
     const authContext: any = useContext(AuthContext);<Outlet /> 
     const token = localStorage.getItem('token')
-    
     return (
       (allowedRoles.includes(authContext.role) && authContext.isAuth && token) ? <Outlet/> : <Navigate to="/" replace />
    );

@@ -74,6 +74,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
           if(fileInputRef.current) fileInputRef.current.value=''
         })
         .catch( err =>  alert(err))
+  
   }
 
   const update = (values: FormFields) => {
