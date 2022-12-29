@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-
-
 export const useConvertImage = (file: File | null) => {
   const [image, setImage] = useState('');
 

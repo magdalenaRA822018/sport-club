@@ -1,5 +1,5 @@
-import { Formik, Form} from 'formik';
 import React, { useState, useEffect } from 'react';
+import { Formik, Form} from 'formik';
 import * as Yup from 'yup';
 import { NewPlayer, Skill, UpdatePlayer } from '../../../interfaces';
 import axios from '../../../http-common';
@@ -15,6 +15,7 @@ import { useRef } from 'react';
 interface PlayerProps {
    playerId: string | undefined;
 }
+
 interface FormFields {
   playerName: string;
   salary: number;
@@ -25,10 +26,8 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [playerSkills, setPlayerSkills]= useState<Array<Skill>>([]);
    const [skills, setSkills]= useState<Array<Skill>>([]);
    const [formValues, setFormValues] = useState<FormFields>();
-  
    const fileInputRef = useRef<any>(null);
-
-   const [image, setImage] = useState('');
+   const [displayImage, setDisplayImage] = useState('');
    const [file, setFile] = useState<File | null>(null);
    const {convertedImage} = useConvertImage(file);
    
@@ -37,11 +36,11 @@ const PlayerFormikForm = (props: PlayerProps) => {
     salary: 0,
    }
    
-    useEffect(()=>{
+   useEffect(()=>{
         if(props.playerId){
                 axios.post('players/find', {id: props.playerId})
                 .then( response => {
-                    setImage(response.data.image)
+                  setDisplayImage(response.data.image)
                     setPlayerSkills(response.data.skills)
                     setSkills(response.data.skills)
                     setFormValues({
@@ -59,7 +58,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
       })
     }, [])
 
-    const create = (values: any, actions: any) => {
+    const create = (values: FormFields, actions: any) => {
         const player: NewPlayer = {
           playerName: values.playerName,
           image: convertedImage,
@@ -70,14 +69,14 @@ const PlayerFormikForm = (props: PlayerProps) => {
         .then( response => { 
           alert(response.data)
           actions.resetForm(initialValues)
-          setImage('')
+          setDisplayImage('')
           setSkills([])
           if(fileInputRef.current) fileInputRef.current.value=''
         })
         .catch( err =>  alert(err))
   }
 
-  const update = (values: any) => {
+  const update = (values: FormFields) => {
         if(!props.playerId) return;
         const player: UpdatePlayer = {
           id: +props.playerId,
@@ -90,7 +89,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         .then( response =>  {
           alert(response.data)
           if(fileInputRef.current)  fileInputRef.current.value=''
-          if(convertedImage) setImage(convertedImage)
+          if(convertedImage) setDisplayImage(convertedImage)
         })
         .catch( err =>  alert(err))
   }
@@ -102,7 +101,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
       const target = event.target as HTMLInputElement;
       const file: File = (target.files as FileList)[0];
       setFile(file)
-      setImage('')
+      setDisplayImage('')
     }
 
     const validationSchema= Yup.object({
@@ -115,16 +114,15 @@ const PlayerFormikForm = (props: PlayerProps) => {
         onSubmit = {(values,actions) => {
             if (props.playerId) update(values)
             else create(values,actions)
-         }}
+        }}
         initialValues = {formValues || initialValues}
         validationSchema = {validationSchema}
         enableReinitialize
       >
-      {({handleSubmit, values, handleChange, errors, touched} ) => (
+      {({handleSubmit, values, handleChange, errors, touched}) => (
           <Card>
-             <h1><b>{props.playerId ?  'Update player' : 'New player' }</b></h1>
+             <h1><b>{props.playerId ? 'Update player' : 'New player' }</b></h1>
              <Form>
-          
               <label htmlFor='playerName' >Full name</label>
               <Input type="text" value={values.playerName} onChange={handleChange} name="playerName"/>
                   {errors.playerName && touched.playerName ? (  <Error>{errors.playerName}</Error> ) : null}
@@ -136,10 +134,10 @@ const PlayerFormikForm = (props: PlayerProps) => {
               <label htmlFor='image'>Image</label>
               <Input id="image" ref={fileInputRef} onChange={imageSelectedHandler} type="file"/>
                { 
-                     image ? 
+                     displayImage ? 
                       <div>
                           <hr/>
-                          <ImageWithBorder alt="Sample" src={image}/>
+                          <ImageWithBorder alt="Sample" src={displayImage}/>
                           <hr/>
                       </div>
                       : null
@@ -156,7 +154,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
             <GreenButton  type="submit" onClick={() => handleSubmit}  >Submit</GreenButton>
          </Form>
          </Card>
-)}
+          )}
       </Formik>
     
       );

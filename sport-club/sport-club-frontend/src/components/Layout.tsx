@@ -7,5 +7,4 @@ const Layout = () => {
         </main>
     )
 }
-
 export default Layout
