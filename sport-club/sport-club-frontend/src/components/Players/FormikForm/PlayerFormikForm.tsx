@@ -27,18 +27,17 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [skills, setSkills]= useState<Array<Skill>>([]);
    const [formValues, setFormValues] = useState<FormFields>();
    const fileInputRef = useRef<any>(null);
-   const {convertedImage, extractFileFromEvent, set} = useConvertImage();
-   
+   const [playerImage, extractFileFromEvent, setImage] = useConvertImage()
    const initialValues: FormFields = {
-    playerName: '',
-    salary: 0,
+      playerName: '',
+      salary: 0,
    }
    
    useEffect(()=>{
         if(props.playerId){
                 axios.post('players/find', {id: props.playerId})
                 .then( response => {
-                    set(response.data.image)
+                    setImage(response.data.image)
                     setPlayerSkills(response.data.skills)
                     setSkills(response.data.skills)
                     setFormValues({
@@ -59,7 +58,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
     const create = (values: FormFields, actions: any) => {
         const player: NewPlayer = {
           playerName: values.playerName,
-          image: convertedImage,
+          image: playerImage,
           salary: values.salary,
           skills: skills
         }
@@ -68,7 +67,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
           alert(response.data)
           actions.resetForm(initialValues)
           setSkills([])
-          set('')
+          setImage('')
           if(fileInputRef.current) fileInputRef.current.value=''
         })
         .catch( err =>  alert(err))
@@ -80,7 +79,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
         const player: UpdatePlayer = {
           id: +props.playerId,
           playerName: values.playerName,
-          image: convertedImage,
+          image: playerImage,
           salary: values.salary,
           skills: skills,
         }
@@ -125,15 +124,16 @@ const PlayerFormikForm = (props: PlayerProps) => {
 
               <label htmlFor='image'>Image</label>
               <Input id="image" ref={fileInputRef} onChange={(event: React.ChangeEvent)=>{ extractFileFromEvent(event)}} type="file"/>
-               { 
-                     convertedImage ? 
+              { 
+                     playerImage ? 
                       <div>
                           <hr/>
-                          <ImageWithBorder alt="Sample" src={convertedImage}/>
+                          <ImageWithBorder alt="Sample" src={playerImage}/>
                           <hr/>
                       </div>
                       : null
                }
+         
              <label htmlFor='skills'>Skills</label>
                      <Multiselect
                      id="skills"

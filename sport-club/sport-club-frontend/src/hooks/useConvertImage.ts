@@ -1,6 +1,6 @@
 import React ,{ useEffect, useState } from 'react';
 
-export const useConvertImage = () => {
+export const useConvertImage = (): [string, (event: React.ChangeEvent) => void, React.Dispatch<React.SetStateAction<string>>] => {
   const [image, setImage] = useState('');
   const [imageFile,setImageFile] =useState<File | null>(null);
 
@@ -15,17 +15,11 @@ export const useConvertImage = () => {
         }
   }, [imageFile])
 
-  const extractFileFromEvent=(event: React.ChangeEvent)=>{
+  const extractFileFromEvent = (event: React.ChangeEvent)=>{
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
     setImageFile(file)
   }
 
-
-  return {
-    convertedImage: image,
-    extractFileFromEvent: extractFileFromEvent,
-    set: setImage
-  };
-
+  return [image, extractFileFromEvent, setImage];
 };
