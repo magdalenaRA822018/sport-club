@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import React ,{ useEffect, useState } from 'react';
 
 export const useConvertImage = () => {
-
   const [image, setImage] = useState('');
   const [imageFile,setImageFile] =useState<File | null>(null);
 
@@ -14,7 +13,6 @@ export const useConvertImage = () => {
           } 
           reader.readAsDataURL(imageFile);  
         }
- 
   }, [imageFile])
 
   const extractFileFromEvent=(event: React.ChangeEvent)=>{

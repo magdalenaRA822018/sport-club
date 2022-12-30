@@ -88,7 +88,6 @@ const PlayerFormikForm = (props: PlayerProps) => {
         .then( response =>  {
           alert(response.data)
           if(fileInputRef.current)  fileInputRef.current.value=''
-         // if(convertedImage) setDisplayImage(convertedImage)
         })
         .catch( err =>  alert(err))
   }
@@ -96,9 +95,6 @@ const PlayerFormikForm = (props: PlayerProps) => {
     const onSelect = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) } 
     const onRemove = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) }
 
-    const imageSelectedHandler=(event: React.ChangeEvent)=>{
-      extractFileFromEvent(event)
-    }
 
     const validationSchema= Yup.object({
       playerName: Yup.string().required('Required'),
@@ -128,7 +124,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
                   {errors.salary && touched.salary ? (  <Error>{errors.salary}</Error> ) : null}
 
               <label htmlFor='image'>Image</label>
-              <Input id="image" ref={fileInputRef} onChange={imageSelectedHandler} type="file"/>
+              <Input id="image" ref={fileInputRef} onChange={(event: React.ChangeEvent)=>{ extractFileFromEvent(event)}} type="file"/>
                { 
                      convertedImage ? 
                       <div>
