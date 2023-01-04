@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../context/auth-context'
 import { Link } from 'react-router-dom';
 import axios from '../../../http-common';
@@ -9,13 +9,17 @@ import Wrapper from '../../styled/Wrappers/Wrapper';
 import InlineParagraph from '../../styled/Wrappers/InlineWrapper';
 import { SubmitFormButton } from '../../styled/Buttons/SubmitFormButton';
 import { useNavigate } from 'react-router-dom';
+import { getCharactersAsync } from '../../../store/features/userSlice';
+import { useAppSelector, useAppDispatch } from '../../../store/store';
+import { login } from '../../../store/features/userSlice';
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
   const navigate=useNavigate()
   const EMAIL_REGEX= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
+  const count = useAppSelector((state) => state.user.username)
+  const dispatch = useAppDispatch()
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -45,7 +49,11 @@ const Auth: FC = () => {
     });
   };
 
- 
+  useEffect(()=>{
+
+   console.log("redux user "+count)
+   dispatch(getCharactersAsync())
+  },[])
   return (
  
     <Wrapper>
