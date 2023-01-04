@@ -1,14 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../http-common';
+import { Credentials } from '../../interfaces';
+
 export interface User {
- 
     isAuth: boolean,
     accessToken: string;
     expiresIn: number;
     username: string;
     roles: string
 }
+
 
 const initialState: User = {
 
@@ -23,7 +25,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<{ user: User }>) => {
+    login213: (state, action: PayloadAction<{ user: User }>) => {
       //state.value += 1
       console.log("redux login")
      /* if (state.loading === 'pending') {
@@ -40,7 +42,7 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getCharactersAsync.pending, (state) => {
+    builder.addCase(login.pending, (state) => {
         console.log("pending")
         // At that moment,
         // we change status to `loading` 
@@ -51,7 +53,7 @@ export const userSlice = createSlice({
   
       // When a server responses with the data,
       // `fetchTodos.fulfilled` is fired:
-      builder.addCase(getCharactersAsync.fulfilled, 
+      builder.addCase(login.fulfilled, 
         (state, { payload }) => {
             console.log("fulfilled")
             console.log(payload)
@@ -67,7 +69,7 @@ export const userSlice = createSlice({
       });
   
       // When a server responses with an error:
-      builder.addCase(getCharactersAsync.rejected, 
+      builder.addCase(login.rejected, 
         (state, { payload }) => {
         // We show the error message
         // and change `status` back to `idle` again.
@@ -77,13 +79,13 @@ export const userSlice = createSlice({
   }
 })
 export default userSlice.reducer;
-export const { login, logout, incrementByAmount } = userSlice.actions
+export const { login213, logout, incrementByAmount } = userSlice.actions
 
 
-export const getCharactersAsync= createAsyncThunk<User, void, { rejectValue: "" }>('character/getCharactersAsync', async (_, thunkApi) => {
+export const login = createAsyncThunk<User, Credentials, { rejectValue: "" }>('user/login', async (credentials, thunkApi) => {
     try {
-        console.log("async")
-        const response = await axios.post('auth/login', {username: "megi@gmail.com", password: "123"})
+        console.log("async"+credentials.username)
+        const response = await axios.post('auth/login', credentials)
         return response?.data
     } catch (error: any) {
         return thunkApi.rejectWithValue(error.response?.data)

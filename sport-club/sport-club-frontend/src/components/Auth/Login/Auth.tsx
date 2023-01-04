@@ -9,9 +9,9 @@ import Wrapper from '../../styled/Wrappers/Wrapper';
 import InlineParagraph from '../../styled/Wrappers/InlineWrapper';
 import { SubmitFormButton } from '../../styled/Buttons/SubmitFormButton';
 import { useNavigate } from 'react-router-dom';
-import { getCharactersAsync } from '../../../store/features/userSlice';
-import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { login } from '../../../store/features/userSlice';
+import { useAppSelector, useAppDispatch } from '../../../store/store';
+
 const Auth: FC = () => {
   const authContext = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -27,8 +27,9 @@ const Auth: FC = () => {
       username: enteredEmail,
       password: enteredPassword,
      }
+     dispatch(login(user))
 
-    axios.post('auth/login', user)
+    /*axios.post('auth/login', user)
     .then( response => {
       const tokenState: UserTokenState = {
         accessToken: response.data.accessToken,
@@ -47,12 +48,14 @@ const Auth: FC = () => {
     .catch( error =>{
       alert("error")
     });
+    */
+
   };
 
   useEffect(()=>{
 
    console.log("redux user "+count)
-   dispatch(getCharactersAsync())
+   
   },[])
   return (
  
