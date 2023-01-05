@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext }  from 'react';
 import { AuthContext } from '../../../context/auth-context';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
-
+import { useAppSelector, useAppDispatch } from '../../../store/store';
 import axios from '../../../http-common';
 import { User } from '../../../interfaces';
 import Input from '../../styled/Input';
@@ -10,15 +10,18 @@ import Card from '../../styled/Cards/Card';
 import GreenButton from '../../styled/Buttons/GreenButton';
 import RedButton from '../../styled/Buttons/RedButton';
 import Wrapper from '../../styled/Wrappers/Wrapper';
+import { findByUsername, updateUser } from '../../../store/features/userSlice';
+
 const EditProfile = () => {
 
   const NAMES_REGEX=/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-
+  
   const [enteredFirstName, setEnteredFirstName]= useState('');
   const [enteredLastName, setEnteredLastName]= useState('');
-  const [username, setUsername] = useState('');
-  const [accountType, setAccountType] = useState('');
-  const authContext: any=useContext(AuthContext)
+  const username = useAppSelector((state) => state.user.userTokenState.username)
+  const role = useAppSelector((state) => state.user.userTokenState.roles)
+  const loggedInUser = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch()
   const navigate=useNavigate();
 
 
@@ -32,50 +35,45 @@ const EditProfile = () => {
     }
       return true;
   }
-  
-
  
-  const loadUser = (username:string) => {
-    axios.post('users/username', {username: username})
-    .then( (response) =>{
-        setEnteredFirstName(response.data.firstname)
-        setEnteredLastName(response.data.lastname)
-        setUsername(response.data.username)
-        setAccountType(response.data.role)
-    })
-    .catch( (error)=> {
-      alert("error")
-    });
-  
+  const loadUser = async () => {
+    const resultAction = await dispatch(findByUsername(username))
+    if (findByUsername.fulfilled.match(resultAction)) {
+      setEnteredFirstName(resultAction.payload.firstname)
+      setEnteredLastName(resultAction.payload.lastname)
+    } 
+
   }
 
-
   useEffect(()=>{
-    loadUser(authContext.username)
+        if(loggedInUser.id===0) loadUser() 
+        else{
+          setEnteredFirstName(loggedInUser.firstname)
+          setEnteredLastName(loggedInUser.lastname)
+        }
   }, [])
   
 
-  const editHandler = (e: React.FormEvent) => {
+  const editHandler = async (e: React.FormEvent) => {
      e.preventDefault();
      if(!validInput()) return; 
-
      const user: User ={
-      id: 0,
+      id: loggedInUser.id,
       role: '',
-      username: username,
+      username: username, 
       password: '',
       firstname: enteredFirstName,
       lastname: enteredLastName,
     }
-    axios.post('users/update', user )
-    .then( (response)=> {
-      alert(response.data.content)
-    })
-    .catch( (error) =>{
-      alert("error")
-    });
+    
+    const resultAction = await dispatch(updateUser(user))
 
+    if (updateUser.fulfilled.match(resultAction))  alert('Success')
+    else alert(resultAction.payload)
+    
   }
+
+  
 
   return (
     <Wrapper>
@@ -105,7 +103,7 @@ const EditProfile = () => {
        
       
           <label htmlFor='accountType' >Account type</label>
-          <Input id="accountType" value={accountType.substring(5,accountType.length)} type="text" disabled/>
+          <Input id="accountType" value={role.substring(5,role.length)} type="text" disabled/>
   
           <GreenButton type='submit' >Update</GreenButton>
         </form>

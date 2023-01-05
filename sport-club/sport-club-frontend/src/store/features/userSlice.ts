@@ -1,93 +1,127 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../http-common';
-import { Credentials } from '../../interfaces';
 
-export interface User {
-    isAuth: boolean,
-    accessToken: string;
-    expiresIn: number;
-    username: string;
-    roles: string
+export interface User{
+  id: number;
+  role: string;
+  username: string;
+  password: string;
+  firstname: string;
+  lastname: string;
 }
 
+export interface UserTokenState {
+  accessToken: string;
+  expiresIn: number;
+  username: string;
+  roles: string
+}
 
-const initialState: User = {
+export interface UserInformation{
+  user: User,
+  userTokenState: UserTokenState
+  loading: boolean,
+  error: any,
+  success: boolean,
+}
+ const initalUserState:User = {
+  id: 0,
+  role: '',
+  username: '',
+  password: '',
+  firstname: '',
+  lastname: '',
+}
 
-    isAuth: false,
-    accessToken: '',
-    expiresIn: 0,
-    username: '',
-    roles: ''
+const initialState: UserInformation = {
+    user: initalUserState,
+    userTokenState: {} as UserTokenState,
+    loading: false,
+    error: null,
+    success: false,
 }
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login213: (state, action: PayloadAction<{ user: User }>) => {
-      //state.value += 1
-      console.log("redux login")
-     /* if (state.loading === 'pending') {
-        state.loading = 'idle'
-        state.username = action.payload
-      }*/
+    login: (state, action: PayloadAction<UserTokenState>) => {
+        state.userTokenState=action.payload
     },
-    logout: (state) => {
-      //state.value -= 1
-    },
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      //state.value += action.payload
-    },
+    logout: (state) => { 
+      state = initialState
+      localStorage.removeItem('token')
+    }
   },
   extraReducers: (builder) => {
-    builder.addCase(login.pending, (state) => {
-        console.log("pending")
-        // At that moment,
-        // we change status to `loading` 
-        // and clear all the previous errors:
-        //state.status = "loading";
-        //state.error = null;
+       builder.addCase(findByUsername.pending, (state) => {
+          state.loading = true
+          state.error = null
+       });
+  
+      builder.addCase(findByUsername.fulfilled, 
+        (state, { payload }) => {
+         state.user=payload
+         state.loading = false
+         state.success = true 
       });
   
-      // When a server responses with the data,
-      // `fetchTodos.fulfilled` is fired:
-      builder.addCase(login.fulfilled, 
+      builder.addCase(findByUsername.rejected, 
         (state, { payload }) => {
-            console.log("fulfilled")
-            console.log(payload)
-        // We add all the new todos into the state
-        // and change `status` back to `idle`:
-        //  state.list.push(...payload);
-         // state.status = "idle";
-         state.isAuth=true
-         state.accessToken=payload.accessToken
-         state.roles=payload.roles
-         state.username=payload.username
-         
+         state.loading = false
+         state.error = payload
       });
-  
-      // When a server responses with an error:
-      builder.addCase(login.rejected, 
+
+      builder.addCase(updateUser.fulfilled, 
         (state, { payload }) => {
-        // We show the error message
-        // and change `status` back to `idle` again.
-        //if (payload) state.error = payload.message;
-        //state.status = "idle";
+         state.user=payload
+         state.loading = false
+         state.success = true 
       });
+
+      builder.addCase(updateUser.rejected, 
+        (state, { payload , error}) => {
+         state.error=payload
+         if (payload) {
+          state.error = payload
+        } else {
+          state.error = error
+        }
+      });
+      
   }
 })
 export default userSlice.reducer;
-export const { login213, logout, incrementByAmount } = userSlice.actions
+export const { login, logout } = userSlice.actions
 
 
-export const login = createAsyncThunk<User, Credentials, { rejectValue: "" }>('user/login', async (credentials, thunkApi) => {
+/*
+export const login2 = createAsyncThunk<UserTokenState, Credentials, { rejectValue: "" }>('user/login', async (credentials, thunkApi) => {
     try {
-        console.log("async"+credentials.username)
+      console.log("login")
         const response = await axios.post('auth/login', credentials)
         return response?.data
     } catch (error: any) {
         return thunkApi.rejectWithValue(error.response?.data)
     }
+})
+*/
+
+export const findByUsername = createAsyncThunk<User, string, { rejectValue: "" }>('user/findByUsername', async (username, thunkApi) => {
+  try {
+      const response = await axios.post('users/username', {username: username})
+      return response?.data
+  } catch (error: any) {
+      return thunkApi.rejectWithValue(error.response.data)
+  }
+})
+
+export const updateUser = createAsyncThunk<User, User, { rejectValue: "" }>('user/updateUser', async (user, thunkApi) => {
+  try {
+      const response = await axios.post('users/update', user)
+      return user
+  } catch (error: any) {
+      return thunkApi.rejectWithValue(error.response.data)
+  }
 })

@@ -18,7 +18,7 @@ const Auth: FC = () => {
   const [enteredPassword, setEnteredPassword] = useState('');
   const navigate=useNavigate()
   const EMAIL_REGEX= /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const count = useAppSelector((state) => state.user.username)
+  const userTokenState = useAppSelector((state) => state.user.userTokenState)
   const dispatch = useAppDispatch()
   const loginHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -27,9 +27,8 @@ const Auth: FC = () => {
       username: enteredEmail,
       password: enteredPassword,
      }
-     dispatch(login(user))
-
-    /*axios.post('auth/login', user)
+     
+    axios.post('auth/login', user)
     .then( response => {
       const tokenState: UserTokenState = {
         accessToken: response.data.accessToken,
@@ -37,26 +36,20 @@ const Auth: FC = () => {
         username: response.data.username,
         roles: response.data.roles
       }
-      authContext?.login(tokenState)
-     
-
-     if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
-     else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
       
-      
+      dispatch(login(tokenState))
+      localStorage.setItem('token',tokenState.accessToken)
+      if(tokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
+      else if(tokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
     })
     .catch( error =>{
       alert("error")
     });
-    */
-
+   
+    if(userTokenState.roles=='ROLE_EDITOR')  navigate('/editor/sportclubs')
+    else if(userTokenState.roles=='ROLE_VIEWER')  navigate('/viewer/sportclubs')
   };
 
-  useEffect(()=>{
-
-   console.log("redux user "+count)
-   
-  },[])
   return (
  
     <Wrapper>

@@ -11,7 +11,9 @@ import Card from '../../styled/Cards/Card';
 import {useConvertImage} from '../../../hooks/useConvertImage';
 import { Error } from './styled-form/styled-form';
 import { useRef } from 'react';
-
+import { useAppSelector, useAppDispatch } from '../../../store/store';
+import { addPlayer, updatePlayer } from '../../../store/features/playerSlice';
+import { Navigate } from 'react-router-dom';
 interface PlayerProps {
    playerId: string | undefined;
 }
@@ -32,10 +34,12 @@ const PlayerFormikForm = (props: PlayerProps) => {
       playerName: '',
       salary: 0,
    }
-   
+   const dispatch = useAppDispatch()
+   const success = useAppSelector((state) => state.players.success)
+   const error = useAppSelector((state) => state.players.error)
    useEffect(()=>{
         if(props.playerId){
-                axios.post('players/find', {id: props.playerId})
+              /*  axios.post('players/find', {id: props.playerId})
                 .then( response => {
                     setImage(response.data.image)
                     setPlayerSkills(response.data.skills)
@@ -44,7 +48,12 @@ const PlayerFormikForm = (props: PlayerProps) => {
                         playerName: response.data.playerName,
                         salary: response.data.salary,
                     })
-                })
+                })*/
+               /* const resultAction = await dispatch(findByUsername(username))
+                if (findByUsername.fulfilled.match(resultAction)) {
+                  setEnteredFirstName(resultAction.payload.firstname)
+                  setEnteredLastName(resultAction.payload.lastname)
+                } */
         }
     }, [])
 
@@ -62,7 +71,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
           salary: values.salary,
           skills: skills
         }
-        axios.post('players/new', player)
+      /* axios.post('players/new', player)
         .then( response => { 
           alert(response.data)
           actions.resetForm(initialValues)
@@ -70,8 +79,19 @@ const PlayerFormikForm = (props: PlayerProps) => {
           setImage('')
           if(fileInputRef.current) fileInputRef.current.value=''
         })
-        .catch( err =>  alert(err))
-  
+        .catch( err =>  alert(err))*/
+        
+       dispatch(addPlayer(player))
+       if(success){
+        actions.resetForm(initialValues)
+        setSkills([])
+        setImage('')
+        if(fileInputRef.current) fileInputRef.current.value=''
+       }
+       
+       if(error){
+        alert(error)
+       }
   }
 
   const update = (values: FormFields) => {
@@ -83,12 +103,13 @@ const PlayerFormikForm = (props: PlayerProps) => {
           salary: values.salary,
           skills: skills,
         }
-        axios.post('players/update', player)
+       /* axios.post('players/update', player)
         .then( response =>  {
           alert(response.data)
           if(fileInputRef.current)  fileInputRef.current.value=''
         })
-        .catch( err =>  alert(err))
+        .catch( err =>  alert(err))*/
+        dispatch(updatePlayer(player))
   }
  
     const onSelect = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) } 
