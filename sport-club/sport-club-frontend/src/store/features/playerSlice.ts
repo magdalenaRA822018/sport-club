@@ -19,10 +19,8 @@ import { NewPlayer, UpdatePlayer, Player } from '../../interfaces';
     builder.addCase(loadPlayers.fulfilled, 
         (state, { payload }) => {
         state.players=payload
-        console.log(state.players)
     });
     
-
     builder.addCase(removePlayer.fulfilled, 
         (state, { payload }) => {
          state.players = state.players.filter(player=> player.id != payload);
@@ -32,7 +30,6 @@ import { NewPlayer, UpdatePlayer, Player } from '../../interfaces';
         (state, { payload }) => {
          state.players = [...state.players, payload]
     });
-
 
     builder.addCase(updatePlayer.fulfilled, 
         (state, { payload }) => {
@@ -71,6 +68,24 @@ export const updatePlayer = createAsyncThunk<Player, UpdatePlayer, { rejectValue
 })
 
 export const removePlayer = createAsyncThunk<number, number, { rejectValue: string }>('players/removePlayer', async (playerId, thunkApi) => {
+    try {
+        const response = await axios.post('players/remove', {id: playerId})
+        return playerId
+    } catch (error: any) {
+        return thunkApi.rejectWithValue(error.response.data)
+    }
+})
+
+export const removePlayerFromClub = createAsyncThunk<number, number, { rejectValue: string }>('players/removePlayerFromClub', async (playerId, thunkApi) => {
+    try {
+        const response = await axios.post('players/remove', {id: playerId})
+        return playerId
+    } catch (error: any) {
+        return thunkApi.rejectWithValue(error.response.data)
+    }
+})
+
+export const addPlayerToClub = createAsyncThunk<number, number, { rejectValue: string }>('players/addPlayerToClub', async (playerId, thunkApi) => {
     try {
         const response = await axios.post('players/remove', {id: playerId})
         return playerId

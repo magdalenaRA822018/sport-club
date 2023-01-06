@@ -77,7 +77,6 @@ public class AuthenticationController {
 
 		UserTokenState userTokenState=this.authenticationService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		 if(userTokenState!=null) return new ResponseEntity(userTokenState, HttpStatus.OK);
-
 		 return new ResponseEntity(new UserTokenState(), HttpStatus.BAD_REQUEST);
 
 	}

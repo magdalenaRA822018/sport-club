@@ -5,6 +5,8 @@ import { Credentials, User, UserTokenState } from '../../interfaces';
 export interface UserInformation{
   user: User,
   userTokenState: UserTokenState
+  loading: boolean,
+  error: string | null,
 }
 const initalUserState:User = {
   id: 0,
@@ -25,6 +27,8 @@ const initalUserTokenState:UserTokenState = {
 const initialState: UserInformation = {
     user: initalUserState,
     userTokenState: initalUserTokenState,
+    loading: false,
+    error:  null,
 }
 
 export const userSlice = createSlice({
@@ -38,21 +42,39 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
 
-      builder.addCase(findByUsername.fulfilled, 
+      builder
+      .addCase(findByUsername.fulfilled, 
         (state, { payload }) => {
          state.user=payload
-      });
+         state.loading=false
+      })
       
-      builder.addCase(updateUser.fulfilled, 
+      .addCase(updateUser.fulfilled, 
         (state, { payload }) => {
          state.user=payload
-      });
+         state.loading=false
+      })
 
-      builder.addCase(login.fulfilled, 
-        (state, { payload }) => {
+      .addCase(login.fulfilled, 
+        (state, { payload}) => {
          state.userTokenState=payload
          localStorage.setItem('token', payload.accessToken)
-      });
+         state.loading=false
+      })
+
+      .addMatcher( (action) => action.type.endsWith('/pending'),
+        (state) => {
+          state.loading=true
+        }
+      )
+
+      .addMatcher(
+        (action) => action.type.endsWith('/rejected'),
+        (state, action) => {
+          state.loading=false
+          state.error=action.error.message
+        }
+      ) 
   }
 })
 
@@ -73,7 +95,7 @@ export const login = createAsyncThunk<UserTokenState, Credentials, { rejectValue
         })
         .catch((error)=>{
           return thunkApi.rejectWithValue(error.response.data)
-        })
+    })
     */
 })
 
