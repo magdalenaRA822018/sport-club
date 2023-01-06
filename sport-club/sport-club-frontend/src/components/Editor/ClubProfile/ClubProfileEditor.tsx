@@ -16,11 +16,11 @@ const ClubProfileEditor = () => {
         <CenterWrapper >
         <Button onClick={() => navigate("/editor/editClubProfile/"+id)}>Edit club profile</Button>
         </CenterWrapper>
-        <SportClubProfile></SportClubProfile>
+        <SportClubProfile clubId={id? +id : 0}></SportClubProfile>
     </React.Fragment>
   );
     
-  
+   
 };
 
 export default ClubProfileEditor;

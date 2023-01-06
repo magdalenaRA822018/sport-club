@@ -17,7 +17,7 @@ public class PlayerMapper {
         Long clubId=0L;
         if(player.getSportClub()!=null) {
             clubName = player.getSportClub().getName();
-            clubId= player.getId();
+            clubId= player.getSportClub().getId();
         }
         return new PlayerDto(player.getId(),player.getPlayerName(),imageMapper.decodeBase64(player.getImage()),player.getSalary(),
                 skillMapper.skillsToSkillDtos(player.getSkills()),clubName,clubId.toString());

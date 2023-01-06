@@ -13,11 +13,10 @@ import { Error } from './styled-form/styled-form';
 import { useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { addPlayer, updatePlayer } from '../../../store/features/playerSlice';
-import { Navigate } from 'react-router-dom';
-interface PlayerProps {
-   playerId: string | undefined;
-}
 
+interface PlayerProps {
+   playerId: number;
+}
 interface FormFields {
   playerName: string;
   salary: number;
@@ -28,33 +27,27 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [playerSkills, setPlayerSkills]= useState<Array<Skill>>([]);
    const [skills, setSkills]= useState<Array<Skill>>([]);
    const [formValues, setFormValues] = useState<FormFields>();
+   const [playerImage, extractFileFromEvent, setImage] = useConvertImage();
+
    const fileInputRef = useRef<any>(null);
-   const [playerImage, extractFileFromEvent, setImage] = useConvertImage()
+   const dispatch = useAppDispatch();
+   const player = useAppSelector((state) => state.players.players.find((player) => {return player.id === props.playerId}));
+
    const initialValues: FormFields = {
-      playerName: '',
-      salary: 0,
+    playerName: '',
+    salary: 0,
    }
-   const dispatch = useAppDispatch()
-   const success = useAppSelector((state) => state.players.success)
-   const error = useAppSelector((state) => state.players.error)
-   useEffect(()=>{
-        if(props.playerId){
-              /*  axios.post('players/find', {id: props.playerId})
-                .then( response => {
-                    setImage(response.data.image)
-                    setPlayerSkills(response.data.skills)
-                    setSkills(response.data.skills)
-                    setFormValues({
-                        playerName: response.data.playerName,
-                        salary: response.data.salary,
-                    })
-                })*/
-               /* const resultAction = await dispatch(findByUsername(username))
-                if (findByUsername.fulfilled.match(resultAction)) {
-                  setEnteredFirstName(resultAction.payload.firstname)
-                  setEnteredLastName(resultAction.payload.lastname)
-                } */
-        }
+
+    useEffect(()=>{
+          if(props.playerId!=0 && player){
+                      setImage(player.image)
+                      setPlayerSkills(player.skills)
+                      setSkills(player.skills)
+                      setFormValues({
+                          playerName: player.playerName,
+                          salary: player.salary,
+                      })
+          }
     }, [])
 
     useEffect(()=>{
@@ -71,50 +64,46 @@ const PlayerFormikForm = (props: PlayerProps) => {
           salary: values.salary,
           skills: skills
         }
-      /* axios.post('players/new', player)
-        .then( response => { 
-          alert(response.data)
+
+        dispatch(addPlayer(player))
+        .unwrap()
+        .then(() => {
+          alert("Success")
           actions.resetForm(initialValues)
           setSkills([])
           setImage('')
           if(fileInputRef.current) fileInputRef.current.value=''
         })
-        .catch( err =>  alert(err))*/
-        
-       dispatch(addPlayer(player))
-       if(success){
-        actions.resetForm(initialValues)
-        setSkills([])
-        setImage('')
-        if(fileInputRef.current) fileInputRef.current.value=''
-       }
-       
-       if(error){
-        alert(error)
-       }
+        .catch((error) => {
+          alert(error)
+        })
   }
 
   const update = (values: FormFields) => {
         if(!props.playerId) return;
+
         const player: UpdatePlayer = {
-          id: +props.playerId,
+          id: props.playerId,
           playerName: values.playerName,
           image: playerImage,
           salary: values.salary,
           skills: skills,
         }
-       /* axios.post('players/update', player)
-        .then( response =>  {
-          alert(response.data)
+       
+        dispatch(updatePlayer(player))
+        .unwrap()
+        .then(() => {
+          alert("Success")
           if(fileInputRef.current)  fileInputRef.current.value=''
         })
-        .catch( err =>  alert(err))*/
-        dispatch(updatePlayer(player))
+        .catch((error) => {
+          alert(error)
+        })
+        
   }
  
     const onSelect = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) } 
     const onRemove = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) }
-
 
     const validationSchema= Yup.object({
       playerName: Yup.string().required('Required'),

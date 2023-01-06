@@ -56,7 +56,7 @@ public class PlayerController {
     @PostMapping("/update")
     @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<PlayerDto> update(@RequestBody PlayerDto playerDto) {
-        try{
+       try{
             boolean addNewImage=true;
             if(playerDto.getImage().equals("")) addNewImage=false;
             Player player=this.playerService.update(playerMapper.playerDtoToPlayer(playerDto),addNewImage);

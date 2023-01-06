@@ -1,25 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { SportClub } from '../../../interfaces';
+import { useState, useEffect } from 'react';
+import { Player, SportClub } from '../../../interfaces';
 import axios from '../../../http-common';
-import { AuthContext } from '../../../context/auth-context';
 import { useNavigate } from 'react-router-dom';
-
-
+import { useAppSelector } from '../../../store/store';
 import { Table, TD ,TR,TH } from '../../styled/Table';
 import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import Button from '../../styled/Buttons/Button';
 import TableImage from '../../styled/Images/TableImage';
-
-const SportClubProfile = () => {
+interface ClubProps {
+  clubId: number;
+}
+const SportClubProfile = (props: ClubProps) => {
   const [sportClub, setSportClub] = useState<SportClub>({} as SportClub);
-  const { id } = useParams();
-  const authContext= useContext(AuthContext);
   const navigate=useNavigate()
-
-
+  const players: Player[] = useAppSelector((state) => state.players.players.filter((player) => { return player.clubId == props.clubId}));
+  const currentUserRole = useAppSelector((state) => state.user.userTokenState.roles)
   useEffect(() => {
-      axios.post('sportclubs/club',{id: id})
+      axios.post('sportclubs/club',{id: props.clubId})
       .then( response =>{
          setSportClub(response.data)
       })
@@ -28,22 +25,25 @@ const SportClubProfile = () => {
   return (
     <DashboardWrapper>
     <h1><b>Sport club:  {sportClub.name}</b></h1>
-  
     <Table>
       <tbody>
-        {sportClub.players?.map((player,index)=>  
+        {
+        players? 
+        players.map((player,index)=>  
         <TR key={player.id}>
           <TH  >{index+1}</TH>
           <TD><TableImage alt="Sample" id='playerImage'  src={player.image}/></TD>
           <TD >{player.playerName}</TD>
           <TD ><Button onClick={() => 
-            { if(authContext?.role==="ROLE_EDITOR")
+            { if(currentUserRole==="ROLE_EDITOR")
                 navigate("/editor/playerProfile/"+player.id)
               else
               navigate("/playerProfile/"+player.id)
             }} >PROFILE</Button></TD>
             </TR>
-            )}
+            )
+            : null
+         }
        </tbody>
           
         </Table>

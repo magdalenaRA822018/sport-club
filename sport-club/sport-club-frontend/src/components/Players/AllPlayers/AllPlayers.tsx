@@ -7,23 +7,29 @@ import Button from '../../styled/Buttons/Button';
 import RedButton from '../../styled/Buttons/RedButton';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { loadPlayers, removePlayer } from '../../../store/features/playerSlice';
+
 const AllPlayers = () => {
   const navigate = useNavigate();
   const players = useAppSelector((state) => state.players.players);
-  const loadingPlayers = useAppSelector((state) => state.players.loading)
   const dispatch = useAppDispatch()
  
   const removePlayerHandler = (id:number) => {
       dispatch(removePlayer(id))
+      .unwrap()
+      .then(() => {
+        alert("Success")
+      })
+      .catch((error) => {
+        alert(error)
+      })
   }
   useEffect(() => {
       if(!players.length) dispatch(loadPlayers())
   }, []);
+
   return (
     <DashboardWrapper>
     <h1><b>Players</b></h1>
-    { loadingPlayers ?
-      'Loading...' :
       <Table >
               <tbody>
                 {players?.map((player,index)=>  
@@ -44,8 +50,6 @@ const AllPlayers = () => {
                 )}
               </tbody>
         </Table>
-    }
-        
     </DashboardWrapper>
   );
 };

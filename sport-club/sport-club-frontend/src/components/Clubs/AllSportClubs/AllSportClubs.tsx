@@ -1,15 +1,14 @@
 import { useState, useEffect,useContext } from 'react';
 import { SportClub } from '../../../interfaces';
-import { AuthContext } from '../../../context/auth-context';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../http-common';
 import DashboardWrapper from '../../styled/Wrappers/DashboardWrapper';
 import SportClubComponent from '../SportClub/SportClub'
+import { useAppSelector } from '../../../store/store';
 const AllSportClubs = () => {
   const [sportClubs, setSportClubs] = useState<SportClub[]>([]);
-  const authContext= useContext(AuthContext);
   const navigate=useNavigate();
- 
+  const currentUserRole = useAppSelector((state) => state.user.userTokenState.roles)
   useEffect(() => {
        axios.get('sportclubs/all')
       .then((response)=> {
@@ -19,8 +18,8 @@ const AllSportClubs = () => {
   }, []);
 
   const openProfile = (id: number) => {
-    if(authContext?.role==="ROLE_EDITOR") navigate("/editor/clubProfile/"+id)
-    else navigate("/clubProfile/"+id)
+     if(currentUserRole==="ROLE_EDITOR") navigate("/editor/clubProfile/"+id)
+     else navigate("/clubProfile/"+id)
   }
   
   return (
