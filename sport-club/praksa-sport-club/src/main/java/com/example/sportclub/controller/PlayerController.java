@@ -37,12 +37,13 @@ public class PlayerController {
     @PostMapping("/new")
     @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<PlayerDto> newPlayer(@RequestBody CreatePlayerDto playerDto) {
-        try{
+       /* try{
             Player player=this.playerService.save(playerMapper.createPlayerDtoToPlayer(playerDto));
             return new ResponseEntity<>(playerMapper.playerToPlayerDto(player), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        }*/
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/find")
     @PreAuthorize("hasRole('EDITOR') || hasRole('VIEWER')")

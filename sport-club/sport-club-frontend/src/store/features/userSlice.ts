@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../http-common';
 import { Credentials, User, UserTokenState } from '../../interfaces';
 
@@ -44,29 +44,25 @@ export const userSlice = createSlice({
 
       builder
       .addCase(findByUsername.fulfilled, 
-        (state, { payload }) => {
-         state.user=payload
-         state.loading=false
+        (state, action: PayloadAction<User>) => {
+         state.user = action.payload
+         state.loading = false
       })
       
       .addCase(updateUser.fulfilled, 
-        (state, { payload }) => {
-         state.user=payload
-         state.loading=false
+        (state, action: PayloadAction<User>) => {
+         state.user = action.payload
+         state.loading = false
       })
 
       .addCase(login.fulfilled, 
-        (state, { payload}) => {
-         state.userTokenState=payload
-         localStorage.setItem('token', payload.accessToken)
+        (state, action: PayloadAction<UserTokenState>) => {
+         state.userTokenState=action.payload
+         localStorage.setItem('token', action.payload.accessToken)
          state.loading=false
       })
 
-      .addMatcher( (action) => action.type.endsWith('/pending'),
-        (state) => {
-          state.loading=true
-        }
-      )
+      .addMatcher( (action) => action.type.endsWith('/pending'), (state) => {state.loading=true})
 
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
@@ -82,37 +78,37 @@ export default userSlice.reducer;
 export const { logout } = userSlice.actions
 
 export const login = createAsyncThunk<UserTokenState, Credentials, { rejectValue: string }>('user/login', async (credentials, thunkApi) => {
-    try {
-        const response = await axios.post('auth/login', credentials)
-        return response.data
-    } catch (error: any) {
-        return thunkApi.rejectWithValue(error.response.data)
-    }
-    /*
-    axios.post('auth/login', credentials)
+ 
+     return await 
+        axios.post('auth/login', credentials)
         .then((response)=>{
-          return response
+          return response.data 
         })
-        .catch((error)=>{
+        .catch((error: any)=>{
           return thunkApi.rejectWithValue(error.response.data)
-    })
-    */
+        })
 })
 
 export const findByUsername = createAsyncThunk<User, string, { rejectValue: string }>('user/findByUsername', async (username, thunkApi) => {
-  try {
-      const response = await axios.post('users/username', {username: username})
-      return response.data
-  } catch (error: any) {
-      return thunkApi.rejectWithValue(error.response.data)
-  }
+ 
+      return await 
+      axios.post('users/username', {username: username})
+      .then((response)=>{
+        return response.data 
+      })
+      .catch((error: any)=>{
+        return thunkApi.rejectWithValue(error.response.data)
+      })
 })
 
 export const updateUser = createAsyncThunk<User, User, { rejectValue: string }>('user/updateUser', async (user, thunkApi) => {
-  try {
-      const response = await axios.post('users/update', user)
-      return response.data
-  } catch (error: any) {
-      return thunkApi.rejectWithValue(error.response.data)
-  }
+
+      return await 
+      axios.post('users/update', user)
+      .then((response)=>{
+        return response.data 
+      })
+      .catch((error: any)=>{
+        return thunkApi.rejectWithValue(error.response.data)
+      })
 })
