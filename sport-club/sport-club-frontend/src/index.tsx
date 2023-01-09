@@ -7,6 +7,7 @@ import AuthContextProvider from './context/auth-context';
 import {BrowserRouter,Route, Routes} from 'react-router-dom'
 import {store} from './store/store';
 import { Provider } from 'react-redux';
+import './fonts/Roboto-Regular.ttf'
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
