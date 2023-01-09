@@ -9,6 +9,7 @@ import { SubmitFormButton } from '../../styled/Buttons/SubmitFormButton';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { login } from '../../../store/features/userSlice';
+import Button from '../../styled/Buttons/Button';
 const Auth: FC = () => {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
@@ -58,6 +59,7 @@ const Auth: FC = () => {
         <InlineParagraph>Don't have an account? </InlineParagraph>
         <Link to="/signup">Sign Up</Link>
     </Card>
+    <Button onClick={() => navigate("/frontend")}  >Front</Button>
     </Wrapper>
   );
 };
