@@ -11,10 +11,12 @@ interface ClubProps {
   clubId: number;
 }
 const SportClubProfile = (props: ClubProps) => {
+
   const [sportClub, setSportClub] = useState<SportClub>({} as SportClub);
   const navigate=useNavigate()
   const players: Player[] = useAppSelector((state) => state.players.players.filter((player) => { return player.clubId == props.clubId}));
   const currentUserRole = useAppSelector((state) => state.user.userTokenState.roles)
+  
   useEffect(() => {
       axios.post('sportclubs/club',{id: props.clubId})
       .then( response =>{
