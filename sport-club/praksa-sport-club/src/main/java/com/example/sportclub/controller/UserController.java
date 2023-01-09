@@ -27,15 +27,16 @@ public class UserController {
     }
     @PostMapping("/update")
     @PreAuthorize("hasRole('EDITOR') || hasRole('VIEWER')")
-    public ResponseEntity<ResponseDto> update(@RequestBody UserDto userDto) {
+    public ResponseEntity<String> update(@RequestBody UserDto userDto) {
         if(this.userService.findByUsername(userDto.getUsername())==null)
-            return new ResponseEntity<>(new ResponseDto("User doesn't exist."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User doesn't exist.", HttpStatus.BAD_REQUEST);
         try{
             this.userService.update(userMapper.userDtoToUser(userDto));
-            return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.OK);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto("Error"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
         }
+
     }
     @GetMapping("/user")
     @PreAuthorize("hasRole('EDITOR') || hasRole('VIEWER')")

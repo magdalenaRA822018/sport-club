@@ -74,12 +74,9 @@ public class AuthenticationController {
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(
 			@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
-
 		UserTokenState userTokenState=this.authenticationService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		 if(userTokenState!=null) return new ResponseEntity(userTokenState, HttpStatus.OK);
-
 		 return new ResponseEntity(new UserTokenState(), HttpStatus.BAD_REQUEST);
-
 	}
 
 	@PostMapping(value = "/refresh")

@@ -26,11 +26,11 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void save(Player player) throws Exception {
+    public Player save(Player player) throws Exception {
         try {
             String imagePath = saveImage(player.getImage());
             player.setImage(imagePath);
-            this.playerRepository.save(player);
+            return this.playerRepository.save(player);
         }catch (Exception e){
             throw new Exception(e);
         }
@@ -63,20 +63,20 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void update(Player newPlayer, boolean addNewImage) throws Exception {
+    public Player update(Player newPlayer, boolean addNewImage) throws Exception {
         try {
             Player player = this.playerRepository.findById(newPlayer.getId()).get();
             player.setPlayerName(newPlayer.getPlayerName());
             player.setSalary(newPlayer.getSalary());
             player.setSkills(newPlayer.getSkills());
-            this.playerRepository.save(player);
+            Player player1= this.playerRepository.save(player);
 
             if (addNewImage) {
                 String imagePath = saveImage(newPlayer.getImage());
                 player.setImage(imagePath);
-                this.playerRepository.save(player);
+                player1=this.playerRepository.save(player);
             }
-
+            return player1;
         }catch (Exception e){
             throw new Exception(e);
         }
@@ -97,12 +97,12 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void addPlayerToClub(Long id, Long sportClubId) throws Exception {
+    public Player addPlayerToClub(Long id, Long sportClubId) throws Exception {
         try{
             SportClub sportClub=sportClubService.findById(sportClubId);
             Player player=this.playerRepository.findById(id).get();
             player.setSportClub(sportClub);
-            this.playerRepository.save(player);
+            return this.playerRepository.save(player);
 
         }catch (Exception e){
             throw new Exception(e);

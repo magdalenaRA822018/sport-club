@@ -9,7 +9,7 @@ const EditPlayerProfile = () => {
       <React.Fragment>
         <EditorNavbar/>
         <DashboardWrapper>
-        <PlayerFormikForm playerId={id} />
+        <PlayerFormikForm playerId={ id ? +id : 0} />
         </DashboardWrapper>
       </React.Fragment>
     );

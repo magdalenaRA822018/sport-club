@@ -11,11 +11,11 @@ import Card from '../../styled/Cards/Card';
 import {useConvertImage} from '../../../hooks/useConvertImage';
 import { Error } from './styled-form/styled-form';
 import { useRef } from 'react';
-
+import { useAppSelector, useAppDispatch } from '../../../store/store';
+import { addPlayer, updatePlayer } from '../../../store/features/playerSlice';
 interface PlayerProps {
-   playerId: string | undefined;
+   playerId: number;
 }
-
 interface FormFields {
   playerName: string;
   salary: number;
@@ -26,26 +26,26 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [playerSkills, setPlayerSkills]= useState<Array<Skill>>([]);
    const [skills, setSkills]= useState<Array<Skill>>([]);
    const [formValues, setFormValues] = useState<FormFields>();
+   const [playerImage, extractFileFromEvent, setImage] = useConvertImage();
    const fileInputRef = useRef<any>(null);
-   const [playerImage, extractFileFromEvent, setImage] = useConvertImage()
+   const dispatch = useAppDispatch();
+   const player = useAppSelector((state) => state.players.players.find((player) => {return player.id === props.playerId}));
+   const addUserError = useAppSelector((state) => state.players.error);
    const initialValues: FormFields = {
-      playerName: '',
-      salary: 0,
+    playerName: '',
+    salary: 0,
    }
-   
-   useEffect(()=>{
-        if(props.playerId){
-                axios.post('players/find', {id: props.playerId})
-                .then( response => {
-                    setImage(response.data.image)
-                    setPlayerSkills(response.data.skills)
-                    setSkills(response.data.skills)
-                    setFormValues({
-                        playerName: response.data.playerName,
-                        salary: response.data.salary,
-                    })
-                })
-        }
+
+    useEffect(()=>{
+          if(props.playerId!=0 && player){
+                      setImage(player.image)
+                      setPlayerSkills(player.skills)
+                      setSkills(player.skills)
+                      setFormValues({
+                          playerName: player.playerName,
+                          salary: player.salary,
+                      })
+          }
     }, [])
 
     useEffect(()=>{
@@ -62,38 +62,44 @@ const PlayerFormikForm = (props: PlayerProps) => {
           salary: values.salary,
           skills: skills
         }
-        axios.post('players/new', player)
-        .then( response => { 
-          alert(response.data)
+
+        dispatch(addPlayer(player))
+        .unwrap()
+        .then(() => {
+          alert("Success")
           actions.resetForm(initialValues)
           setSkills([])
           setImage('')
           if(fileInputRef.current) fileInputRef.current.value=''
         })
-        .catch( err =>  alert(err))
-  
+        
   }
 
   const update = (values: FormFields) => {
         if(!props.playerId) return;
+
         const player: UpdatePlayer = {
-          id: +props.playerId,
+          id: props.playerId,
           playerName: values.playerName,
           image: playerImage,
           salary: values.salary,
           skills: skills,
         }
-        axios.post('players/update', player)
-        .then( response =>  {
-          alert(response.data)
+       
+        dispatch(updatePlayer(player))
+        .unwrap()
+        .then(() => {
+          alert("Success")
           if(fileInputRef.current)  fileInputRef.current.value=''
         })
-        .catch( err =>  alert(err))
+        .catch((error) => {
+          alert(error)
+        })
+        
   }
  
     const onSelect = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) } 
     const onRemove = (selectedSkills: Array<Skill>) => { setSkills(selectedSkills) }
-
 
     const validationSchema= Yup.object({
       playerName: Yup.string().required('Required'),
@@ -143,6 +149,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
                      onRemove={onRemove} 
                      displayValue="name" />
             <br></br>
+            <div>{addUserError}</div>
             <GreenButton  type="submit" onClick={() => handleSubmit}  >Submit</GreenButton>
          </Form>
          </Card>

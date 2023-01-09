@@ -48,7 +48,7 @@ const App: FC = ()  => {
       <Route path='/newPlayer' element={<NewPlayer/>}/>
       <Route path='/newSportClub' element={<NewSportClub/>}/>
       <Route path='/editor/clubProfile/:id' element={<ClubProfileEditor/>}/>
-      <Route path='/editor/editClubProfile/:id' element={<EditClubProfile/>}/>
+      <Route path='/editor/editClubProfile/:id' element={<EditClubProfile />}/>
       <Route path='/editor/playerProfile/:id' element={<PlayerProfileEditor/>}/>
       <Route path='/editor/editPlayerProfile/:id' element={<EditPlayerProfile/>}/>
    </Route>

@@ -7,7 +7,7 @@ const NewPlayer = () => {
       <React.Fragment>
        <EditorNavbar></EditorNavbar>
       <DashboardWrapper>
-        <PlayerFormikForm playerId={undefined} />
+        <PlayerFormikForm playerId={0} />
       </DashboardWrapper>
       </React.Fragment>  
     ); 

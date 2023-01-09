@@ -36,13 +36,14 @@ public class PlayerController {
     }
     @PostMapping("/new")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<String> newPlayer(@RequestBody CreatePlayerDto playerDto) {
-        try{
-            this.playerService.save(playerMapper.createPlayerDtoToPlayer(playerDto));
-            return new ResponseEntity<>("Success", HttpStatus.CREATED);
+    public ResponseEntity<PlayerDto> newPlayer(@RequestBody CreatePlayerDto playerDto) {
+        /*try{
+            Player player=this.playerService.save(playerMapper.createPlayerDtoToPlayer(playerDto));
+            return new ResponseEntity<>(playerMapper.playerToPlayerDto(player), HttpStatus.CREATED);
         }catch (Exception e){
-            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
-        }
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }*/
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/find")
     @PreAuthorize("hasRole('EDITOR') || hasRole('VIEWER')")
@@ -55,25 +56,25 @@ public class PlayerController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<String> update(@RequestBody PlayerDto playerDto) {
-        try{
+    public ResponseEntity<PlayerDto> update(@RequestBody PlayerDto playerDto) {
+       try{
             boolean addNewImage=true;
             if(playerDto.getImage().equals("")) addNewImage=false;
-            this.playerService.update(playerMapper.playerDtoToPlayer(playerDto),addNewImage);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
+            Player player=this.playerService.update(playerMapper.playerDtoToPlayer(playerDto),addNewImage);
+            return new ResponseEntity<>(playerMapper.playerToPlayerDto(player), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/addToClub")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<ResponseDto> addPlayerToClub(@RequestBody ClubPlayersDto clubPlayersDto) {
+    public ResponseEntity<PlayerDto> addPlayerToClub(@RequestBody ClubPlayersDto clubPlayersDto) {
         try{
-            this.playerService.addPlayerToClub(clubPlayersDto.getPlayerId(),clubPlayersDto.getClubId());
-            return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.CREATED);
+            Player player=this.playerService.addPlayerToClub(clubPlayersDto.getPlayerId(),clubPlayersDto.getClubId());
+            return new ResponseEntity<>(playerMapper.playerToPlayerDto(player), HttpStatus.CREATED);
         }catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto("Error"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
     @PostMapping("/removeFromClub")
