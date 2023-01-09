@@ -13,7 +13,6 @@ import { Error } from './styled-form/styled-form';
 import { useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { addPlayer, updatePlayer } from '../../../store/features/playerSlice';
-
 interface PlayerProps {
    playerId: number;
 }
@@ -28,11 +27,10 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const [skills, setSkills]= useState<Array<Skill>>([]);
    const [formValues, setFormValues] = useState<FormFields>();
    const [playerImage, extractFileFromEvent, setImage] = useConvertImage();
-
    const fileInputRef = useRef<any>(null);
    const dispatch = useAppDispatch();
    const player = useAppSelector((state) => state.players.players.find((player) => {return player.id === props.playerId}));
-   const cerror = useAppSelector((state) => state.players.error);
+   const addUserError = useAppSelector((state) => state.players.error);
    const initialValues: FormFields = {
     playerName: '',
     salary: 0,
@@ -74,9 +72,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
           setImage('')
           if(fileInputRef.current) fileInputRef.current.value=''
         })
-        .catch((error) => {
-          alert(cerror)
-        })
+        
   }
 
   const update = (values: FormFields) => {
@@ -97,7 +93,6 @@ const PlayerFormikForm = (props: PlayerProps) => {
           if(fileInputRef.current)  fileInputRef.current.value=''
         })
         .catch((error) => {
-          console.log("catch")
           alert(error)
         })
         
@@ -154,6 +149,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
                      onRemove={onRemove} 
                      displayValue="name" />
             <br></br>
+            <div>{addUserError}</div>
             <GreenButton  type="submit" onClick={() => handleSubmit}  >Submit</GreenButton>
          </Form>
          </Card>

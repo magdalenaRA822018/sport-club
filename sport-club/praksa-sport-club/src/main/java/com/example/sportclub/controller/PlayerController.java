@@ -37,7 +37,7 @@ public class PlayerController {
     @PostMapping("/new")
     @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<PlayerDto> newPlayer(@RequestBody CreatePlayerDto playerDto) {
-       /* try{
+        /*try{
             Player player=this.playerService.save(playerMapper.createPlayerDtoToPlayer(playerDto));
             return new ResponseEntity<>(playerMapper.playerToPlayerDto(player), HttpStatus.CREATED);
         }catch (Exception e){
@@ -69,12 +69,12 @@ public class PlayerController {
 
     @PostMapping("/addToClub")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<ResponseDto> addPlayerToClub(@RequestBody ClubPlayersDto clubPlayersDto) {
+    public ResponseEntity<PlayerDto> addPlayerToClub(@RequestBody ClubPlayersDto clubPlayersDto) {
         try{
-            this.playerService.addPlayerToClub(clubPlayersDto.getPlayerId(),clubPlayersDto.getClubId());
-            return new ResponseEntity<>(new ResponseDto("Success"), HttpStatus.CREATED);
+            Player player=this.playerService.addPlayerToClub(clubPlayersDto.getPlayerId(),clubPlayersDto.getClubId());
+            return new ResponseEntity<>(playerMapper.playerToPlayerDto(player), HttpStatus.CREATED);
         }catch (Exception e){
-            return new ResponseEntity<>(new ResponseDto("Error"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
     @PostMapping("/removeFromClub")

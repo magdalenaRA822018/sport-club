@@ -53,3 +53,8 @@ export interface SportClub {
     name: string;
     players: Array<Player>;
 }
+
+export interface PlayerClub {
+    clubId: number;
+    playerId: number;
+}

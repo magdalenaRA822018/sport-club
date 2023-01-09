@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../http-common';
+import { PlayerClub } from '../../interfaces';
+import { isRejectedWithValue } from '@reduxjs/toolkit';
 import { NewPlayer, UpdatePlayer, Player } from '../../interfaces';
+
     interface AddPlayerError {
         message: string
     }
@@ -22,56 +25,70 @@ import { NewPlayer, UpdatePlayer, Player } from '../../interfaces';
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+
     builder
     .addCase(loadPlayers.fulfilled, 
         (state, action : PayloadAction<Player[]>) => {
+        state.loading=false
         state.players=action.payload
     })
     
     .addCase(removePlayer.fulfilled, 
         (state, action: PayloadAction<number>) => {
+         state.loading=false
          state.players = state.players.filter(player=> player.id != action.payload);
     })
 
     .addCase(addPlayer.fulfilled, 
         (state, action: PayloadAction<Player>) => {
+         state.loading=false   
          state.players = [...state.players, action.payload]
     })
 
     .addCase(addPlayer.rejected, 
         (state, action) => {
+            state.loading = false
             if(action.payload) state.error = action.payload
             else state.error= "Error"
     })
 
     .addCase(updatePlayer.fulfilled, 
         (state, action: PayloadAction<Player>) => {
-         state.players = state.players.map(player => (player.id === action.payload.id) ? action.payload : player)
+         state.loading=false
+         state.players = state.players.map( player => (player.id === action.payload.id) ? action.payload : player)
+    })
+
+    .addCase(removePlayerFromClub.fulfilled, 
+        (state, action: PayloadAction<number>) => {
+         state.loading=false
+         state.players = state.players.map( player => (player.id === action.payload) ? {...player, clubId:0, clubName: ''} : player)
+
+    })
+
+    .addCase(addPlayerToClub.fulfilled, 
+        (state, action: PayloadAction<Player>) => {
+         state.loading=false
+         state.players = state.players.map( player => (player.id === action.payload.id) ? action.payload : player)
     })
 
     .addMatcher((action) => action.type.endsWith('/pending'),
          (state) => {
-            state.loading=true
-            state.error=null
-        
+          state.loading=true
+          state.error=null
     })
 
     .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) => (action.type.endsWith('/rejected')),
         (state, action) => {
           state.loading=false
           state.error=action.error.message
-        }
-    ) 
-      
+    }) 
   }
 })
 export default playerSlice.reducer;
-
-export const loadPlayers = createAsyncThunk<Player[], void, { rejectValue: string }>('players/loadPlayers', async (_, thunkApi) => {
+export const loadPlayers = createAsyncThunk<Player[], void, { rejectValue: string }>('players/loadPlayers',  (_, thunkApi) => {
     
-    return await 
-    axios.get('players/all')
+    return axios.get('players/all')
     .then((response)=>{
         return response.data 
     })
@@ -80,9 +97,8 @@ export const loadPlayers = createAsyncThunk<Player[], void, { rejectValue: strin
     })
 })
 
-export const addPlayer = createAsyncThunk<Player, NewPlayer, { rejectValue: string }>('players/addPlayer', async (player, thunkApi) => {
-    return await 
-    axios.post('players/new', player)
+export const addPlayer = createAsyncThunk<Player, NewPlayer, { rejectValue: string }>('players/addPlayer', (player, thunkApi) => {
+    return axios.post('players/new', player)
     .then((response)=>{
         return response.data 
     })
@@ -91,9 +107,8 @@ export const addPlayer = createAsyncThunk<Player, NewPlayer, { rejectValue: stri
     })
 })
 
-export const updatePlayer = createAsyncThunk<Player, UpdatePlayer, { rejectValue: string }>('players/updatePlayer', async (player, thunkApi) => {
-    return await 
-    axios.post('players/update', player)
+export const updatePlayer = createAsyncThunk<Player, UpdatePlayer, { rejectValue: string }>('players/updatePlayer', (player, thunkApi) => {
+    return axios.post('players/update', player)
     .then((response)=>{
         return response.data 
     })
@@ -102,9 +117,9 @@ export const updatePlayer = createAsyncThunk<Player, UpdatePlayer, { rejectValue
     })
 })
 
-export const removePlayer = createAsyncThunk<number, number, { rejectValue: string }>('players/removePlayer', async (playerId, thunkApi) => {
-    return await axios.post('players/remove', {id: playerId})
-    .then((response)=>{
+export const removePlayer = createAsyncThunk<number, number, { rejectValue: string }>('players/removePlayer', (playerId, thunkApi) => {
+    return axios.post('players/remove', {id: playerId})
+    .then(()=>{
         return playerId
     })
     .catch((error: any)=>{
@@ -112,10 +127,9 @@ export const removePlayer = createAsyncThunk<number, number, { rejectValue: stri
     })
 })
 
-export const removePlayerFromClub = createAsyncThunk<number, number, { rejectValue: string }>('players/removePlayerFromClub', async (playerId, thunkApi) => {
-    return await 
-    axios.post('players/addToClub', {id: playerId})
-    .then((response)=>{
+export const removePlayerFromClub = createAsyncThunk<number, number, { rejectValue: string }>('players/removePlayerFromClub', (playerId, thunkApi) => {
+    return axios.post('players/removeFromClub', {playerId: playerId})
+    .then(()=>{
         return playerId
     })
     .catch((error: any)=>{
@@ -123,11 +137,10 @@ export const removePlayerFromClub = createAsyncThunk<number, number, { rejectVal
     })
 })
 
-export const addPlayerToClub = createAsyncThunk<number, number, { rejectValue: string }>('players/addPlayerToClub', async (playerId, thunkApi) => {
-    return await 
-    axios.post('players/removeFromClub', {id: playerId})
+export const addPlayerToClub = createAsyncThunk<Player, PlayerClub, { rejectValue: string }>('players/addPlayerToClub', (playerClub, thunkApi) => {
+    return axios.post('players/addToClub', {clubId: playerClub.clubId, playerId: playerClub.playerId})
     .then((response)=>{
-        return playerId
+        return response.data
     })
     .catch((error: any)=>{
         return thunkApi.rejectWithValue(error)

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Player } from '../../../interfaces';
+import { Player, PlayerClub } from '../../../interfaces';
 import { SportClub } from '../../../interfaces';
 import axios from '../../../http-common'
 import Card from '../../styled/Cards/Card';
@@ -9,7 +9,7 @@ import Input from '../../styled/Input';
 import GreenButton from '../../styled/Buttons/GreenButton';
 import RedButton from '../../styled/Buttons/RedButton';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
-import swal from 'sweetalert';
+import { removePlayerFromClub, addPlayerToClub } from '../../../store/features/playerSlice';
 interface EditClubProps {
   clubId: number;
 }
@@ -17,7 +17,7 @@ const ClubForm = (props: EditClubProps) => {
   const [enteredName, setEnteredName] = useState<string>('');
   const playersWithoutClub: Player[] = useAppSelector((state) => state.players.players.filter((player) => {return player.clubId == 0}));
   const clubPlayers: Player[] = useAppSelector((state) => state.players.players.filter((player) => {return player.clubId == props.clubId}));
-
+  const dispatch = useAppDispatch();
 
   const updateClubNameHandler = (e: React.FormEvent)=>{
     e.preventDefault()
@@ -39,54 +39,40 @@ const ClubForm = (props: EditClubProps) => {
 
   const addPlayerToClubHandler = (player: Player)=>{
     if(!props.clubId) return;
-          /*axios.post('players/addToClub', {clubId: props.clubId, playerId: player.id})
-          .then( (response) => {
-            const newClubPlayers: Array<Player> = [...clubPlayers, player]  
-            setClubPlayers(newClubPlayers)
-            setPlayersWithoutClub(playersWithoutClub.filter(p=> p.id!=player.id))
+    const playerClubDto: PlayerClub = {clubId: props.clubId, playerId: player.id}
+          dispatch(addPlayerToClub(playerClubDto))
+          .unwrap()
+          .then(() => {
+            alert("Success")
           })
-          .catch( (error) => {
-            alert("error")
-          });
-  */
+          .catch((error) => {
+            alert(error)
+          })
   }
   const removeFromClubHandler = (player : Player) => {
-    let id = player.id
-   /* axios.post('players/removeFromClub', {playerId: player.id})
-    .then( (response) => {
-      setClubPlayers(clubPlayers.filter(player=> player.id!=id))
-      setPlayersWithoutClub([...playersWithoutClub, player])
-      
-    })
-    .catch( (error) =>{
-      alert("error")
-    });*/
+        let id = player.id
+        dispatch(removePlayerFromClub(id))
+        .unwrap()
+        .then(() => {
+          alert("Success")
+        })
+        .catch((error) => {
+          alert(error)
+        })
   }
 
-
   useEffect(()=>{
-  /*  axios.get('players/withoutClub')
-    .then( (response)=> {
-      setPlayersWithoutClub(response.data)
-    })
-    .catch( (error)=> {
-      alert("error")
-    });
-
-    axios.post('sportclubs/club', {id: id})
+    axios.post('sportclubs/club', {id: props.clubId})
     .then( (response)=> {
       setEnteredName(response.data.name)
-      setClubPlayers(response.data.players)
     })
     .catch( (error) =>{
-      alert("error")
+      return error
     });
-*/
+
 
   }, [])
     
- 
-
 
   return (
     <DashboardWrapper>
