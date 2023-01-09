@@ -32,7 +32,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
    const fileInputRef = useRef<any>(null);
    const dispatch = useAppDispatch();
    const player = useAppSelector((state) => state.players.players.find((player) => {return player.id === props.playerId}));
-
+   const cerror = useAppSelector((state) => state.players.error);
    const initialValues: FormFields = {
     playerName: '',
     salary: 0,
@@ -75,7 +75,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
           if(fileInputRef.current) fileInputRef.current.value=''
         })
         .catch((error) => {
-          alert(error)
+          alert(cerror)
         })
   }
 
@@ -97,6 +97,7 @@ const PlayerFormikForm = (props: PlayerProps) => {
           if(fileInputRef.current)  fileInputRef.current.value=''
         })
         .catch((error) => {
+          console.log("catch")
           alert(error)
         })
         
