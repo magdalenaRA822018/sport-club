@@ -1,5 +1,4 @@
 import React, { useState,  useCallback, useEffect, useContext }  from 'react';
-import { AuthContext } from '../../../context/auth-context';
 import { Credentials } from '../../../interfaces';
 import axios from '../../../http-common';
 import swal from 'sweetalert';
@@ -12,7 +11,7 @@ const ChangePassword = () => {
 
   const [enteredPassword, setEnteredPassword]= useState('');
   const [confirmedPassword, setConfirmedPassword]= useState('');
-  const authContext: any=useContext(AuthContext);
+  
 
   const validInput = () =>{
     if(enteredPassword!==confirmedPassword){
@@ -30,14 +29,14 @@ const ChangePassword = () => {
      if(!validInput()) return; 
 
      const credentials: Credentials = {
-      username: authContext.username,
+      username: '',
       password: enteredPassword,
      }
 
      axios.post('users/password', credentials)
      .then( (response)=> {
         alert("success")
-        authContext.logout()
+        
      })
      .catch( (error) => {
        alert("error")

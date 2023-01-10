@@ -22,21 +22,19 @@ import ViewerHomepage from './components/Viewer/Homepage/ViewerHomepage';
 import SportClubProfileViewer from './components/Viewer/SportClubProfile/SportClubProfile';
 import PlayerProfileViewer from './components/Viewer/PlayerProfile/PlayerProfile';
 
-import MainPage from './MainPage/MainPage';
+import Dashboard from './MainPage/MainPage';
 const ROLES = {
    'EDITOR': 'ROLE_EDITOR',
    'VIEWER': 'ROLE_VIEWER',
  }
 const App: FC = ()  => {
-  
-  
   return (
   <Routes>
    <Route path='/' element={<Layout/>}>
 
    <Route path='/' element={<Auth/>}/>
    <Route path='/signup' element={<Signup/>}/>
-   <Route path='/frontend' element={<MainPage/>}/>
+   <Route path='/frontend' element={<Dashboard/>}/>
   
    <Route element={<RequireAuth allowedRoles={[ROLES.EDITOR,ROLES.VIEWER]} />} >
       <Route path='/editProfile' element={<EditProfile/>}/>
