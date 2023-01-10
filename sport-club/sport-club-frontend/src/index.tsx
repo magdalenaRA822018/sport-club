@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import './fonts/Roboto-Regular.ttf'
 import './fonts/Gilroy-Light.otf'
 import './fonts/FontsFree-Net-Gilroy-Bold.ttf'
+import './fonts/Roboto-Italic.ttf'
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

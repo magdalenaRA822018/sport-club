@@ -1,12 +1,19 @@
 import { Column, MainPage, MainMenuBar, ChatContainer, ToolsBar, ThreadMenuItems } from "./styled-components/Column";
-import {  BottomContainer, HeaderBar, SecondaryHeaderBar, SelectorFrame,SelectorTitleFrame, ThreadMenuItem } from "./styled-components/Row";
-
+import {  BottomContainer, HeaderBar, SecondaryHeaderBar, SelectorFrame,SelectorTitleFrame, ThreadMenuItem,SecondaryHeaderBarSelectorFrame,SecondaryHeaderBarSelector } from "./styled-components/Row";
+import { SearchBarFrame, SearchBar } from "./search-bar/search-bar";
 const Dashboard = () => {
    
     return (
         <MainPage>
-          <HeaderBar></HeaderBar>
-          <SecondaryHeaderBar></SecondaryHeaderBar>
+          <HeaderBar>
+            <SearchBarFrame value={"Search creative direction A24"} >
+            </SearchBarFrame>
+          </HeaderBar>
+          <SecondaryHeaderBar>
+
+            <SecondaryHeaderBarSelectorFrame></SecondaryHeaderBarSelectorFrame>
+            <SecondaryHeaderBarSelector>SALES & MARKETING</SecondaryHeaderBarSelector>
+          </SecondaryHeaderBar>
           <BottomContainer>
            <MainMenuBar>
             <SelectorFrame>

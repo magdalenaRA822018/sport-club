@@ -9,5 +9,6 @@ export const colors = {
     mountainMeadow: '#13B25D',
     athensGray: '#F7F7F8',
     mariner: '#286FDA',
-    white: '#FFFFFF'
+    white: '#FFFFFF',
+    wildSand: '#F6F6F6'
 }

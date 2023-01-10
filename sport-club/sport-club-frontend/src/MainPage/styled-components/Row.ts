@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { gilroyBold14, robotoRegular14 } from "../fonts";
+import { gilroyBold14, robotoThreads,gilroyBold12 } from "../fonts";
 import { colors } from "../colors";
 export const Row = styled.div`
     display: flex;
@@ -16,6 +16,24 @@ export const SecondaryHeaderBar = styled(Row)`
     height: 47px;
 `;
 
+export const SecondaryHeaderBarSelectorFrame = styled(Row)`
+    align-items: flex-start;
+    gap: 14px;
+    width: 233.64px;
+    height: 8px;
+    left: calc(50% - 233.64px/2 - 0.18px);
+    top: calc(50% - 8px/2 - 0.5px);
+    
+`;
+
+export const SecondaryHeaderBarSelector= styled(gilroyBold12)`
+    width: 206px;
+    height: 8px;
+    letter-spacing: 0.455em; 
+    color: ${colors.white};
+
+`;
+
 export const BottomContainer = styled(Row)`
   
 `;
@@ -27,7 +45,6 @@ export const SelectorFrame = styled(Row)`
   gap: 61px;
   width: 201.64px;
   height: 17px;
-
 `;
 
 export const SelectorTitleFrame = styled(gilroyBold14)`
@@ -40,9 +57,10 @@ export const SelectorTitleFrame = styled(gilroyBold14)`
   color: ${colors.white};
 `;
 
-export const ThreadMenuItem = styled(Row)`
+export const ThreadMenuItem = styled(robotoThreads)`
   padding: 5px 28px;
   gap: 12px;
   width: 288px;
   height: 29px;
+  color: ${colors.white};
 `;
