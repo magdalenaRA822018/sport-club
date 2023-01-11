@@ -15,6 +15,7 @@ export const MainMenuBar = styled(Column)`
     padding: 30px 0px;
     gap: 30px;
     width: 289px;
+    height: 782px;
     top: 122px;
     background: ${colors.sanJuan};
 `;

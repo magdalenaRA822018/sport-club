@@ -1,18 +1,16 @@
 import { Column, MainPage, MainMenuBar, ChatContainer, ToolsBar, ThreadMenuItems } from "./styled-components/Column";
 import {  BottomContainer, HeaderBar, SecondaryHeaderBar, SelectorFrame,SelectorTitleFrame, ThreadMenuItem,SecondaryHeaderBarSelectorFrame,SecondaryHeaderBarSelector } from "./styled-components/Row";
-import { SearchBarFrame, SearchBar } from "./search-bar/search-bar";
+
+import HeaderBarComponent from "./HeaderBar/HeaderBar";
 const Dashboard = () => {
    
     return (
         <MainPage>
-          <HeaderBar>
-            <SearchBarFrame value={"Search creative direction A24"} >
-            </SearchBarFrame>
-          </HeaderBar>
+          <HeaderBarComponent/>
           <SecondaryHeaderBar>
 
             <SecondaryHeaderBarSelectorFrame></SecondaryHeaderBarSelectorFrame>
-            <SecondaryHeaderBarSelector>SALES & MARKETING</SecondaryHeaderBarSelector>
+            <SecondaryHeaderBarSelector></SecondaryHeaderBarSelector>
           </SecondaryHeaderBar>
           <BottomContainer>
            <MainMenuBar>

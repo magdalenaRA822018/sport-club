@@ -1,5 +1,5 @@
 export const colors = {
-    valentino : '#2B0B2D',
+    valentino: '#2B0B2D',
     bostonBlue: '#3A91A5',
     sanJuan: '#28526F',
     amethyst: '#B735CC',
@@ -10,5 +10,7 @@ export const colors = {
     athensGray: '#F7F7F8',
     mariner: '#286FDA',
     white: '#FFFFFF',
-    wildSand: '#F6F6F6'
+    wildSand: '#F6F6F6',
+    boulder: '#797979',
+    gallery: '#EDEDED'
 }
