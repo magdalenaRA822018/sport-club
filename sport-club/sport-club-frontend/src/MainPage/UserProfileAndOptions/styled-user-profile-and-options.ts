@@ -1,13 +1,14 @@
+
 import styled from "styled-components";
 import { colors } from "../colors";
+
 export const UserProfileAndOptionsFrame = styled.div`
     margin-left: 483px;
     padding-top: 13px;
     position: relative;
 `;
-export const UserImage = styled.div<{url: string}>`
+export const UserImage = styled.img`
     position: absolute;
-    background-image: '../../images/fudbaler.jpg';// ${props => props.url}; 
     border: 2px solid ${colors.gallery};
     width: 49px;
     height: 49px;
